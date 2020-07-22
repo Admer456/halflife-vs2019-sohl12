@@ -1,3 +1,13 @@
+# SoHL 1.2 for VS2019
+  
+Based on [Solokiller's updated SDK](https://github.com/Solokiller/halflife-updated) and [Spirit of Half-Life 1.2](https://www.moddb.com/mods/spirit-of-half-life/downloads/sohl-v12-with-source-code). Also contains two new entities by me.
+
+## Why?
+
+A few months ago, a friend told me he was experiencing crashes in a map transition. I told him I'd debug it. His mod was using SoHL 1.2 and I couldn't find any SoHL ported to VS2017 or 2019. So I said "Screw it, I'll port it myself."   
+  
+Now you can enjoy your C++11/14/17/20 features. No need to get VS6.0 to compile this thing either. :P   
+
 Half Life 1 SDK LICENSE
 ======================
 
