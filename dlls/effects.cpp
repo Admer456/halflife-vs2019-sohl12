@@ -4547,6 +4547,7 @@ class CEnvSky : public CBaseEntity
 public:
 	void Activate( void );
 	void Think( void );
+	void Use( CBaseEntity* pActivator, CBaseEntity* pCaller, USE_TYPE useType, float value ); // Windawz
 };
 
 void CEnvSky :: Activate ( void )
@@ -4559,12 +4560,18 @@ extern int gmsgSetSky;
 
 void CEnvSky :: Think ()
 {
+	ALERT(at_console, "env_sky thinking %f\n", gpGlobals->time); // Windawz
 	MESSAGE_BEGIN(MSG_BROADCAST, gmsgSetSky, NULL);
 		WRITE_BYTE(1); // mode
 		WRITE_COORD(pev->origin.x); // view position
 		WRITE_COORD(pev->origin.y);
 		WRITE_COORD(pev->origin.z);
 	MESSAGE_END();
+}
+
+void CEnvSky::Use( CBaseEntity* pActivator, CBaseEntity* pCaller, USE_TYPE useType, float value ) // Windawz
+{
+	Think();
 }
 
 LINK_ENTITY_TO_CLASS( env_sky, CEnvSky );
