@@ -323,7 +323,7 @@ void __CmdFunc_ModVersion()
 {
 	gEngfuncs.Con_Printf( "-----------------------------------\n" );
 	gEngfuncs.Con_Printf( "- Build date: %s\n", __DATE__ );
-	gEngfuncs.Con_Printf( "- Mod name: %s\n", "The Final Death of John Deepmind Part 2 Episode 1 - The Fall of New York" );
+	gEngfuncs.Con_Printf( "- Mod name: %s\n", "Spirit of Half-Life 1.2 for VS2019" );
 	gEngfuncs.Con_Printf( "-----------------------------------\n" );
 }
 
