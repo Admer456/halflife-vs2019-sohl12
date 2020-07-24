@@ -306,7 +306,11 @@ class CPythonAmmo : public CBasePlayerAmmo
 	}
 	BOOL AddAmmo( CBaseEntity *pOther ) 
 	{ 
-		if (pOther->GiveAmmo( AMMO_357BOX_GIVE, "357", _357_MAX_CARRY ) != -1)
+		ALERT(at_console, "CPythonAmmo::AddAmmo(): Starting");
+		int giveAmmoResult = pOther->GiveAmmo( AMMO_357BOX_GIVE, "357", _357_MAX_CARRY );
+		const char* classname = STRING(pOther->pev->classname);
+		ALERT(at_console, "CPythonAmmo::AddAmmo(): giveAmmoResult = %i; classname = %s", giveAmmoResult, classname);
+		if (giveAmmoResult != -1)
 		{
 			EMIT_SOUND(ENT(pev), CHAN_ITEM, "items/9mmclip1.wav", 1, ATTN_NORM);
 			return TRUE;

@@ -4001,6 +4001,7 @@ int CBasePlayer :: GiveAmmo( int iCount, const char *szName, int iMax )
 	int i = 0;
 
 	i = GetAmmoIndex( szName );
+	ALERT(at_console, "GetAmmoIndex() = %i", i);
 
 	if ( i < 0 || i >= MAX_AMMO_SLOTS )
 		return -1;

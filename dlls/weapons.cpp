@@ -1112,11 +1112,18 @@ void CBasePlayerAmmo :: DefaultTouch( CBaseEntity *pOther )
 {
 	if ( !pOther->IsPlayer() )
 	{
+		ALERT(at_console, "CBasePlayerAmmo::DefaultTouch(): pOther isn't player! ");
 		return;
 	}
+	else
+		ALERT(at_console, "CBasePlayerAmmo::DefaultTouch(): pOther is a player! ");
 
-	if (AddAmmo( pOther ))
+	int addAmmoResult = AddAmmo( pOther );
+	ALERT(at_console, "CBasePlayerAmmo::DefaultTouch(): addAmmoResult = %i", addAmmoResult);
+
+	if (addAmmoResult)
 	{
+		ALERT(at_console, "In DefaultTouch(), AddAmmo() succeeded!");
 		if ( g_pGameRules->AmmoShouldRespawn( this ) == GR_AMMO_RESPAWN_YES )
 		{
 			Respawn();
@@ -1130,6 +1137,7 @@ void CBasePlayerAmmo :: DefaultTouch( CBaseEntity *pOther )
 	}
 	else if (gEvilImpulse101)
 	{
+		ALERT(at_console, "CBasePlayerAmmo::DefaultTouch(): in gEvilImpulse101 ");
 		// evil impulse 101 hack, kill always
 		SetTouch( NULL );
 		SetThink(&CBasePlayerAmmo::SUB_Remove);
