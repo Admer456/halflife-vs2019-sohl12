@@ -328,6 +328,102 @@ void CLight :: Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useT
 //
 LINK_ENTITY_TO_CLASS( light_spot, CLight );
 
+class CLightFading : public CLight
+{
+public:
+	void		Spawn() override;
+	void		KeyValue( KeyValueData* pkvd ) override;
+	void		Use( CBaseEntity* activator, CBaseEntity* caller, USE_TYPE useType, float value ) override;
+	void		Think() override;
+
+	int			Save( CSave& save ) override;
+	int			Restore( CRestore& restore ) override;
+	static	TYPEDESCRIPTION m_SaveData[];
+
+	enum LightModes
+	{
+		Light_Off,
+		Light_On
+	};
+
+private:
+	int			lightMode;
+	char		lightIntensity[2];
+	float		lightUpdateTime{0.1f};
+};
+
+LINK_ENTITY_TO_CLASS( light_fading, CLightFading );
+
+TYPEDESCRIPTION CLightFading::m_SaveData[] =
+{
+	DEFINE_FIELD( CLightFading, lightMode, FIELD_FLOAT ),
+	DEFINE_FIELD( CLightFading, lightUpdateTime, FIELD_FLOAT )
+};
+
+IMPLEMENT_SAVERESTORE( CLightFading, CLight );
+
+void CLightFading::Spawn()
+{
+	CLight::Spawn();
+
+	if ( pev->spawnflags & SF_LIGHT_START_OFF )
+	{
+		lightMode = Light_Off;
+		lightIntensity[0] = 'a';
+	}
+
+	else
+	{
+		lightMode = Light_On;
+		lightIntensity[0] = 'z';
+	}
+
+	lightIntensity[1] = '\0';
+
+	LIGHT_STYLE( GetStyle(), lightIntensity );
+
+	DontThink();
+}
+
+void CLightFading::KeyValue( KeyValueData* pkvd )
+{
+	if ( FStrEq( pkvd->szKeyName, "lightFrequency" ) )
+	{
+		lightUpdateTime = 1.0f / (atof( pkvd->szValue ));
+		pkvd->fHandled = TRUE;
+	}
+
+	else
+	{
+		CLight::KeyValue( pkvd );
+	}
+}
+
+void CLightFading::Use( CBaseEntity* activator, CBaseEntity* caller, USE_TYPE useType, float value )
+{
+	lightMode = !lightMode;
+
+	SetNextThink( 0.001f );
+}
+
+void CLightFading::Think()
+{
+	int time = gpGlobals->time * 100;
+	bool canSwitchLights = time % 10 == 0;
+
+	if ( lightMode == Light_On && lightIntensity[0] < 'z' )
+	{
+		lightIntensity[0]++;
+	}
+	else if ( lightMode == Light_Off && lightIntensity[0] > 'a' )
+	{
+		lightIntensity[0]--;
+	}
+
+	LIGHT_STYLE( GetStyle(), lightIntensity );
+
+	SetNextThink( lightUpdateTime );
+}
 
 class CEnvLight : public CLight
 {
