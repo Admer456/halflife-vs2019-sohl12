@@ -673,7 +673,7 @@ void CBaseDoor::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE use
 			return;
 	}
 	else if (m_toggle_state != TS_AT_BOTTOM)
-		return;
+	 	return;
 
 		DoorActivate();
 }
@@ -692,7 +692,6 @@ int CBaseDoor::DoorActivate( )
 	}
 	else
 	{// door should open
-
 		if ( m_hActivator != NULL && m_hActivator->IsPlayer() )
 		{// give health if player opened the door (medikit)
 		// VARS( m_eoActivator )->health += m_bHealthValue;
@@ -1080,7 +1079,7 @@ void CRotDoor::Spawn( void )
 	if ( FBitSet (pev->spawnflags, SF_DOOR_START_OPEN) )
 	{	// swap pos1 and pos2, put door at pos2, invert movement direction
 		pev->angles = m_vecAngle2;
-		Vector vecSav = m_vecAngle1;
+		Vector vecSav = m_vecAngle2;
 		m_vecAngle2 = m_vecAngle1;
 		m_vecAngle1 = vecSav;
 		pev->movedir = pev->movedir * -1;
