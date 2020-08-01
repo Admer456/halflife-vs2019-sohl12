@@ -1043,7 +1043,8 @@ Schedule_t *CBaseMonster::m_scheduleList[] =
 	slTakeCoverFromOrigin,
 	slTakeCoverFromBestSound,
 	slTakeCoverFromEnemy,
-	slFail
+	slFail,
+	slTeleportToScript
 };
 
 Schedule_t *CBaseMonster::ScheduleFromName( const char *pName )
