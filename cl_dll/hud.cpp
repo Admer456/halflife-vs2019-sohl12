@@ -327,6 +327,24 @@ void __CmdFunc_ModVersion()
 	gEngfuncs.Con_Printf( "-----------------------------------\n" );
 }
 
+void DebugWireframeHelp()
+{
+	gEngfuncs.Con_Printf( "\n" );
+	gEngfuncs.Con_Printf( "Debug Wireframe: renders up to several different debugging wireframes\n" );
+	gEngfuncs.Con_Printf( "Usage: debug_wireframe_set \"mode state\"\n" );
+	gEngfuncs.Con_Printf( "\n" );
+	gEngfuncs.Con_Printf( "Modes:\n" );
+	gEngfuncs.Con_Printf( "- everything   : sets every mode\n" );
+	gEngfuncs.Con_Printf( "- clipnodes    : visualises clipnodes (NOT YET IMPLEMENTED)\n" );
+	gEngfuncs.Con_Printf( "- movement     : draws lines showing player movement vectors (best used with thirdperson!)\n" );
+	gEngfuncs.Con_Printf( "- boundingbox  : draws bounding boxes around entities, spheres around sprites\n" );
+	gEngfuncs.Con_Printf( "\n" );
+	gEngfuncs.Con_Printf( "States:\n" );
+	gEngfuncs.Con_Printf( "- 0 : off\n" );
+	gEngfuncs.Con_Printf( "- 1 : on\n" );
+	gEngfuncs.Con_Printf( "\n" );
+}
+
 // This is called every time the DLL is loaded
 void CHud :: Init( void )
 {
@@ -376,6 +394,8 @@ void CHud :: Init( void )
 	CVAR_CREATE( "hud_classautokill", "1", FCVAR_ARCHIVE | FCVAR_USERINFO );		// controls whether or not to suicide immediately on TF class switch
 	CVAR_CREATE( "hud_takesshots", "0", FCVAR_ARCHIVE );		// controls whether or not to automatically take screenshots at the end of a round
 
+	m_pCvarDebugWireframe = CVAR_CREATE( "debug_wireframe_set", "everything 0", FCVAR_ARCHIVE ); // Admer
+	gEngfuncs.pfnAddCommand( "debug_wireframe_help", &DebugWireframeHelp ); // Admer
 
 	m_iLogo = 0;
 	m_iFOV = 0;

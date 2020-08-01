@@ -609,6 +609,7 @@ public:
 	int		m_iRes;
 	cvar_t  *m_pCvarStealMouse;
 	cvar_t	*m_pCvarDraw;
+	cvar_t	*m_pCvarDebugWireframe;
 	CShinySurface *m_pShinySurface; //LRC
 	Vector	m_vecSkyPos; //LRC
 	int		m_iSkyMode;  //LRC

@@ -21,6 +21,9 @@
 
 #include "particleman.h"
 #include "tri.h"
+
+#include "debug_wireframe.h"
+
 extern IParticleMan *g_pParticleMan;
 extern float g_fFogColor[4];
 extern float g_fStartDist;
@@ -219,6 +222,9 @@ void DLLEXPORT HUD_DrawNormalTriangles( void )
 //	RecClDrawNormalTriangles();
 
 	gHUD.m_Spectator.DrawOverview();
+
+	// Admer: debug rendering
+	RenderDebugWireframe();
 }
 
 /*

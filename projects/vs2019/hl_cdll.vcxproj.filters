@@ -318,6 +318,23 @@
     <ClCompile Include="..\..\dlls\weapons_shared.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    </ClCompile>
+    <ClCompile Include="..\..\cl_dll\debug_wireframe.cpp">
+      <Filter>Source Files\cl_dll</Filter>
+    </ClCompile>
+    </ClCompile>
+    <ClCompile Include="..\..\cl_dll\debug_wireframe_boundingbox.cpp">
+      <Filter>Source Files\cl_dll</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cl_dll\debug_wireframe_clipnodes.cpp">
+      <Filter>Source Files\cl_dll</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cl_dll\debug_wireframe_movement.cpp">
+      <Filter>Source Files\cl_dll</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cl_dll\debug_wireframe_utils.cpp">
+      <Filter>Source Files\cl_dll</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\cl_dll\kbutton.h">
@@ -451,6 +468,12 @@
     </ClInclude>
     <ClInclude Include="..\..\cl_dll\particlesys.h">
       <Filter>Header Files\cl_dll</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cl_dll\debug_wireframe.h">
+      <Filter>Source Files\cl_dll</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cl_dll\debug_wireframe_utils.h">
+      <Filter>Source Files\cl_dll</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
