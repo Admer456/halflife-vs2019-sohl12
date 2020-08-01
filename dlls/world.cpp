@@ -503,6 +503,7 @@ void CWorld :: Precache( void )
 	if (g_pGameRules)
 	{
 		delete g_pGameRules;
+		g_pGameRules = nullptr;
 	}
 
 	g_pGameRules = InstallGameRules( );
