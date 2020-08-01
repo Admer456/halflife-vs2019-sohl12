@@ -34,7 +34,6 @@
 //#include "debug_wireframe_utils.h"
 
 extern void DebugOverlay_UpdatePlayerMovementData( playermove_t* data );
-extern void DebugOverlay_AddLadderToRenderList( physent_t* ladder );
 
 	// Spectator Mode
 	int		iJumpSpectator;
@@ -2128,10 +2127,6 @@ void PM_LadderMove( physent_t *pLadder )
 #endif
 
 	pmove->PM_GetModelBounds( pLadder->model, modelmins, modelmaxs );
-
-#ifdef CLIENT_DLL
-	DebugOverlay_AddLadderToRenderList( pLadder );
-#endif
 
 	VectorAdd( modelmins, modelmaxs, ladderCenter );
 	VectorScale( ladderCenter, 0.5, ladderCenter );
