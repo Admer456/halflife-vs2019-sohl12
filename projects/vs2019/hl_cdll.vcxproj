@@ -114,6 +114,11 @@
     <ClCompile Include="..\..\cl_dll\cdll_int.cpp" />
     <ClCompile Include="..\..\cl_dll\com_weapons.cpp" />
     <ClCompile Include="..\..\cl_dll\death.cpp" />
+    <ClCompile Include="..\..\cl_dll\debug_wireframe.cpp" />
+    <ClCompile Include="..\..\cl_dll\debug_wireframe_boundingbox.cpp" />
+    <ClCompile Include="..\..\cl_dll\debug_wireframe_clipnodes.cpp" />
+    <ClCompile Include="..\..\cl_dll\debug_wireframe_movement.cpp" />
+    <ClCompile Include="..\..\cl_dll\debug_wireframe_utils.cpp" />
     <ClCompile Include="..\..\cl_dll\demo.cpp" />
     <ClCompile Include="..\..\cl_dll\entity.cpp" />
     <ClCompile Include="..\..\cl_dll\events.cpp" />
@@ -201,6 +206,8 @@
     <ClInclude Include="..\..\cl_dll\cl_dll.h" />
     <ClInclude Include="..\..\cl_dll\cl_util.h" />
     <ClInclude Include="..\..\cl_dll\com_weapons.h" />
+    <ClInclude Include="..\..\cl_dll\debug_wireframe.h" />
+    <ClInclude Include="..\..\cl_dll\debug_wireframe_utils.h" />
     <ClInclude Include="..\..\cl_dll\demo.h" />
     <ClInclude Include="..\..\cl_dll\eventscripts.h" />
     <ClInclude Include="..\..\cl_dll\ev_hldm.h" />
