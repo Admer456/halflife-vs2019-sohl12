@@ -3,3 +3,11 @@
 !lib/public/SDL2.lib
 !utils/procinfo/lib/win32_vc6/procinfo.lib
 !utils/vgui/lib/win32_vc6/vgui.lib
+*.vcxproj
+.vs/halflife-vs2019-sohl12/v16/.suo
+*.db
+.vs/ProjectSettings.json
+.vs/slnx.sqlite
+.vs/VSWorkspaceState.json
+projects/vs2019/hl_cdll.vcxproj
+projects/vs2019/hldll.vcxproj
