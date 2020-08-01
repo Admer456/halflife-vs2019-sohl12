@@ -14,7 +14,7 @@
     <ProjectGuid>{69DDADC0-97F4-419E-86EB-C91781A0D2E0}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>hldll</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -202,6 +202,7 @@
     <ClCompile Include="..\..\dlls\turret.cpp" />
     <ClCompile Include="..\..\dlls\util.cpp" />
     <ClCompile Include="..\..\dlls\weapons.cpp" />
+    <ClCompile Include="..\..\dlls\weapons_shared.cpp" />
     <ClCompile Include="..\..\dlls\world.cpp" />
     <ClCompile Include="..\..\dlls\wpn_shared\hl_wpn_glock.cpp" />
     <ClCompile Include="..\..\dlls\xen.cpp" />
