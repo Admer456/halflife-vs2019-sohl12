@@ -221,7 +221,6 @@
     <ClInclude Include="..\..\cl_dll\interpolation.h" />
     <ClInclude Include="..\..\cl_dll\in_defs.h" />
     <ClInclude Include="..\..\cl_dll\kbutton.h" />
-    <ClInclude Include="..\..\cl_dll\parsemsg.h" />
     <ClInclude Include="..\..\cl_dll\particlemgr.h" />
     <ClInclude Include="..\..\cl_dll\particlesys.h" />
     <ClInclude Include="..\..\cl_dll\StudioModelRenderer.h" />
