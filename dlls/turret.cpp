@@ -56,6 +56,7 @@ class CBaseTurret : public CBaseMonster
 public:
 	void Spawn(void);
 	virtual void Precache(void);
+	void UpdateOnRemove() override;
 	void KeyValue( KeyValueData *pkvd );
 	void EXPORT TurretUse( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value );
 	
@@ -289,6 +290,17 @@ void CBaseTurret::Precache( )
 	PRECACHE_SOUND ("turret/tu_spindown.wav");
 	PRECACHE_SOUND ("turret/tu_search.wav");
 	PRECACHE_SOUND ("turret/tu_alert.wav");
+}
+
+void CBaseTurret::UpdateOnRemove()
+{
+	CBaseMonster::UpdateOnRemove();
+
+	if (m_pEyeGlow)
+	{
+		UTIL_Remove(m_pEyeGlow);
+		m_pEyeGlow = nullptr;
+	}
 }
 
 #define TURRET_GLOW_SPRITE "sprites/flare3.spr"
