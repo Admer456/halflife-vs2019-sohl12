@@ -323,7 +323,6 @@ public:
 	virtual BOOL	IsNetClient( void ) { return FALSE; }
 	virtual const char *TeamID( void ) { return ""; }
 
-
 //	virtual void	SetActivator( CBaseEntity *pActivator ) {}
 	virtual CBaseEntity *GetNextTarget( void );
 	
@@ -356,7 +355,12 @@ public:
 	};
 #endif
 
-	void UpdateOnRemove( void );
+	/**
+	*	Called when an entity is removed at runtime. Gives entities a chance to respond to it. Not called during map change or shutdown.
+	*	Call the baseclass version after handling it.
+	*	Used to be non-virtual - Solokiller
+	*/
+	virtual void UpdateOnRemove();
 
 	// common member functions
 	void EXPORT SUB_Remove( void );
@@ -406,6 +410,7 @@ public:
 	}
 
 
+	
 	// Ugly code to lookup all functions to make sure they are exported when set.
 #ifdef _DEBUG
 	void FunctionCheck( void *pFunction, char *name ) 
