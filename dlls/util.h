@@ -70,6 +70,11 @@ inline edict_t *FIND_ENTITY_BY_TARGET(edict_t *entStart, const char *pszName)
 // this bogus "empty" define to mark things as constant.
 #define CONSTANT
 
+/**
+*	Number of static buffers used by functions that return pointers to static string buffers.
+*/
+const size_t NUM_STATIC_BUFFERS = 4;
+
 // More explicit than "int"
 typedef int EOFFSET;
 
@@ -291,7 +296,15 @@ extern float		UTIL_Approach( float target, float value, float speed );
 extern float		UTIL_ApproachAngle( float target, float value, float speed );
 extern float		UTIL_AngleDistance( float next, float cur );
 
-extern char			*UTIL_VarArgs( const char *format, ... );
+/**
+*	Utility function to format strings without creating a buffer to store the result in.
+*	@param format Format string.
+*	@param ... Arguments.
+*	@return Pointer to the string. Up to NUM_STATIC_BUFFERS strings returned sequentially from this can be valid at the same time.
+*	@see NUM_STATIC_BUFFERS.
+*/
+extern char*		UTIL_VarArgs( const char *format, ... );
+
 extern void			UTIL_Remove( CBaseEntity *pEntity );
 extern BOOL			UTIL_IsValidEntity( edict_t *pent );
 extern BOOL			UTIL_TeamsMatch( const char *pTeamName1, const char *pTeamName2 );
@@ -345,11 +358,13 @@ typedef struct hudtextparms_s
 extern void			UTIL_HudMessageAll( const hudtextparms_t &textparms, const char *pMessage );
 extern void			UTIL_HudMessage( CBaseEntity *pEntity, const hudtextparms_t &textparms, const char *pMessage );
 
-// for handy use with ClientPrint params
-extern char *UTIL_dtos1( int d );
-extern char *UTIL_dtos2( int d );
-extern char *UTIL_dtos3( int d );
-extern char *UTIL_dtos4( int d );
+/**
+*	For handy use with ClientPrint params. This returns the string representation of the given integer.
+*	@param iValue Value.
+*	@return Pointer to the string. Up to NUM_STATIC_BUFFERS strings returned sequentially from this can be valid at the same time.
+*	@see NUM_STATIC_BUFFERS.
+*/
+extern char* UTIL_dtos(const int iValue);
 
 // Writes message to console with timestamp and FragLog header.
 extern void			UTIL_LogPrintf( const char *fmt, ... );

@@ -165,6 +165,14 @@ public:
 	CBaseEntity * operator ->();
 };
 
+/**
+*	Helper function to cast from an EHANDLE to an entity class without having to manually cast to CBaseEntity first.
+*/
+template<typename T>
+T EHANDLE_cast(EHANDLE& handle)
+{
+	return static_cast<T>(static_cast<CBaseEntity*>(handle));
+}
 
 //
 // Base Entity.  All entity types derive from this
