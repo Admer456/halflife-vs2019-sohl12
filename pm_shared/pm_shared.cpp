@@ -30,6 +30,11 @@
 #include <ctype.h>  // isspace
 
 #ifdef CLIENT_DLL
+//#include "debug_wireframe.h"
+//#include "debug_wireframe_utils.h"
+
+extern void DebugOverlay_UpdatePlayerMovementData( playermove_t* data );
+
 	// Spectator Mode
 	int		iJumpSpectator;
 	float	vJumpOrigin[3];
@@ -37,6 +42,10 @@
 #endif
 
 static int pm_shared_initialized = 0;
+
+bool g_bugged = false;
+
+vec3_t oldOrigin = { 0,0,0 };
 
 //Because physics code is now compiled as C++ it conflicts with the version in util.cpp
 //That version is actually considered to be Vector vec3_origin, so some compilers will fail to link it
@@ -153,6 +162,49 @@ static char grgszTextureName[CTEXTURESMAX][CBTEXTURENAMEMAX];
 static char grgchTextureType[CTEXTURESMAX];
 
 int g_onladder = 0;
+
+/*
+	While I was investigating a hilarious ladder movement glitch,
+	I wrote this function. May it be useful to you in the future!
+	In essence, it just checks whether the player's origin
+	changed dramatically, and checks whether the velocity
+	is impossibly high.
+*/
+void PM_CheckBogusSpeed()
+{
+	vec3_t deltaOrigin = { 0, 0, 0 };
+	VectorSubtract( pmove->origin, oldOrigin, deltaOrigin );
+	float deltaLength = Length( deltaOrigin );
+	if ( fabs( deltaLength ) > 500 )
+	{
+		g_bugged = true;
+	}
+	else
+	{
+		g_bugged = false;
+	}
+
+	float velocityLength = Length( pmove->velocity );
+	if ( velocityLength > 1000 )
+	{
+		g_bugged = true;
+		
+		pmove->velocity[0] = 0;
+		pmove->velocity[1] = 0;
+		pmove->velocity[2] = 0;
+	}
+
+}
+
+void PM_PrintHugeVelocity( const char* whereFrom )
+{
+	PM_CheckBogusSpeed();
+
+	if ( g_bugged )
+	{
+		pmove->Con_Printf( "%s speed bogus\n", whereFrom );
+	}
+}
 
 void PM_SwapTextures( int i, int j )
 {
@@ -811,9 +863,10 @@ int PM_FlyMove (void)
 	
 	blocked   = 0;           // Assume not blocked
 	numplanes = 0;           //  and not sliding along any planes
+
 	VectorCopy (pmove->velocity, original_velocity);  // Store original velocity
 	VectorCopy (pmove->velocity, primal_velocity);
-	
+
 	allFraction = 0;
 	time_left = pmove->frametime;   // Total time for this movement operation.
 
@@ -956,7 +1009,6 @@ int PM_FlyMove (void)
 				d = DotProduct (dir, pmove->velocity);
 				VectorScale (dir, d, pmove->velocity );
 			}
-
 	//
 	// if original velocity is against the original velocity, stop dead
 	// to avoid tiny occilations in sloping corners
@@ -2063,6 +2115,8 @@ void PM_LadderMove( physent_t *pLadder )
 	vec3_t		floor;
 	vec3_t		modelmins, modelmaxs;
 
+	static vec3_t lastCorrectNormal;
+
 	if ( pmove->movetype == MOVETYPE_NOCLIP )
 		return;
 	
@@ -2091,6 +2145,44 @@ void PM_LadderMove( physent_t *pLadder )
 
 	pmove->gravity = 0;
 	pmove->PM_TraceModel( pLadder, pmove->origin, ladderCenter, &trace );
+
+	// Check for an invalid normal, try nudging until it's right
+	// Start off 64 units below the centre, and walk through 128 units vertically
+	ladderCenter[2] -= 64.0f;
+
+	for ( int i = 0; i < 32; i++ )
+	{
+		if ( trace.plane.normal[0] > -1.0f || trace.plane.normal[0] < 1.0f )
+		{
+			VectorCopy( trace.plane.normal, lastCorrectNormal );
+			break;
+		}
+
+		ladderCenter[2] += 4.f;
+		pmove->PM_TraceModel( pLadder, pmove->origin, ladderCenter, &trace );
+	}
+
+	// If still incorrect, then trace from the centre of the laddder
+	if ( trace.plane.normal[0] < -1.0f || trace.plane.normal[0] > 1.0f )
+	{
+		vec3_t newPlayerPosition;
+		VectorCopy( pmove->origin, newPlayerPosition );
+		// Copy the ladder's Z position
+		newPlayerPosition[2] = ladderCenter[2];// - 32.f;
+
+		pmove->PM_TraceModel( pLadder, newPlayerPosition, ladderCenter, &trace );
+	}
+	else
+	{
+		VectorCopy( trace.plane.normal, lastCorrectNormal );
+	}
+
+	// If it's STILL not correct, apply the last known correct one then
+	//if ( trace.plane.normal[0] < -1.0f || trace.plane.normal[0] > 1.0f )
+	//{
+	//	VectorCopy( lastCorrectNormal, trace.plane.normal );
+	//}
+
 	if ( trace.fraction != 1.0 )
 	{
 		float forward = 0, right = 0;
@@ -2145,22 +2237,19 @@ void PM_LadderMove( physent_t *pLadder )
 				//Vector velocity = (forward * gpGlobals->v_forward) + (right * gpGlobals->v_right);
 				VectorScale( vpn, forward, velocity );
 				VectorMA( velocity, right, v_right, velocity );
-
 				
 				// Perpendicular in the ladder plane
-	//					Vector perp = CrossProduct( Vector(0,0,1), trace.vecPlaneNormal );
-	//					perp = perp.Normalize();
+//					Vector perp = CrossProduct( Vector(0,0,1), trace.vecPlaneNormal );
+//					perp = perp.Normalize();
 				VectorClear( tmp );
 				tmp[2] = 1;
 				CrossProduct( tmp, trace.plane.normal, perp );
 				VectorNormalize( perp );
 
-
 				// decompose velocity into ladder plane
 				normal = DotProduct( velocity, trace.plane.normal );
 				// This is the velocity into the face of the ladder
 				VectorScale( trace.plane.normal, normal, cross );
-
 
 				// This is the player's additional velocity
 				VectorSubtract( velocity, cross, lateral );
@@ -2172,10 +2261,16 @@ void PM_LadderMove( physent_t *pLadder )
 				// velocity through the face of the ladder -- by design.
 				CrossProduct( trace.plane.normal, perp, tmp );
 				VectorMA( lateral, -normal, tmp, pmove->velocity );
+
 				if ( onFloor && normal > 0 )	// On ground moving away from the ladder
 				{
-					VectorMA( pmove->velocity, MAX_CLIMB_SPEED, trace.plane.normal, pmove->velocity );
+					// We need this extra if check otherwise the normal is gonna be fricking WHACK
+					if ( trace.plane.normal[0] <= 1.0f || trace.plane.normal[0] >= -1.0f )
+					{
+						VectorMA( pmove->velocity, MAX_CLIMB_SPEED, trace.plane.normal, pmove->velocity );
+					}
 				}
+
 				//pev->velocity = lateral - (CrossProduct( trace.vecPlaneNormal, perp ) * normal);
 			}
 			else
@@ -2186,34 +2281,40 @@ void PM_LadderMove( physent_t *pLadder )
 	}
 }
 
-physent_t *PM_Ladder( void )
+
+
+physent_t* PM_Ladder( void )
 {
 	int			i;
-	physent_t	*pe;
-	hull_t		*hull;
+	physent_t* pe;
+	hull_t* hull;
 	int			num;
 	vec3_t		test;
 
 	for ( i = 0; i < pmove->nummoveent; i++ )
 	{
 		pe = &pmove->moveents[i];
-		
+
 		if ( pe->model && (modtype_t)pmove->PM_GetModelType( pe->model ) == mod_brush && pe->skin == CONTENTS_LADDER )
 		{
 
-			hull = (hull_t *)pmove->PM_HullForBsp( pe, test );
+			hull = (hull_t*)pmove->PM_HullForBsp( pe, test );
 			num = hull->firstclipnode;
 
 			// Offset the test point appropriately for this hull.
-			VectorSubtract ( pmove->origin, test, test);
+			VectorSubtract( pmove->origin, test, test );
 
 			// Test the player's hull for intersection with this model
-			if ( pmove->PM_HullPointContents (hull, num, test) == CONTENTS_EMPTY)
+			if ( pmove->PM_HullPointContents( hull, num, test ) == CONTENTS_EMPTY )
+			{
 				continue;
-			
+			}
+
 			return pe;
 		}
 	}
+
+	VectorCopy( pmove->origin, oldOrigin );
 
 	return NULL;
 }
@@ -3005,7 +3106,7 @@ void PM_PlayerMove ( qboolean server )
 	PM_UpdateStepSound();
 
 	PM_Duck();
-	
+
 	// Don't run ladder code if dead or on a train
 	if ( !pmove->dead && !(pmove->flags & FL_ONTRAIN) )
 	{
@@ -3050,7 +3151,7 @@ void PM_PlayerMove ( qboolean server )
 		break;
 
 	case MOVETYPE_FLY:
-	
+	{
 		PM_CheckWater();
 
 		// Was jump button pressed?
@@ -3060,7 +3161,7 @@ void PM_PlayerMove ( qboolean server )
 		{
 			if ( !pLadder )
 			{
-				PM_Jump ();
+				PM_Jump();
 			}
 		}
 		else
@@ -3069,12 +3170,14 @@ void PM_PlayerMove ( qboolean server )
 		}
 		
 		// Perform the move accounting for any base velocity.
-		VectorAdd (pmove->velocity, pmove->basevelocity, pmove->velocity);
-		PM_FlyMove ();
-		VectorSubtract (pmove->velocity, pmove->basevelocity, pmove->velocity);
+		VectorAdd( pmove->velocity, pmove->basevelocity, pmove->velocity );
+		PM_FlyMove();
+		VectorSubtract( pmove->velocity, pmove->basevelocity, pmove->velocity );
+	}
 		break;
 
 	case MOVETYPE_WALK:
+
 		if ( !PM_InWater() )
 		{
 			PM_AddCorrectGravity();
@@ -3140,7 +3243,6 @@ void PM_PlayerMove ( qboolean server )
 			{
 				pmove->oldbuttons &= ~IN_JUMP;
 			}
-
 			// Fricion is handled before we add in any base velocity. That way, if we are on a conveyor, 
 			//  we don't slow when standing still, relative to the conveyor.
 			if ( pmove->onground != -1 )
@@ -3318,7 +3420,7 @@ void PM_Move ( struct playermove_s *ppmove, int server )
 	assert( pm_shared_initialized );
 
 	pmove = ppmove;
-	
+
 	PM_PlayerMove( ( server != 0 ) ? true : false );
 
 	if ( pmove->onground != -1 )
@@ -3335,6 +3437,12 @@ void PM_Move ( struct playermove_s *ppmove, int server )
 	{
 		pmove->friction = 1.0f;
 	}
+
+	VectorCopy( pmove->origin, oldOrigin );
+
+#ifdef CLIENT_DLL
+	DebugOverlay_UpdatePlayerMovementData( ppmove );
+#endif
 }
 
 int PM_GetVisEntInfo( int ent )

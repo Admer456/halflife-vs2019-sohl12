@@ -1,62 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="Source Files\cl_dll">
-      <UniqueIdentifier>{01b8d565-8fa1-4999-8cb6-01da5dd1e555}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\common">
-      <UniqueIdentifier>{6887a889-19a5-42f7-8af9-2af4b64cbf2b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\pm_shared">
-      <UniqueIdentifier>{7d8ce8c9-fed8-42ee-9ba0-73d0fee6006a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\game_shared">
-      <UniqueIdentifier>{83318ea3-5019-4d8a-a9f9-4922cdb1c9bb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\cl_dll">
-      <UniqueIdentifier>{95dcdae3-b427-4517-a477-bfa2583b2e1f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\common">
-      <UniqueIdentifier>{54679c20-fece-4cb1-bef2-017d30f31af0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\pm_shared">
-      <UniqueIdentifier>{fb64b597-8c31-4391-b259-6121f67bbccb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\game_shared">
-      <UniqueIdentifier>{dfaa6b94-3821-41ff-a9c2-ef94fbb0d7d1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\public">
-      <UniqueIdentifier>{c053705f-05f3-4d16-ab13-80bfa84cbe75}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\_hl">
-      <UniqueIdentifier>{f033f23a-ab54-411c-bebf-72d10839418e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\_hl\dlls">
-      <UniqueIdentifier>{a2469e54-cb56-4161-b6b1-55c9d93676c1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\_hl\dlls\wpn_shared">
-      <UniqueIdentifier>{a46a0ff1-e7ad-43c4-afb8-6c93e71803a1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\_hl\cl_dll">
-      <UniqueIdentifier>{5bff06ec-c232-4dd2-8642-4e2ce64f31ef}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\_hl\cl_dll\hl">
-      <UniqueIdentifier>{bd9d5958-4e67-4bff-bbd8-6ba6dfcdb720}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
+    <ClCompile Include="..\..\dlls\wpn_shared\hl_wpn_glock.cpp">
+      <Filter>Source Files\_hl\dlls\wpn_shared</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\dlls\crossbow.cpp">
       <Filter>Source Files\_hl\dlls</Filter>
     </ClCompile>
@@ -66,31 +13,10 @@
     <ClCompile Include="..\..\dlls\egon.cpp">
       <Filter>Source Files\_hl\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\ev_hldm.cpp">
-      <Filter>Source Files\_hl\cl_dll</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\dlls\gauss.cpp">
       <Filter>Source Files\_hl\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\handgrenade.cpp">
-      <Filter>Source Files\_hl\dlls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\cl_dll\hl\hl_weapons.cpp">
-      <Filter>Source Files\_hl\cl_dll\hl</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\cl_dll\hl\hl_baseentity.cpp">
-      <Filter>Source Files\_hl\cl_dll\hl</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\cl_dll\hl\hl_events.cpp">
-      <Filter>Source Files\_hl\cl_dll\hl</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\cl_dll\hl\hl_objects.cpp">
-      <Filter>Source Files\_hl\cl_dll\hl</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\dlls\wpn_shared\hl_wpn_glock.cpp">
-      <Filter>Source Files\_hl\dlls\wpn_shared</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\dlls\squeakgrenade.cpp">
       <Filter>Source Files\_hl\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\hornetgun.cpp">
@@ -111,11 +37,26 @@
     <ClCompile Include="..\..\dlls\shotgun.cpp">
       <Filter>Source Files\_hl\dlls</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\dlls\squeakgrenade.cpp">
+      <Filter>Source Files\_hl\dlls</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\dlls\tripmine.cpp">
       <Filter>Source Files\_hl\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\death.cpp">
-      <Filter>Source Files\cl_dll</Filter>
+    <ClCompile Include="..\..\cl_dll\hl\hl_baseentity.cpp">
+      <Filter>Source Files\_hl\cl_dll\hl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cl_dll\hl\hl_events.cpp">
+      <Filter>Source Files\_hl\cl_dll\hl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cl_dll\hl\hl_objects.cpp">
+      <Filter>Source Files\_hl\cl_dll\hl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cl_dll\hl\hl_weapons.cpp">
+      <Filter>Source Files\_hl\cl_dll\hl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cl_dll\ev_hldm.cpp">
+      <Filter>Source Files\_hl\cl_dll</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cl_dll\ammo.cpp">
       <Filter>Source Files\cl_dll</Filter>
@@ -129,13 +70,28 @@
     <ClCompile Include="..\..\cl_dll\battery.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\cdll_int.cpp">
-      <Filter>Source Files\cl_dll</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\cl_dll\com_weapons.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\message.cpp">
+    <ClCompile Include="..\..\cl_dll\cdll_int.cpp">
+      <Filter>Source Files\cl_dll</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cl_dll\death.cpp">
+      <Filter>Source Files\cl_dll</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cl_dll\debug_wireframe.cpp">
+      <Filter>Source Files\cl_dll</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cl_dll\debug_wireframe_clipnodes.cpp">
+      <Filter>Source Files\cl_dll</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cl_dll\debug_wireframe_boundingbox.cpp">
+      <Filter>Source Files\cl_dll</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cl_dll\debug_wireframe_movement.cpp">
+      <Filter>Source Files\cl_dll</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cl_dll\debug_wireframe_utils.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cl_dll\demo.cpp">
@@ -154,9 +110,6 @@
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cl_dll\GameStudioModelRenderer.cpp">
-      <Filter>Source Files\cl_dll</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\cl_dll\geiger.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cl_dll\health.cpp">
@@ -198,13 +151,22 @@
     <ClCompile Include="..\..\cl_dll\interpolation.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\cl_dll\geiger.cpp">
+      <Filter>Source Files\cl_dll</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\cl_dll\menu.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\common\parsemsg.cpp">
-      <Filter>Source Files\common</Filter>
+    <ClCompile Include="..\..\cl_dll\message.cpp">
+      <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\util.cpp">
+    <ClCompile Include="..\..\cl_dll\particlemgr.cpp">
+      <Filter>Source Files\cl_dll</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cl_dll\particlemsg.cpp">
+      <Filter>Source Files\cl_dll</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cl_dll\particlesys.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cl_dll\saytext.cpp">
@@ -231,10 +193,7 @@
     <ClCompile Include="..\..\cl_dll\tri.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\game_shared\vgui_checkbutton2.cpp">
-      <Filter>Source Files\game_shared</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\cl_dll\vgui_CustomObjects.cpp">
+    <ClCompile Include="..\..\cl_dll\util.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cl_dll\vgui_ClassMenu.cpp">
@@ -243,20 +202,11 @@
     <ClCompile Include="..\..\cl_dll\vgui_ControlConfigPanel.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\game_shared\vgui_grid.cpp">
-      <Filter>Source Files\game_shared</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\game_shared\vgui_helpers.cpp">
-      <Filter>Source Files\game_shared</Filter>
+    <ClCompile Include="..\..\cl_dll\vgui_CustomObjects.cpp">
+      <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cl_dll\vgui_int.cpp">
       <Filter>Source Files\cl_dll</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\game_shared\vgui_loadtga.cpp">
-      <Filter>Source Files\game_shared</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\game_shared\vgui_listbox.cpp">
-      <Filter>Source Files\game_shared</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cl_dll\vgui_MOTDWindow.cpp">
       <Filter>Source Files\cl_dll</Filter>
@@ -265,18 +215,6 @@
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cl_dll\vgui_ScorePanel.cpp">
-      <Filter>Source Files\cl_dll</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\game_shared\voice_banmgr.cpp">
-      <Filter>Source Files\game_shared</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\game_shared\vgui_scrollbar2.cpp">
-      <Filter>Source Files\game_shared</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\game_shared\vgui_slider2.cpp">
-      <Filter>Source Files\game_shared</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\cl_dll\view.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cl_dll\vgui_ServerBrowser.cpp">
@@ -291,8 +229,41 @@
     <ClCompile Include="..\..\cl_dll\vgui_teammenu.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\cl_dll\view.cpp">
+      <Filter>Source Files\cl_dll</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\cl_dll\voice_status.cpp">
       <Filter>Source Files\cl_dll</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\weapons_shared.cpp">
+      <Filter>Source Files\cl_dll</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\parsemsg.cpp">
+      <Filter>Source Files\common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game_shared\vgui_checkbutton2.cpp">
+      <Filter>Source Files\game_shared</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game_shared\vgui_grid.cpp">
+      <Filter>Source Files\game_shared</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game_shared\vgui_helpers.cpp">
+      <Filter>Source Files\game_shared</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game_shared\vgui_listbox.cpp">
+      <Filter>Source Files\game_shared</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game_shared\vgui_loadtga.cpp">
+      <Filter>Source Files\game_shared</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game_shared\vgui_scrollbar2.cpp">
+      <Filter>Source Files\game_shared</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game_shared\vgui_slider2.cpp">
+      <Filter>Source Files\game_shared</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game_shared\voice_banmgr.cpp">
+      <Filter>Source Files\game_shared</Filter>
     </ClCompile>
     <ClCompile Include="..\..\public\interface.cpp">
       <Filter>Source Files\public</Filter>
@@ -306,23 +277,8 @@
     <ClCompile Include="..\..\pm_shared\pm_shared.cpp">
       <Filter>Source Files\pm_shared</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\particlesys.cpp">
-      <Filter>Source Files\cl_dll</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\cl_dll\particlemgr.cpp">
-      <Filter>Source Files\cl_dll</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\cl_dll\particlemsg.cpp">
-      <Filter>Source Files\cl_dll</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\dlls\weapons_shared.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\cl_dll\kbutton.h">
-      <Filter>Header Files\cl_dll</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\cl_dll\ammo.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
@@ -342,6 +298,12 @@
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cl_dll\demo.h">
+      <Filter>Header Files\cl_dll</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cl_dll\debug_wireframe_utils.h">
+      <Filter>Header Files\cl_dll</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cl_dll\debug_wireframe.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cl_dll\ev_hldm.h">
@@ -374,28 +336,13 @@
     <ClInclude Include="..\..\cl_dll\interpolation.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\common\parsemsg.h">
-      <Filter>Header Files\common</Filter>
+    <ClInclude Include="..\..\cl_dll\kbutton.h">
+      <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\pm_shared\pm_shared.h">
-      <Filter>Header Files\pm_shared</Filter>
+    <ClInclude Include="..\..\cl_dll\particlemgr.h">
+      <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\pm_shared\pm_debug.h">
-      <Filter>Header Files\pm_shared</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\pm_shared\pm_defs.h">
-      <Filter>Header Files\pm_shared</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\pm_shared\pm_info.h">
-      <Filter>Header Files\pm_shared</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\pm_shared\pm_materials.h">
-      <Filter>Header Files\pm_shared</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\pm_shared\pm_movevars.h">
-      <Filter>Header Files\pm_shared</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\cl_dll\vgui_ScorePanel.h">
+    <ClInclude Include="..\..\cl_dll\particlesys.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cl_dll\StudioModelRenderer.h">
@@ -416,19 +363,7 @@
     <ClInclude Include="..\..\cl_dll\vgui_SchemeManager.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\game_shared\vgui_slider2.h">
-      <Filter>Header Files\game_shared</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\game_shared\voice_status.h">
-      <Filter>Header Files\game_shared</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\game_shared\vgui_scrollbar2.h">
-      <Filter>Header Files\game_shared</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\game_shared\voice_banmgr.h">
-      <Filter>Header Files\game_shared</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\cl_dll\wrect.h">
+    <ClInclude Include="..\..\cl_dll\vgui_ScorePanel.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cl_dll\vgui_ServerBrowser.h">
@@ -440,20 +375,97 @@
     <ClInclude Include="..\..\cl_dll\view.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\cl_dll\wrect.h">
+      <Filter>Header Files\cl_dll</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\parsemsg.h">
+      <Filter>Header Files\common</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\common\Platform.h">
       <Filter>Header Files\common</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cl_dll\parsemsg.h">
-      <Filter>Header Files\cl_dll</Filter>
+    <ClInclude Include="..\..\game_shared\voice_banmgr.h">
+      <Filter>Header Files\game_shared</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cl_dll\particlemgr.h">
-      <Filter>Header Files\cl_dll</Filter>
+    <ClInclude Include="..\..\game_shared\voice_status.h">
+      <Filter>Header Files\game_shared</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cl_dll\particlesys.h">
-      <Filter>Header Files\cl_dll</Filter>
+    <ClInclude Include="..\..\game_shared\vgui_slider2.h">
+      <Filter>Header Files\game_shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\game_shared\vgui_scrollbar2.h">
+      <Filter>Header Files\game_shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\pm_shared\pm_debug.h">
+      <Filter>Header Files\pm_shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\pm_shared\pm_defs.h">
+      <Filter>Header Files\pm_shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\pm_shared\pm_materials.h">
+      <Filter>Header Files\pm_shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\pm_shared\pm_info.h">
+      <Filter>Header Files\pm_shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\pm_shared\pm_movevars.h">
+      <Filter>Header Files\pm_shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\pm_shared\pm_shared.h">
+      <Filter>Header Files\pm_shared</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\..\lib\public\game_controls.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{829dd52e-af9e-4e99-993d-d74d37c814c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\cl_dll">
+      <UniqueIdentifier>{06701128-3da3-40ac-9d1a-0b365f2d67c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\common">
+      <UniqueIdentifier>{e5cbc698-e799-4ef9-a583-71405d781bf5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\game_shared">
+      <UniqueIdentifier>{5539b263-7e4d-4a0b-bb97-fffff0effab2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\pm_shared">
+      <UniqueIdentifier>{80f138ec-01da-4c26-b208-eaf0ab2631bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4d0aca77-0bf1-4b5f-bd62-d6cf44a4295c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\_hl">
+      <UniqueIdentifier>{43794852-3e56-42ae-ada4-b328c223a11e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\cl_dll">
+      <UniqueIdentifier>{f357a93f-de26-4e85-adb1-c28273c8d6ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\common">
+      <UniqueIdentifier>{5f920adc-2720-4e5a-85d3-31c9a8906fa7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\game_shared">
+      <UniqueIdentifier>{3e07729d-ab72-4015-b948-484b4af6c55d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\pm_shared">
+      <UniqueIdentifier>{e8130138-a8d3-46ad-95cf-02dfd1685304}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\public">
+      <UniqueIdentifier>{00e1dfc4-e634-4e0f-878b-0c614a1d4392}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\_hl\cl_dll">
+      <UniqueIdentifier>{9347472b-a3ee-49a9-a6db-5f3db2b15735}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\_hl\dlls">
+      <UniqueIdentifier>{ed56ce48-ad2e-428b-870a-741bcde1d65a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\_hl\cl_dll\hl">
+      <UniqueIdentifier>{58314347-9d24-4fa4-9ada-2a80ed217ba9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\_hl\dlls\wpn_shared">
+      <UniqueIdentifier>{b133d856-6217-480b-886d-836fc2934f72}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
