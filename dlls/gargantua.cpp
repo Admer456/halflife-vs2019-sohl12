@@ -203,6 +203,7 @@ class CGargantua : public CBaseMonster
 public:
 	void Spawn( void );
 	void Precache( void );
+	void UpdateOnRemove() override;
 	void SetYawSpeed( void );
 	int  Classify ( void );
 	int TakeDamage( entvars_t *pevInflictor, entvars_t *pevAttacker, float flDamage, int bitsDamageType );
@@ -830,6 +831,18 @@ void CGargantua :: Precache()
 		PRECACHE_SOUND((char *)pBreatheSounds[i]);
 }	
 
+void CGargantua::UpdateOnRemove()
+{
+	CBaseMonster::UpdateOnRemove();
+
+	if (m_pEyeGlow)
+	{
+		UTIL_Remove(m_pEyeGlow);
+		m_pEyeGlow = nullptr;
+	}
+
+	FlameDestroy();
+}
 
 void CGargantua::TraceAttack( entvars_t *pevAttacker, float flDamage, Vector vecDir, TraceResult *ptr, int bitsDamageType )
 {
