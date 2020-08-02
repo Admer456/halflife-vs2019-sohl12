@@ -784,7 +784,7 @@ void CBasePlayerItem::AttachToPlayer ( CBasePlayer *pPlayer )
 	pev->modelindex = 0;// server won't send down to clients if modelindex == 0
 	pev->model = iStringNull;
 	pev->owner = pPlayer->edict();
-	SetNextThink( 0.1 );
+	DontThink(); // Remove think - prevents futher attempts to materialize
 	SetTouch( NULL );
 }
 
@@ -1120,6 +1120,7 @@ void CBasePlayerAmmo::Materialize( void )
 	}
 
 	SetTouch( &CBasePlayerAmmo::DefaultTouch );
+	SetThink(NULL);
 }
 
 void CBasePlayerAmmo :: DefaultTouch( CBaseEntity *pOther )
