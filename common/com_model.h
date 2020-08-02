@@ -69,6 +69,19 @@ typedef struct
 	int			firstface, numfaces;
 } dmodel_t;
 
+typedef enum
+{
+	plane_x = 0,
+	plane_y,
+	plane_z,
+	plane_anyx,
+	plane_anyy,
+	plane_anyz
+}
+planetypes;
+
+#define last_axial plane_z
+
 // plane_t structure
 typedef struct mplane_s
 {

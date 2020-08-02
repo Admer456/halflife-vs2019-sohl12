@@ -52,15 +52,25 @@ CBaseEntity
 // UNDONE: This will ignore transition volumes (trigger_transition), but not the PVS!!!
 #define		FCAP_FORCE_TRANSITION		0x00000080		// ALWAYS goes across transitions
 
+#ifndef ARCHTYPES_H
 #include "archtypes.h"     // DAL
+#endif
+
+#ifndef SAVERESTORE_H
 #include "saverestore.h"
+#endif
+
+#ifndef SCHEDULE_H
 #include "schedule.h"
+#endif
 
 #ifndef MONSTEREVENT_H
 #include "monsterevent.h"
 #endif
 
+#ifndef PLATFORM_H
 #include "Platform.h"
+#endif
 
 // C functions for external declarations that call the appropriate C++ methods
 
@@ -163,6 +173,8 @@ class CBaseEntity
 {
 public:
 	// Constructor.  Set engine to use C/C++ callback functions
+	virtual ~CBaseEntity() = default;
+
 	// pointers to engine data
 	entvars_t *pev;		// Don't need to save/restore this pointer, the engine resets it
 
@@ -815,9 +827,7 @@ public:
 	virtual void KeyValue( KeyValueData* pkvd);
 
 	void ButtonActivate( );
-	void SparkSoundCache( void );
 
-	void EXPORT ButtonShot( void );
 	void EXPORT ButtonTouch( CBaseEntity *pOther );
 	void EXPORT ButtonSpark ( void );
 	void EXPORT TriggerAndWait( void );

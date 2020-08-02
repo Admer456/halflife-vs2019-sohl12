@@ -2166,18 +2166,31 @@ BOOL CBaseTrigger :: CanTouch( entvars_t *pevToucher )
 //
 void CBaseTrigger :: ToggleUse ( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value )
 {
-	if (pev->solid == SOLID_NOT)
-	{// if the trigger is off, turn it on
-		pev->solid = SOLID_TRIGGER;
-		
-		// Force retouch
-		gpGlobals->force_retouch++;
+	switch (useType) {
+		case 1: //Enable
+			pev->solid = SOLID_TRIGGER;
+			// Force retouch
+			gpGlobals->force_retouch++;
+		break;
+		case 0: //Disable
+			pev->solid = SOLID_NOT;
+		break;
+		default: //Toggle
+			if (pev->solid == SOLID_NOT)
+			{// if the trigger is off, turn it on
+				pev->solid = SOLID_TRIGGER;
+
+				// Force retouch
+				gpGlobals->force_retouch++;
+			}
+			else
+			{// turn the trigger off
+				pev->solid = SOLID_NOT;
+			}
+		break;
 	}
-	else
-	{// turn the trigger off
-		pev->solid = SOLID_NOT;
-	}
-	UTIL_SetOrigin( this, pev->origin );
+	
+	UTIL_SetOrigin(this, pev->origin);
 }
 
 /*

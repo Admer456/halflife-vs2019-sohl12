@@ -19,6 +19,7 @@
 #include "hud.h"
 #include "cl_util.h"
 #include "bench.h"
+#include "debug_wireframe.h"
 
 #include "vgui_TeamFortressViewport.h"
 
@@ -43,6 +44,8 @@ void CHud::Think(void)
 {
 	m_scrinfo.iSize = sizeof(m_scrinfo);
 	GetScreenInfo(&m_scrinfo);
+
+	ThinkDebugWireframe();
 
 	int newfov;
 	HUDLIST *pList = m_pHudList;
