@@ -1,12 +1,28 @@
-# SoHL 1.2 for VS2019
+# Admer's SoHL 1.2 for VS2019
   
-Based on [Solokiller's updated SDK](https://github.com/Solokiller/halflife-updated) and [Spirit of Half-Life 1.2](https://www.moddb.com/mods/spirit-of-half-life/downloads/sohl-v12-with-source-code). Also contains two new entities by me.
+Based on [Solokiller's updated SDK](https://github.com/Solokiller/halflife-updated) and [Spirit of Half-Life 1.2](https://www.moddb.com/mods/spirit-of-half-life/downloads/sohl-v12-with-source-code). Also contains some new entities, new functionality and small bugfixes.   
+
+## Differences from vanilla SoHL 1.2
+
+First of all, it's based on Solokiller's updated HL SDK, which by itself is based on [HL SDK 2.4](https://github.com/ValveSoftware/halflife). It is ideal for Steam Half-Life, but it won't run on WON Half-Life or any pre-2013 build of GoldSrc.  
+
+The new entities include:  
+* ambient_mp3 - plays MP3s from the `media` folder by name
+* ambient_2d - plays 2D WAV sounds on the client, there's no stereo panning that happens with ambient_generic  
+
+Other than that, it features a wireframe overlay for entity bounding boxes and player movement, small bugfixes and other minor enhancements. 
 
 ## Why?
 
 A few months ago, a friend told me he was experiencing crashes in a map transition. I told him I'd debug it. His mod was using SoHL 1.2 and I couldn't find any SoHL ported to VS2017 or 2019. So I said "Screw it, I'll port it myself."   
   
-Now you can enjoy your C++11/14/17/20 features. No need to get VS6.0 to compile this thing either. :P   
+Now you can enjoy your C++11/14/17/20 features. No need to get VS6.0 to compile this thing now. :P   
+
+### A note for future forks. And "Why did you put your name in there?"
+
+I've heard several stories about unofficial SoHL updates, after Laurie Cheers stopped working on the project. SoHL 1.3, 1.5, then 1.8, I don't know. The point is, it didn't sound standardised whatsoever. It was almost as if random people took SoHL 1.2, made some changes and published it as the next official version. I don't think that's a good way to do it, since there might be multiple different versions under the same number. So this is just my way of letting people know whose version of SoHL this is, and whose it's based on.  
+
+So in case you are going to fork this, not just to contribute, but to make your own version separate from this one (with significant changes/differences), it'd be a good idea to follow a similar convention, e.g. "BillySuperCoder's SoHL 1.25", in the description of which you'd write "Based on Admer's SoHL 1.2 for VS2019" with a link to it.
 
 Half Life 1 SDK LICENSE
 ======================
