@@ -309,7 +309,7 @@ void CFuncShine :: DesiredAction( void )
 	if (pev->message && pev->renderamt)
 	{
 //		ALERT(at_console, "Prepare think\n");
-		pev->nextthink = gpGlobals->time + 1.5;
+		SetNextThink(1.5);
 	}
 }
 

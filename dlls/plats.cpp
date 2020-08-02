@@ -473,7 +473,7 @@ void CPlatTrigger :: Touch( CBaseEntity *pOther )
 	if (pPlatform->m_toggle_state == TS_AT_BOTTOM)
 		pPlatform->GoUp();
 	else if (pPlatform->m_toggle_state == TS_AT_TOP)
-		pPlatform->pev->nextthink = pPlatform->pev->ltime + 1;// delay going down
+		pPlatform->SetNextThink(1.0);// delay going down
 }
 
 
@@ -2310,7 +2310,7 @@ void CFuncTrackChange :: Spawn( void )
 	}
 
 	EnableUse();
-	pev->nextthink = pev->ltime + 2.0;
+	SetNextThink(2.0);
 	SetThink( &CFuncTrackChange::Find );
 	Precache();
 }
@@ -2361,7 +2361,7 @@ void CFuncTrackChange :: KeyValue( KeyValueData *pkvd )
 
 void CFuncTrackChange::OverrideReset( void )
 {
-	pev->nextthink = pev->ltime + 1.0;
+	SetNextThink(1.0);
 	SetThink( &CFuncTrackChange::Find );
 }
 
@@ -2617,7 +2617,8 @@ void CFuncTrackChange :: HitBottom( void )
 		m_train->SetTrack( m_trackBottom );
 	}
 	SetThink( NULL );
-	pev->nextthink = -1;
+	
+	DontThink();
 
 	UpdateAutoTargets( m_toggle_state );
 
@@ -2639,7 +2640,7 @@ void CFuncTrackChange :: HitTop( void )
 	
 	// Don't let the plat go back down
 	SetThink( NULL );
-	pev->nextthink = -1;
+	DontThink();
 	UpdateAutoTargets( m_toggle_state );
 	EnableUse();
 }

@@ -554,7 +554,7 @@ void CBaseToggle ::  LinearMove( Vector	vecInput, float flSpeed )//, BOOL bNow )
 //		ALERT(at_console,"Setting LinearMoveNow to happen after %f\n",gpGlobals->time);
 		SetThink(&CBaseToggle :: LinearMoveNow );
 		UTIL_DesiredThink( this );
-		//pev->nextthink = pev->ltime + 0.01;
+		//SetNextThink(0.01);
 //	}
 //	else
 //	{
@@ -624,7 +624,7 @@ After moving, set origin to exact final destination, call "move done" function
 		// HACK: not there yet, try waiting one more frame.
 		ALERT(at_console,"Rejecting difference %f\n",vecDiff.Length());
 		SetThink(&CBaseToggle ::LinearMoveFinalDone);
-		pev->nextthink = gpGlobals->time + 0.01;
+		SetNextThink(0.01);
 	}
 	else
 	{
@@ -659,7 +659,6 @@ void CBaseToggle :: LinearMoveDoneNow( void )
 	}
 	UTIL_AssignOrigin(this, vecDest);
 	DontThink(); //LRC
-	//pev->nextthink = -1;
 	if ( m_pfnCallWhenMoveDone )
 		(this->*m_pfnCallWhenMoveDone)();
 }
@@ -708,7 +707,7 @@ void CBaseToggle :: AngularMove( Vector vecDestAngle, float flSpeed )
 	SetThink(&CBaseToggle :: AngularMoveNow );
 	UTIL_DesiredThink( this );
 //	ExternalThink( 0.01 );
-//		pev->nextthink = pev->ltime + 0.01;
+//		SetNextThink(0.01);
 //	}
 //	else
 //	{
