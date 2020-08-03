@@ -439,7 +439,7 @@ void CTriggerRotTest::Think( void )
 }
 
 //**********************************************************
-// The Multimanager Entity - when fired, will fire up to 16 targets 
+// The Multimanager Entity - when fired, will fire up to 32 targets 
 // at specified times.
 // FLAG:		THREAD (create clones when triggered)
 // FLAG:		CLONE (this is a clone for a threaded execution)
@@ -510,6 +510,7 @@ private:
 	
 	CMultiManager *Clone( void );
 };
+
 LINK_ENTITY_TO_CLASS( multi_manager, CMultiManager );
 
 // Global Savedata for multi_manager
@@ -846,7 +847,18 @@ void CMultiManager :: ManagerThink ( void )
 //		ALERT(at_console,"Manager sends %d to %s\n",m_triggerType,STRING(m_iTargetName[m_index]));
 		if (pev->spawnflags & SF_MULTIMAN_DEBUG)
 			ALERT(at_debug, "DEBUG: multi_manager \"%s\": firing \"%s\".\n", STRING(pev->targetname), STRING( m_iTargetName[ index ] ));
-		FireTargets( STRING( m_iTargetName[ index ] ), m_hActivator, this, m_triggerType, 0 );
+
+		// Check if the entity is triggering itself while not being multi-threaded, report if so
+		if ( FStrEq(STRING(m_iTargetName[index]), STRING(pev->targetname)) && !(pev->spawnflags & SF_MULTIMAN_THREAD) )
+		{
+			ALERT( at_aiconsole, "WARNING: non-multithreaded multi_manager %s tried triggering itself!\nAvoiding crash...\n", STRING( pev->targetname ) );
+		}
+		
+		else
+		{
+			FireTargets( STRING( m_iTargetName[index] ), m_hActivator, this, m_triggerType, 0 );
+		}
+
 		index++;
 	}
 }
