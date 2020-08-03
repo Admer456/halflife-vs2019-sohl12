@@ -223,6 +223,16 @@ void CBaseDoor::KeyValue( KeyValueData *pkvd )
 		m_bStopSnd = atof(pkvd->szValue);
 		pkvd->fHandled = TRUE;
 	}
+	else if ( FStrEq( pkvd->szKeyName, "custommovesnd" ) )
+	{
+		pev->noiseMoving = ALLOC_STRING( pkvd->szValue );
+		pkvd->fHandled = TRUE;
+	}
+	else if ( FStrEq( pkvd->szKeyName, "customstopsnd" ) )
+	{
+		pev->noiseArrived = ALLOC_STRING( pkvd->szValue );
+		pkvd->fHandled = TRUE;
+	}
 	else if (FStrEq(pkvd->szKeyName, "healthvalue"))
 	{
 		m_bHealthValue = atof(pkvd->szValue);
@@ -458,98 +468,112 @@ void CBaseDoor::Precache( void )
 {
 	const char *pszSound;
 
-// set the door's "in-motion" sound
-	switch (m_bMoveSnd)
+	// set the door's "in-motion" sound
+	if ( pev->noiseMoving )
 	{
-	case	0:
-		pev->noiseMoving = ALLOC_STRING("common/null.wav");
-		break;
-	case	1:
-		PRECACHE_SOUND ("doors/doormove1.wav");
-		pev->noiseMoving = ALLOC_STRING("doors/doormove1.wav");
-		break;
-	case	2:
-		PRECACHE_SOUND ("doors/doormove2.wav");
-		pev->noiseMoving = ALLOC_STRING("doors/doormove2.wav");
-		break;
-	case	3:
-		PRECACHE_SOUND ("doors/doormove3.wav");
-		pev->noiseMoving = ALLOC_STRING("doors/doormove3.wav");
-		break;
-	case	4:
-		PRECACHE_SOUND ("doors/doormove4.wav");
-		pev->noiseMoving = ALLOC_STRING("doors/doormove4.wav");
-		break;
-	case	5:
-		PRECACHE_SOUND ("doors/doormove5.wav");
-		pev->noiseMoving = ALLOC_STRING("doors/doormove5.wav");
-		break;
-	case	6:
-		PRECACHE_SOUND ("doors/doormove6.wav");
-		pev->noiseMoving = ALLOC_STRING("doors/doormove6.wav");
-		break;
-	case	7:
-		PRECACHE_SOUND ("doors/doormove7.wav");
-		pev->noiseMoving = ALLOC_STRING("doors/doormove7.wav");
-		break;
-	case	8:
-		PRECACHE_SOUND ("doors/doormove8.wav");
-		pev->noiseMoving = ALLOC_STRING("doors/doormove8.wav");
-		break;
-	case	9:
-		PRECACHE_SOUND ("doors/doormove9.wav");
-		pev->noiseMoving = ALLOC_STRING("doors/doormove9.wav");
-		break;
-	case	10:
-		PRECACHE_SOUND ("doors/doormove10.wav");
-		pev->noiseMoving = ALLOC_STRING("doors/doormove10.wav");
-		break;
-	default:
-		pev->noiseMoving = ALLOC_STRING("common/null.wav");
-		break;
+		PRECACHE_SOUND( STRING( pev->noiseMoving ) );
+	}
+	else
+	{
+		switch ( m_bMoveSnd )
+		{
+		case	0:
+			pev->noiseMoving = ALLOC_STRING( "common/null.wav" );
+			break;
+		case	1:
+			PRECACHE_SOUND( "doors/doormove1.wav" );
+			pev->noiseMoving = ALLOC_STRING( "doors/doormove1.wav" );
+			break;
+		case	2:
+			PRECACHE_SOUND( "doors/doormove2.wav" );
+			pev->noiseMoving = ALLOC_STRING( "doors/doormove2.wav" );
+			break;
+		case	3:
+			PRECACHE_SOUND( "doors/doormove3.wav" );
+			pev->noiseMoving = ALLOC_STRING( "doors/doormove3.wav" );
+			break;
+		case	4:
+			PRECACHE_SOUND( "doors/doormove4.wav" );
+			pev->noiseMoving = ALLOC_STRING( "doors/doormove4.wav" );
+			break;
+		case	5:
+			PRECACHE_SOUND( "doors/doormove5.wav" );
+			pev->noiseMoving = ALLOC_STRING( "doors/doormove5.wav" );
+			break;
+		case	6:
+			PRECACHE_SOUND( "doors/doormove6.wav" );
+			pev->noiseMoving = ALLOC_STRING( "doors/doormove6.wav" );
+			break;
+		case	7:
+			PRECACHE_SOUND( "doors/doormove7.wav" );
+			pev->noiseMoving = ALLOC_STRING( "doors/doormove7.wav" );
+			break;
+		case	8:
+			PRECACHE_SOUND( "doors/doormove8.wav" );
+			pev->noiseMoving = ALLOC_STRING( "doors/doormove8.wav" );
+			break;
+		case	9:
+			PRECACHE_SOUND( "doors/doormove9.wav" );
+			pev->noiseMoving = ALLOC_STRING( "doors/doormove9.wav" );
+			break;
+		case	10:
+			PRECACHE_SOUND( "doors/doormove10.wav" );
+			pev->noiseMoving = ALLOC_STRING( "doors/doormove10.wav" );
+			break;
+		default:
+			pev->noiseMoving = ALLOC_STRING( "common/null.wav" );
+			break;
+		}
 	}
 
-// set the door's 'reached destination' stop sound
-	switch (m_bStopSnd)
+	// set the door's 'reached destination' stop sound
+	if ( pev->noiseArrived )
 	{
-	case	0:
-		pev->noiseArrived = ALLOC_STRING("common/null.wav");
-		break;
-	case	1:
-		PRECACHE_SOUND ("doors/doorstop1.wav");
-		pev->noiseArrived = ALLOC_STRING("doors/doorstop1.wav");
-		break;
-	case	2:
-		PRECACHE_SOUND ("doors/doorstop2.wav");
-		pev->noiseArrived = ALLOC_STRING("doors/doorstop2.wav");
-		break;
-	case	3:
-		PRECACHE_SOUND ("doors/doorstop3.wav");
-		pev->noiseArrived = ALLOC_STRING("doors/doorstop3.wav");
-		break;
-	case	4:
-		PRECACHE_SOUND ("doors/doorstop4.wav");
-		pev->noiseArrived = ALLOC_STRING("doors/doorstop4.wav");
-		break;
-	case	5:
-		PRECACHE_SOUND ("doors/doorstop5.wav");
-		pev->noiseArrived = ALLOC_STRING("doors/doorstop5.wav");
-		break;
-	case	6:
-		PRECACHE_SOUND ("doors/doorstop6.wav");
-		pev->noiseArrived = ALLOC_STRING("doors/doorstop6.wav");
-		break;
-	case	7:
-		PRECACHE_SOUND ("doors/doorstop7.wav");
-		pev->noiseArrived = ALLOC_STRING("doors/doorstop7.wav");
-		break;
-	case	8:
-		PRECACHE_SOUND ("doors/doorstop8.wav");
-		pev->noiseArrived = ALLOC_STRING("doors/doorstop8.wav");
-		break;
-	default:
-		pev->noiseArrived = ALLOC_STRING("common/null.wav");
-		break;
+		PRECACHE_SOUND( STRING( pev->noiseArrived ) );
+	}
+	else
+	{
+		switch ( m_bStopSnd )
+		{
+		case	0:
+			pev->noiseArrived = ALLOC_STRING( "common/null.wav" );
+			break;
+		case	1:
+			PRECACHE_SOUND( "doors/doorstop1.wav" );
+			pev->noiseArrived = ALLOC_STRING( "doors/doorstop1.wav" );
+			break;
+		case	2:
+			PRECACHE_SOUND( "doors/doorstop2.wav" );
+			pev->noiseArrived = ALLOC_STRING( "doors/doorstop2.wav" );
+			break;
+		case	3:
+			PRECACHE_SOUND( "doors/doorstop3.wav" );
+			pev->noiseArrived = ALLOC_STRING( "doors/doorstop3.wav" );
+			break;
+		case	4:
+			PRECACHE_SOUND( "doors/doorstop4.wav" );
+			pev->noiseArrived = ALLOC_STRING( "doors/doorstop4.wav" );
+			break;
+		case	5:
+			PRECACHE_SOUND( "doors/doorstop5.wav" );
+			pev->noiseArrived = ALLOC_STRING( "doors/doorstop5.wav" );
+			break;
+		case	6:
+			PRECACHE_SOUND( "doors/doorstop6.wav" );
+			pev->noiseArrived = ALLOC_STRING( "doors/doorstop6.wav" );
+			break;
+		case	7:
+			PRECACHE_SOUND( "doors/doorstop7.wav" );
+			pev->noiseArrived = ALLOC_STRING( "doors/doorstop7.wav" );
+			break;
+		case	8:
+			PRECACHE_SOUND( "doors/doorstop8.wav" );
+			pev->noiseArrived = ALLOC_STRING( "doors/doorstop8.wav" );
+			break;
+		default:
+			pev->noiseArrived = ALLOC_STRING( "common/null.wav" );
+			break;
+		}
 	}
 
 	// get door button sounds, for doors which are directly 'touched' to open
