@@ -45,6 +45,7 @@ class CTripmineGrenade : public CGrenade
 {
 	void Spawn( void );
 	void Precache( void );
+	void UpdateOnRemove() override;
 
 	virtual int		Save( CSave &save );
 	virtual int		Restore( CRestore &restore );
@@ -151,6 +152,12 @@ void CTripmineGrenade :: Precache( void )
 	PRECACHE_SOUND("weapons/mine_charge.wav");
 }
 
+void CTripmineGrenade::UpdateOnRemove()
+{
+	CGrenade::UpdateOnRemove();
+
+	KillBeam();
+}
 
 void CTripmineGrenade :: WarningThink( void  )
 {

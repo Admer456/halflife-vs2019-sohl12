@@ -644,6 +644,9 @@ public:
 	BOOL Deploy( void );
 	void Reload( void );
 	void WeaponIdle( void );
+
+	BOOL IsUseable() override;
+	
 	float m_flNextAnimTime;
 	int m_iShell;
 
@@ -936,6 +939,12 @@ public:
 	int iItemSlot( void ) { return 4; }
 	int GetItemInfo(ItemInfo *p);
 	int AddToPlayer( CBasePlayer *pPlayer );
+
+#ifndef CLIENT_DLL
+	int		Save(CSave& save);
+	int		Restore(CRestore& restore);
+	static	TYPEDESCRIPTION m_SaveData[];
+#endif
 
 	void PrimaryAttack( void );
 	void SecondaryAttack( void );

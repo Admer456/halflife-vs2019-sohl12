@@ -44,6 +44,7 @@ class CISlave : public CSquadMonster
 public:
 	void Spawn( void );
 	void Precache( void );
+	void UpdateOnRemove() override;
 	void SetYawSpeed( void );
 	int	 ISoundMask( void );
 	int  Classify ( void );
@@ -583,6 +584,12 @@ void CISlave :: Precache()
 	UTIL_PrecacheOther( "test_effect" );
 }	
 
+void CISlave::UpdateOnRemove()
+{
+	CSquadMonster::UpdateOnRemove();
+
+	ClearBeams();
+}
 
 //=========================================================
 // TakeDamage - get provoked when injured

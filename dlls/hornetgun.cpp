@@ -40,8 +40,16 @@ enum firemode_e
 	FIREMODE_FAST
 };
 
-
 LINK_WEAPON_TO_CLASS( weapon_hornetgun, CHgun );
+
+#ifndef CLIENT_DLL
+TYPEDESCRIPTION	CHgun::m_SaveData[] =
+{
+	DEFINE_FIELD(CHgun, m_flRechargeTime, FIELD_FLOAT),
+};
+
+IMPLEMENT_SAVERESTORE(CHgun, CBasePlayerWeapon);
+#endif
 
 BOOL CHgun::IsUseable( void )
 {
