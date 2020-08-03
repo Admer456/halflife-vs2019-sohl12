@@ -12,7 +12,13 @@
 *   without written permission from Valve LLC.
 *
 ****/
+
+#ifndef UTIL_H
+#define UTIL_H
+
+#ifndef ARCHTYPES_H
 #include "archtypes.h"     // DAL
+#endif
 
 //
 // Misc utility code
@@ -24,6 +30,7 @@
 #ifndef ENGINECALLBACK_H
 #include "enginecallback.h"
 #endif
+
 inline void MESSAGE_BEGIN( int msg_dest, int msg_type, const float *pOrigin, entvars_t *ent );  // implementation later in this file
 
 extern globalvars_t				*gpGlobals;
@@ -583,3 +590,5 @@ int GetStdLightStyle (int iStyle); //LRC- declared here so it can be used by eve
 									// needs to deal with the standard lightstyles.
 // LRC- for aliases and groups
 CBaseEntity* UTIL_FollowReference( CBaseEntity* pStartEntity, const char* szName );
+
+#endif // UTIL_H
