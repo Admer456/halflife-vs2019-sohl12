@@ -2751,7 +2751,8 @@ void CBasePlayer::PostThink()
 	{ // if they've moved too far from the gun,  or selected a weapon, unuse the gun
 		if ( m_pTank->OnControls( pev ) && !pev->weaponmodel )
 		{  
-			m_pTank->Use( this, this, USE_SET, 2 );	// try fire the gun
+//LRC - This is now handled with the Think function, by TrackTarget
+//			m_pTank->Use( this, this, USE_SET, 2 );	// try fire the gun
 		}
 		else
 		{  // they've moved off the platform
