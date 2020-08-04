@@ -103,8 +103,6 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\dlls\aflock.cpp" />
-    <ClCompile Include="..\..\dlls\agrunt.cpp" />
     <ClCompile Include="..\..\dlls\airtank.cpp" />
     <ClCompile Include="..\..\dlls\alias.cpp" />
     <ClCompile Include="..\..\dlls\ambient_2d.cpp" />
@@ -170,6 +168,9 @@
     <ClCompile Include="..\..\dlls\multiplay_gamerules.cpp" />
     <ClCompile Include="..\..\dlls\nihilanth.cpp" />
     <ClCompile Include="..\..\dlls\nodes.cpp" />
+    <ClCompile Include="..\..\dlls\npcs\CAGrunt.cpp" />
+    <ClCompile Include="..\..\dlls\npcs\CFlockingFlyer.cpp" />
+    <ClCompile Include="..\..\dlls\npcs\CFlockingFlyerFlock.cpp" />
     <ClCompile Include="..\..\dlls\observer.cpp" />
     <ClCompile Include="..\..\dlls\osprey.cpp" />
     <ClCompile Include="..\..\dlls\pathcorner.cpp" />
@@ -238,6 +239,9 @@
     <ClInclude Include="..\..\dlls\monsters.h" />
     <ClInclude Include="..\..\dlls\movewith.h" />
     <ClInclude Include="..\..\dlls\nodes.h" />
+    <ClInclude Include="..\..\dlls\npcs\CAGrunt.h" />
+    <ClInclude Include="..\..\dlls\npcs\CFlockingFlyer.h" />
+    <ClInclude Include="..\..\dlls\npcs\CFlockingFlyerFlock.h" />
     <ClInclude Include="..\..\dlls\plane.h" />
     <ClInclude Include="..\..\dlls\player.h" />
     <ClInclude Include="..\..\dlls\saverestore.h" />

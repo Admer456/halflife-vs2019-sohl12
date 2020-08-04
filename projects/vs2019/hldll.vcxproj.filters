@@ -37,14 +37,11 @@
     <Filter Include="Header Files\common">
       <UniqueIdentifier>{d9b0bb75-7f25-443b-8899-6b1a9e1dd63c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\dlls\npcs">
+      <UniqueIdentifier>{0c9c33f7-b837-4394-bbcf-42f1c92e8aef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\dlls\aflock.cpp">
-      <Filter>Source Files\dlls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\dlls\agrunt.cpp">
-      <Filter>Source Files\dlls</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\dlls\airtank.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
@@ -363,6 +360,15 @@
     <ClCompile Include="..\..\dlls\weapons_shared.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\dlls\npcs\CFlockingFlyerFlock.cpp">
+      <Filter>Source Files\dlls\npcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\npcs\CFlockingFlyer.cpp">
+      <Filter>Source Files\dlls\npcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\npcs\CAGrunt.cpp">
+      <Filter>Source Files\dlls\npcs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\dlls\doors.h">
@@ -508,6 +514,15 @@
     </ClInclude>
     <ClInclude Include="..\..\dlls\movewith.h">
       <Filter>Header Files\dlls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\npcs\CFlockingFlyerFlock.h">
+      <Filter>Source Files\dlls\npcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\npcs\CFlockingFlyer.h">
+      <Filter>Source Files\dlls\npcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\npcs\CAGrunt.h">
+      <Filter>Source Files\dlls\npcs</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
