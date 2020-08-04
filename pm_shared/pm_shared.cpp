@@ -29,6 +29,8 @@
 #include <stdlib.h> // atoi
 #include <ctype.h>  // isspace
 
+#include <limits>
+
 #ifdef CLIENT_DLL
 //#include "debug_wireframe.h"
 //#include "debug_wireframe_utils.h"
@@ -188,7 +190,7 @@ void PM_CheckBogusSpeed()
 	if ( velocityLength > 1000 )
 	{
 		g_bugged = true;
-		
+
 		pmove->velocity[0] = 0;
 		pmove->velocity[1] = 0;
 		pmove->velocity[2] = 0;
@@ -2107,7 +2109,90 @@ void PM_Duck( void )
 	}
 }
 
-void PM_LadderMove( physent_t *pLadder )
+enum InvalidNormalTypes
+{
+	InvalidNormal_ZeroVector,
+	InvalidNormal_LargeComponents
+};
+
+void PM_FixZeroNormal( vec3_t normal )
+{
+	// Well, since there's really no proper way of fixing a zero normal,
+	// we will just set it as a 1,0,0 vector. May God have mercy on my soul
+	normal[0] = 1.0f;
+	normal[1] = 0.0f;
+	normal[2] = 0.0f;
+}
+
+void PM_FixNormalWithLargeComponents( vec3_t normal )
+{
+	// Simple vector normalisation should do the trick
+	float length = Length( normal );
+
+	normal[0] /= length;
+	normal[1] /= length;
+	normal[2] /= length;
+}
+
+bool PM_CheckNormalVectorValidity( vec3_t normal, int* type = nullptr )
+{
+	bool valid = false;
+
+	// First, check if the entire thing is approximately 0
+	for ( int i = 0; i < 3; i++ )
+	{
+		if ( fabs( normal[i] ) < 0.00001f )
+		{
+			valid = true;
+			break;
+		}
+	}
+
+	if ( !valid && type )
+	{
+		pmove->Con_Printf( "Invalid normal, zero vector\n" );
+		*type = InvalidNormal_ZeroVector;
+	}
+
+	// Then check if any of the vector components goes above 1.0 or below -1.0
+	if ( valid )
+	{
+		for ( int i = 0; i < 3; i++ )
+		{
+			if ( fabs( normal[i] ) > 1.0f )
+			{
+				valid = false;
+				
+				pmove->Con_Printf( "Invalid normal, one or more large components\n" );
+
+				if ( type )
+					*type = InvalidNormal_LargeComponents;
+
+				break;
+			}
+		}
+	}
+
+	// Lastly, check for and correct denormalised floats
+	// limits.h is part of the standard library
+	// that has a perfect thing for this
+	if ( valid )
+	{
+		for ( int i = 0; i < 3; i++ )
+		{
+			if ( normal[i] != 0.0f && fabs( normal[i] ) <= std::numeric_limits<float>::denorm_min() )
+			{
+				// Since the value is SO SMALL, it might as well just be 0
+				// otherwise weird stuff might happen
+				normal[i] = 0;
+			}
+		}
+	}
+
+	return valid;
+}
+
+void PM_LadderMove( physent_t* pLadder )
 {
 	vec3_t		ladderCenter;
 	trace_t		trace;
@@ -2119,7 +2204,14 @@ void PM_LadderMove( physent_t *pLadder )
 
 	if ( pmove->movetype == MOVETYPE_NOCLIP )
 		return;
-	
+
+	// Manually setting these seems to be necessary,
+	// as PM_TraceModel does NOT set the plane normal
+	// in certain scenarios, which leaves us with junk
+	trace.plane.normal[0] = -pmove->forward[0];
+	trace.plane.normal[1] = -pmove->forward[1];
+	trace.plane.normal[2] = 0;
+
 #if defined( _TFC )
 	// this is how TFC freezes players, so we don't want them climbing ladders
 	if ( pmove->maxspeed <= 1.0 )
@@ -2130,6 +2222,15 @@ void PM_LadderMove( physent_t *pLadder )
 
 	VectorAdd( modelmins, modelmaxs, ladderCenter );
 	VectorScale( ladderCenter, 0.5, ladderCenter );
+
+	// The player movement code in vanilla HL assumes that the origin of a brush entity 
+	// is always 0,0,0, and that its mins and maxs are always absolute world coordinates. 
+	// In SoHL, if you move a ladder via movewith, that changes and the movement breaks 
+	// spectacularly, either freezing the game or teleporting the player across the map.
+	// So, to prevent this, we'll add the origin and let the player movement code become aware of moving ladders.
+	VectorAdd( modelmins, pLadder->origin, modelmins );
+	VectorAdd( modelmaxs, pLadder->origin, modelmaxs );
+	VectorAdd( ladderCenter, pLadder->origin, ladderCenter );
 
 	pmove->movetype = MOVETYPE_FLY;
 
@@ -2146,39 +2247,52 @@ void PM_LadderMove( physent_t *pLadder )
 	pmove->gravity = 0;
 	pmove->PM_TraceModel( pLadder, pmove->origin, ladderCenter, &trace );
 
+	// I have commented out this huge portion of code, as it's no longer necessary
+	// But it'll be handy to keep around, in case ladders break again! - Admer
+
 	// Check for an invalid normal, try nudging until it's right
 	// Start off 64 units below the centre, and walk through 128 units vertically
-	ladderCenter[2] -= 64.0f;
+	//ladderCenter[2] -= 64.0f;
+	//int normalError = -1;
 
-	for ( int i = 0; i < 32; i++ )
-	{
-		if ( trace.plane.normal[0] > -1.0f || trace.plane.normal[0] < 1.0f )
-		{
-			VectorCopy( trace.plane.normal, lastCorrectNormal );
-			break;
-		}
-
-		ladderCenter[2] += 4.f;
-		pmove->PM_TraceModel( pLadder, pmove->origin, ladderCenter, &trace );
-	}
+	//for ( int i = 0; i < 32; i++ )
+	//{
+	//	if ( PM_CheckNormalVectorValidity( trace.plane.normal, &normalError ) )
+	//	{
+	//		VectorCopy( trace.plane.normal, lastCorrectNormal );
+	//		break;
+	//	}
+	//
+	//	ladderCenter[2] += 4.f;
+	//	pmove->PM_TraceModel( pLadder, pmove->origin, ladderCenter, &trace );
+	//}
 
 	// If still incorrect, then trace from the centre of the laddder
-	if ( trace.plane.normal[0] < -1.0f || trace.plane.normal[0] > 1.0f )
-	{
-		vec3_t newPlayerPosition;
-		VectorCopy( pmove->origin, newPlayerPosition );
-		// Copy the ladder's Z position
-		newPlayerPosition[2] = ladderCenter[2];// - 32.f;
+	//if ( !PM_CheckNormalVectorValidity( trace.plane.normal, &normalError ) )
+	//{
+	//	vec3_t newPlayerPosition;
+	//	VectorCopy( pmove->origin, newPlayerPosition );
+	//	// Copy the ladder's Z position
+	//	newPlayerPosition[2] = ladderCenter[2];// - 32.f;
+	//
+	//	pmove->PM_TraceModel( pLadder, newPlayerPosition, ladderCenter, &trace );
+	//}
+	//else
+	//{
+	//	VectorCopy( trace.plane.normal, lastCorrectNormal );
+	//}
 
-		pmove->PM_TraceModel( pLadder, newPlayerPosition, ladderCenter, &trace );
-	}
-	else
-	{
-		VectorCopy( trace.plane.normal, lastCorrectNormal );
-	}
+	//if ( normalError == InvalidNormal_ZeroVector )
+	//{
+	//	PM_FixZeroNormal( trace.plane.normal );
+	//}
+	//else if ( normalError == InvalidNormal_LargeComponents )
+	//{
+	//	PM_FixNormalWithLargeComponents( trace.plane.normal );
+	//}
 
 	// If it's STILL not correct, apply the last known correct one then
-	//if ( trace.plane.normal[0] < -1.0f || trace.plane.normal[0] > 1.0f )
+	//if ( !PM_CheckNormalVectorValidity( trace.plane.normal ) )
 	//{
 	//	VectorCopy( lastCorrectNormal, trace.plane.normal );
 	//}
@@ -2264,11 +2378,12 @@ void PM_LadderMove( physent_t *pLadder )
 
 				if ( onFloor && normal > 0 )	// On ground moving away from the ladder
 				{
-					// We need this extra if check otherwise the normal is gonna be fricking WHACK
-					if ( trace.plane.normal[0] <= 1.0f || trace.plane.normal[0] >= -1.0f )
-					{
+					// Commented out, unnecessary performance cost
+					//// We need this extra if check otherwise the velocity is gonna be fricking WHACK in some situations
+					//if ( PM_CheckNormalVectorValidity( trace.plane.normal ) )
+					//{
 						VectorMA( pmove->velocity, MAX_CLIMB_SPEED, trace.plane.normal, pmove->velocity );
-					}
+					//}
 				}
 
 				//pev->velocity = lateral - (CrossProduct( trace.vecPlaneNormal, perp ) * normal);
