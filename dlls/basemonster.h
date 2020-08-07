@@ -135,6 +135,8 @@ public:
 
 	virtual BOOL	IsAlive( void ) { return (pev->deadflag != DEAD_DEAD); }
 	virtual BOOL	ShouldFadeOnDeath( void );
+	
+	BOOL IsFacing(entvars_t* pevTest, const Vector& reference);
 
 // Basic Monster AI functions
 	virtual float ChangeYaw ( int speed );

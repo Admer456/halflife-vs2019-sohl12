@@ -40,6 +40,9 @@
     <Filter Include="Source Files\dlls\npcs">
       <UniqueIdentifier>{0c9c33f7-b837-4394-bbcf-42f1c92e8aef}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\dlls\props">
+      <UniqueIdentifier>{8fd5eb59-ff79-4997-9e0b-3d433dfe9f2c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\dlls\airtank.cpp">
@@ -55,9 +58,6 @@
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\barnacle.cpp">
-      <Filter>Source Files\dlls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\dlls\barney.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\bigmomma.cpp">
@@ -369,6 +369,12 @@
     <ClCompile Include="..\..\dlls\npcs\CAGrunt.cpp">
       <Filter>Source Files\dlls\npcs</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\dlls\npcs\CBarney.cpp">
+      <Filter>Source Files\dlls\npcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\props\CDeadBarney.cpp">
+      <Filter>Source Files\dlls\props</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\dlls\doors.h">
@@ -523,6 +529,12 @@
     </ClInclude>
     <ClInclude Include="..\..\dlls\npcs\CAGrunt.h">
       <Filter>Source Files\dlls\npcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\npcs\CBarney.h">
+      <Filter>Source Files\dlls\npcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\props\CDeadBarney.h">
+      <Filter>Source Files\dlls\props</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
