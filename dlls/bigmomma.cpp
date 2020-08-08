@@ -684,17 +684,23 @@ void CBigMomma :: Spawn()
 		SET_MODEL(ENT(pev), STRING(pev->model)); //LRC
 	else
 		SET_MODEL(ENT(pev), "models/big_mom.mdl");
+	
 	UTIL_SetSize( pev, Vector( -32, -32, 0 ), Vector( 32, 32, 64 ) );
 
 	pev->solid			= SOLID_SLIDEBOX;
 	pev->movetype		= MOVETYPE_STEP;
 	m_bloodColor		= BLOOD_COLOR_GREEN;
+	
 	if (pev->health == 0)
 		pev->health			= 150 * gSkillData.bigmommaHealthFactor;
+	
 	pev->view_ofs		= Vector ( 0, 0, 128 );// position of the eyes relative to monster's origin.
+	
 	m_flFieldOfView		= 0.3;// indicates the width of this monster's forward view cone ( as a dotproduct result )
 	m_MonsterState		= MONSTERSTATE_NONE;
-
+	
+	m_nodeTime			= 0.0f;
+	
 	MonsterInit();
 }
 
@@ -1050,7 +1056,7 @@ void CBigMomma::StartTask( Task_t *pTask )
 		break;
 
 	case TASK_WAIT_NODE:
-		m_flWait = gpGlobals->time + GetNodeDelay();
+		m_flWaitFinished = gpGlobals->time + GetNodeDelay();
 		if ( m_hTargetEnt->pev->spawnflags & SF_INFOBM_WAIT )
 			ALERT( at_aiconsole, "BM: Wait at node %s forever\n", STRING(pev->netname) );
 		else

@@ -849,13 +849,13 @@ void CBasePlayer::RemoveAllItems( BOOL removeSuit )
 	for (i = 0; i < MAX_ITEM_TYPES; i++)
 	{
 		m_pActiveItem = m_rgpPlayerItems[i];
+		m_rgpPlayerItems[i] = NULL;
 		while (m_pActiveItem)
 		{
 			pPendingItem = m_pActiveItem->m_pNext; 
 			m_pActiveItem->Drop( );
 			m_pActiveItem = pPendingItem;
 		}
-		m_rgpPlayerItems[i] = NULL;
 	}
 	m_pActiveItem = NULL;
 
@@ -2751,7 +2751,8 @@ void CBasePlayer::PostThink()
 	{ // if they've moved too far from the gun,  or selected a weapon, unuse the gun
 		if ( m_pTank->OnControls( pev ) && !pev->weaponmodel )
 		{  
-			m_pTank->Use( this, this, USE_SET, 2 );	// try fire the gun
+//LRC - This is now handled with the Think function, by TrackTarget
+//			m_pTank->Use( this, this, USE_SET, 2 );	// try fire the gun
 		}
 		else
 		{  // they've moved off the platform
@@ -3955,7 +3956,9 @@ int CBasePlayer::RemovePlayerItem( CBasePlayerItem *pItem )
 		pev->viewmodel = 0;
 		pev->weaponmodel = 0;
 	}
-	else if ( m_pLastItem == pItem )
+	
+	//In some cases an item can be both the active and last item, like for instance dropping all weapons and only having an exhaustible weapon left. - Solokiller
+	if (m_pLastItem == pItem)
 		m_pLastItem = NULL;
 
 	CBasePlayerItem *pPrev = m_rgpPlayerItems[pItem->iItemSlot()];

@@ -1493,7 +1493,7 @@ void CTestHull::DropDelay ( void )
 
 	SetThink ( &CTestHull::CallBuildNodeGraph );
 
-	pev->nextthink = gpGlobals->time + 1;
+	SetNextThink(1.0);
 }
 
 //=========================================================

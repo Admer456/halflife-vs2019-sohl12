@@ -546,7 +546,7 @@ int CHudAmmo::MsgFunc_HideWeapon( const char *pszName, int iSize, void *pbuf )
 	}
 	else if ( (m_pWeapon == NULL) || (gHUD.m_iHideHUDDisplay & ( HIDEHUD_WEAPONS | HIDEHUD_ALL )) )
 	{
-		static wrect_t nullrc;
+		wrect_t nullrc = {};
 		gpActiveSel = NULL;
 		SetCrosshair( 0, nullrc, 0, 0, 0 );
 //		CONPRINT("Blanking crosshair\n");
@@ -568,7 +568,7 @@ int CHudAmmo::MsgFunc_HideWeapon( const char *pszName, int iSize, void *pbuf )
 //
 int CHudAmmo::MsgFunc_CurWeapon(const char *pszName, int iSize, void *pbuf )
 {
-	static wrect_t nullrc;
+	wrect_t nullrc = {};
 	int fOnTarget = FALSE;
 
 	BEGIN_READ( pbuf, iSize );

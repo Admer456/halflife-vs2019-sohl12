@@ -1173,33 +1173,16 @@ void UTIL_SayTextAll( const char *pText, CBaseEntity *pEntity )
 	MESSAGE_END();
 }
 
-
-char *UTIL_dtos1( int d )
+char *UTIL_dtos(const int iValue)
 {
-	static char buf[8];
-	sprintf( buf, "%d", d );
-	return buf;
-}
-
-char *UTIL_dtos2( int d )
-{
-	static char buf[8];
-	sprintf( buf, "%d", d );
-	return buf;
-}
-
-char *UTIL_dtos3( int d )
-{
-	static char buf[8];
-	sprintf( buf, "%d", d );
-	return buf;
-}
-
-char *UTIL_dtos4( int d )
-{
-	static char buf[8];
-	sprintf( buf, "%d", d );
-	return buf;
+	//This buffer size calculation determines the number of characters needed for an int, plus a null terminator.
+	//See http://stackoverflow.com/questions/3919995/determining-sprintf-buffer-size-whats-the-standard/3920025#3920025
+	//The old buffer size used by the SDK functions was 8.
+	static char szBuffers[NUM_STATIC_BUFFERS][(((sizeof(int) * CHAR_BIT) / 3) + 3) + 1];
+	static size_t uiBufferIndex = 0;
+	uiBufferIndex = (uiBufferIndex + 1) % NUM_STATIC_BUFFERS;
+	snprintf(szBuffers[uiBufferIndex], sizeof(szBuffers[uiBufferIndex]), "%d", iValue);
+	return szBuffers[uiBufferIndex];
 }
 
 void UTIL_ShowMessage( const char *pString, CBaseEntity *pEntity )
@@ -1363,14 +1346,18 @@ float UTIL_SplineFraction( float value, float scale )
 
 char* UTIL_VarArgs( const char *format, ... )
 {
-	va_list		argptr;
-	static char		string[1024];
+	static char szBuffers[NUM_STATIC_BUFFERS][1024];
+	static size_t uiBufferIndex = 0;
 	
-	va_start (argptr, format);
-	vsprintf (string, format,argptr);
-	va_end (argptr);
+	va_list	argptr;
 
-	return string;	
+	uiBufferIndex = (uiBufferIndex + 1) % NUM_STATIC_BUFFERS;
+	
+	va_start(argptr, format);
+	vsprintf(szBuffers[uiBufferIndex], format, argptr);
+	va_end(argptr);
+	
+	return szBuffers[uiBufferIndex];
 }
 	
 Vector UTIL_GetAimVector( edict_t *pent, float flSpeed )

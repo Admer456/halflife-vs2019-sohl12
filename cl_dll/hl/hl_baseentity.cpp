@@ -60,6 +60,7 @@ void CBaseEntity::InitMoveWith( void ) { } //LRC
 void CBaseEntity::SetNextThink( float delay, BOOL correctSpeed ) { }//LRC
 void CBaseEntity::AbsoluteNextThink( float time, BOOL correctSpeed ) { }//LRC
 void CBaseEntity::ThinkCorrection( ) { }//LRC
+void CBaseEntity::UpdateOnRemove() { }
 
 // CBaseDelay Stubs
 void CBaseDelay :: KeyValue( struct KeyValueData_s * ) { }

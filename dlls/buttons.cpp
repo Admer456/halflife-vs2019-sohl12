@@ -659,6 +659,11 @@ void CBaseButton::KeyValue( KeyValueData *pkvd )
 		m_sounds = atoi(pkvd->szValue);
 		pkvd->fHandled = TRUE;
 	}
+	else if ( FStrEq( pkvd->szKeyName, "sounds_custom" ) )
+	{
+		m_sounds = -1;
+		pev->noise = ALLOC_STRING( pkvd->szValue );
+	}
 	else 
 		CBaseToggle::KeyValue( pkvd );
 }
@@ -716,16 +721,21 @@ LINK_ENTITY_TO_CLASS( func_button, CBaseButton );
 
 void CBaseButton::Spawn( )
 { 
-	const char  *pszSound;
+	
 
 	//----------------------------------------------------
 	//determine sounds for buttons
 	//a sound of 0 should not make a sound
 	//----------------------------------------------------
-	pszSound = ButtonSound( m_sounds );
-	PRECACHE_SOUND(pszSound);
-	pev->noise = ALLOC_STRING(pszSound);
+	if ( m_sounds != -1 )
+	{
+		const char* pszSound;
+		pszSound = ButtonSound( m_sounds );
+		pev->noise = ALLOC_STRING( pszSound );
+	}
 
+	PRECACHE_SOUND( STRING( pev->noise ) );
+	
 	Precache();
 
 	if ( FBitSet ( pev->spawnflags, SF_BUTTON_SPARK_IF_OFF ) )// this button should spark in OFF state

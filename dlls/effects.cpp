@@ -144,12 +144,12 @@ void CBubbling::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE use
 	if ( m_state )
 	{
 		SetThink( & CBubbling::FizzThink );
-		pev->nextthink = gpGlobals->time + 0.1;
+		SetNextThink(0.1);
 	}
 	else
 	{
 		SetThink( NULL );
-		pev->nextthink = 0;
+		DontThink();
 	}
 }
 
@@ -2505,7 +2505,7 @@ void CTestEffect::TestThink( void )
 		}
 		m_flStartTime = gpGlobals->time;
 		m_iBeam = 0;
-		// pev->nextthink = gpGlobals->time;
+		//SetNextThink(0);
 		SetThink( NULL );
 	}
 }
@@ -4212,7 +4212,7 @@ void CEnvBeverage::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE 
 	pev->health--;
 
 	//SetThink (SUB_Remove);
-	//pev->nextthink = gpGlobals->time;
+	//SetNextThink(0);
 }
 
 void CEnvBeverage::Spawn( void )
@@ -4553,7 +4553,7 @@ public:
 void CEnvSky :: Activate ( void )
 {
 	pev->effects |= EF_NODRAW;
-	pev->nextthink = gpGlobals->time + 1.0;
+	AbsoluteNextThink(gpGlobals->time + 1.0);
 }
 
 extern int gmsgSetSky;
@@ -4628,7 +4628,7 @@ void CParticle::Activate( void )
 
 void CParticle::DesiredAction( void )
 {
-	pev->nextthink = gpGlobals->time + 1;
+	AbsoluteNextThink(gpGlobals->time + 1.0);
 }
 
 void CParticle::Think( void )
