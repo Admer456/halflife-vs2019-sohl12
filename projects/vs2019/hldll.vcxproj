@@ -109,7 +109,6 @@
     <ClCompile Include="..\..\dlls\ambient_mp3.cpp" />
     <ClCompile Include="..\..\dlls\animating.cpp" />
     <ClCompile Include="..\..\dlls\animation.cpp" />
-    <ClCompile Include="..\..\dlls\barnacle.cpp" />
     <ClCompile Include="..\..\dlls\bigmomma.cpp" />
     <ClCompile Include="..\..\dlls\bloater.cpp" />
     <ClCompile Include="..\..\dlls\bmodels.cpp" />
@@ -168,6 +167,7 @@
     <ClCompile Include="..\..\dlls\nodes.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CAGrunt.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CApache.cpp" />
+    <ClCompile Include="..\..\dlls\npcs\CBarnacle.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CBarney.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CFlockingFlyer.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CFlockingFlyerFlock.cpp" />
@@ -243,6 +243,7 @@
     <ClInclude Include="..\..\dlls\nodes.h" />
     <ClInclude Include="..\..\dlls\npcs\CAGrunt.h" />
     <ClInclude Include="..\..\dlls\npcs\CApache.h" />
+    <ClInclude Include="..\..\dlls\npcs\CBarnacle.h" />
     <ClInclude Include="..\..\dlls\npcs\CBarney.h" />
     <ClInclude Include="..\..\dlls\npcs\CFlockingFlyer.h" />
     <ClInclude Include="..\..\dlls\npcs\CFlockingFlyerFlock.h" />

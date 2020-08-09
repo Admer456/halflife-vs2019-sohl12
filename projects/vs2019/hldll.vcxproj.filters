@@ -57,9 +57,6 @@
     <ClCompile Include="..\..\dlls\animation.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\barnacle.cpp">
-      <Filter>Source Files\dlls</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\dlls\bigmomma.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
@@ -381,6 +378,9 @@
     <ClCompile Include="..\..\dlls\projectiles\CApacheHVR.cpp">
       <Filter>Source Files\dlls\projectiles</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\dlls\npcs\CBarnacle.cpp">
+      <Filter>Source Files\dlls\npcs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\dlls\doors.h">
@@ -547,6 +547,9 @@
     </ClInclude>
     <ClInclude Include="..\..\dlls\projectiles\CApacheHVR.h">
       <Filter>Source Files\dlls\projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\npcs\CBarnacle.h">
+      <Filter>Source Files\dlls\npcs</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
