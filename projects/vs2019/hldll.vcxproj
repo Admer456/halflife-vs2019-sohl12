@@ -112,7 +112,6 @@
     <ClCompile Include="..\..\dlls\bigmomma.cpp" />
     <ClCompile Include="..\..\dlls\bloater.cpp" />
     <ClCompile Include="..\..\dlls\bmodels.cpp" />
-    <ClCompile Include="..\..\dlls\bullsquid.cpp" />
     <ClCompile Include="..\..\dlls\buttons.cpp" />
     <ClCompile Include="..\..\dlls\cbase.cpp" />
     <ClCompile Include="..\..\dlls\client.cpp" />
@@ -169,6 +168,7 @@
     <ClCompile Include="..\..\dlls\npcs\CApache.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CBarnacle.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CBarney.cpp" />
+    <ClCompile Include="..\..\dlls\npcs\CBullsquid.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CFlockingFlyer.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CFlockingFlyerFlock.cpp" />
     <ClCompile Include="..\..\dlls\observer.cpp" />
@@ -178,6 +178,7 @@
     <ClCompile Include="..\..\dlls\plats.cpp" />
     <ClCompile Include="..\..\dlls\player.cpp" />
     <ClCompile Include="..\..\dlls\projectiles\CApacheHVR.cpp" />
+    <ClCompile Include="..\..\dlls\projectiles\CSquidSpit.cpp" />
     <ClCompile Include="..\..\dlls\props\CDeadBarney.cpp" />
     <ClCompile Include="..\..\dlls\python.cpp" />
     <ClCompile Include="..\..\dlls\rat.cpp" />
@@ -245,11 +246,13 @@
     <ClInclude Include="..\..\dlls\npcs\CApache.h" />
     <ClInclude Include="..\..\dlls\npcs\CBarnacle.h" />
     <ClInclude Include="..\..\dlls\npcs\CBarney.h" />
+    <ClInclude Include="..\..\dlls\npcs\CBullsquid.h" />
     <ClInclude Include="..\..\dlls\npcs\CFlockingFlyer.h" />
     <ClInclude Include="..\..\dlls\npcs\CFlockingFlyerFlock.h" />
     <ClInclude Include="..\..\dlls\plane.h" />
     <ClInclude Include="..\..\dlls\player.h" />
     <ClInclude Include="..\..\dlls\projectiles\CApacheHVR.h" />
+    <ClInclude Include="..\..\dlls\projectiles\CSquidSpit.h" />
     <ClInclude Include="..\..\dlls\props\CDeadBarney.h" />
     <ClInclude Include="..\..\dlls\saverestore.h" />
     <ClInclude Include="..\..\dlls\schedule.h" />

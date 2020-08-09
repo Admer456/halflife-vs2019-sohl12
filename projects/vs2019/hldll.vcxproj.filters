@@ -66,9 +66,6 @@
     <ClCompile Include="..\..\dlls\bmodels.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\bullsquid.cpp">
-      <Filter>Source Files\dlls</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\dlls\buttons.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
@@ -381,6 +378,12 @@
     <ClCompile Include="..\..\dlls\npcs\CBarnacle.cpp">
       <Filter>Source Files\dlls\npcs</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\dlls\projectiles\CSquidSpit.cpp">
+      <Filter>Source Files\dlls\projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\npcs\CBullsquid.cpp">
+      <Filter>Source Files\dlls\npcs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\dlls\doors.h">
@@ -549,6 +552,12 @@
       <Filter>Source Files\dlls\projectiles</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dlls\npcs\CBarnacle.h">
+      <Filter>Source Files\dlls\npcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\projectiles\CSquidSpit.h">
+      <Filter>Source Files\dlls\projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\npcs\CBullsquid.h">
       <Filter>Source Files\dlls\npcs</Filter>
     </ClInclude>
   </ItemGroup>
