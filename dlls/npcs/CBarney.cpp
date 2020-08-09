@@ -634,7 +634,6 @@ void CBarney::Killed(entvars_t* pevAttacker, int iGib)
 
 		GetAttachment(0, vecGunPos, vecGunAngles);
 
-		CBaseEntity* pGun;
 		if (pev->frags)
 			DropItem("weapon_357", vecGunPos, vecGunAngles);
 		else
