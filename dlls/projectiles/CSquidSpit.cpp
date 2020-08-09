@@ -71,6 +71,10 @@ void CSquidSpit::Precache()
 	PRECACHE_MODEL("sprites/bigspit.spr");
 
 	iSquidSpitSprite = PRECACHE_MODEL("sprites/tinyspit.spr");
+
+	PRECACHE_SOUND("bullchicken/bc_acid1.wav");
+	PRECACHE_SOUND("bullchicken/bc_spithit1.wav");
+	PRECACHE_SOUND("bullchicken/bc_spithit2.wav");
 }
 
 //=========================================================

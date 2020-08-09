@@ -46,6 +46,9 @@
     <Filter Include="Source Files\dlls\projectiles">
       <UniqueIdentifier>{7a0c7dfc-c15b-4905-a654-f85125c9c31f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\dlls\nodes">
+      <UniqueIdentifier>{b5bee100-6b9b-4cc6-8879-42ac44b29c40}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\dlls\airtank.cpp">
@@ -55,9 +58,6 @@
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\animation.cpp">
-      <Filter>Source Files\dlls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\dlls\bigmomma.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\bloater.cpp">
@@ -384,6 +384,15 @@
     <ClCompile Include="..\..\dlls\npcs\CBullsquid.cpp">
       <Filter>Source Files\dlls\npcs</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\dlls\npcs\CBigMomma.cpp">
+      <Filter>Source Files\dlls\npcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\projectiles\CBMortar.cpp">
+      <Filter>Source Files\dlls\projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\nodes\CInfoBM.cpp">
+      <Filter>Source Files\dlls\nodes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\dlls\doors.h">
@@ -559,6 +568,15 @@
     </ClInclude>
     <ClInclude Include="..\..\dlls\npcs\CBullsquid.h">
       <Filter>Source Files\dlls\npcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\npcs\CBigMomma.h">
+      <Filter>Source Files\dlls\npcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\projectiles\CBMortar.h">
+      <Filter>Source Files\dlls\projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\nodes\CInfoBM.h">
+      <Filter>Source Files\dlls\nodes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

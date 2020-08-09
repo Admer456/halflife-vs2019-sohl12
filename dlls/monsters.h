@@ -13,8 +13,11 @@
 *
 ****/
 #ifndef MONSTERS_H
-#include "skill.h"
 #define MONSTERS_H
+
+#ifndef SKILL_H
+#include "skill.h"
+#endif
 
 /*
 
