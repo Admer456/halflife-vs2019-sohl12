@@ -68,7 +68,8 @@ void RenderDebugWireframe_BoundingBox()
 				// unless they have an ORIGIN brush, it would be aesthetically
 				// pleasing to see an origin where we expect it
 				r->Color4ub( 0, 140, 192, 255 );
-				RenderPoint( (mins + maxs) / 2.0f ); 
+				Vector vecPoint = Vector( (mins.x + maxs.x) / 2.0f, (mins.y + maxs.y) / 2.0f, (mins.z + maxs.z) / 2.0f );
+				RenderPoint( vecPoint ); 
 			}
 			break;
 			
