@@ -13,31 +13,33 @@
 *
 ****/
 
-#ifndef CAPACHEHVR_H
-#define CAPACHEHVR_H
+#ifndef CCONTROLLERZAPBALL_H
+#define CCONTROLLERZAPBALL_H
 
 #ifndef WEAPONS_H
 #include "weapons.h"
 #endif
 
 //=========================================================
-// Class definition of CApacheHVR
+// Class definition of CControllerZapBall
 //=========================================================
-class CApacheHVR : public CGrenade
+class CControllerZapBall : public CBaseMonster
 {
 public:
+	static CControllerZapBall* Shoot(entvars_t* baseOwner, EHANDLE m_hEnemy, Vector vecStart, Vector vecVelocity);
+
+private:
 	void Spawn() override;
 	void Precache() override;
-	void EXPORT IgniteThink();
-	void EXPORT AccelerateThink();
+	void EXPORT Animate();
+	void EXPORT ExplodeTouch(CBaseEntity* pOther);
 
 	int Save(CSave& save) override;
 	int Restore(CRestore& restore) override;
 	static TYPEDESCRIPTION m_SaveData[];
 
-private:
-	int m_iTrail;
-	Vector m_vecForward;
+	int m_maxFrame;
+	EHANDLE m_hOwner;
 };
 
-#endif // CAPACHEHVR_H
+#endif // CCONTROLLERZAPBALL_H

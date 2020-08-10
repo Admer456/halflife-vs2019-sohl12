@@ -114,7 +114,6 @@
     <ClCompile Include="..\..\dlls\cbase.cpp" />
     <ClCompile Include="..\..\dlls\client.cpp" />
     <ClCompile Include="..\..\dlls\combat.cpp" />
-    <ClCompile Include="..\..\dlls\controller.cpp" />
     <ClCompile Include="..\..\dlls\crossbow.cpp" />
     <ClCompile Include="..\..\dlls\crowbar.cpp" />
     <ClCompile Include="..\..\dlls\defaultai.cpp" />
@@ -169,6 +168,7 @@
     <ClCompile Include="..\..\dlls\npcs\CBigMomma.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CBloater.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CBullsquid.cpp" />
+    <ClCompile Include="..\..\dlls\npcs\CController.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CFlockingFlyer.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CFlockingFlyerFlock.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CBaseFlyingMonster.cpp" />
@@ -180,6 +180,8 @@
     <ClCompile Include="..\..\dlls\player.cpp" />
     <ClCompile Include="..\..\dlls\projectiles\CApacheHVR.cpp" />
     <ClCompile Include="..\..\dlls\projectiles\CBMortar.cpp" />
+    <ClCompile Include="..\..\dlls\projectiles\CControllerHeadBall.cpp" />
+    <ClCompile Include="..\..\dlls\projectiles\CControllerZapBall.cpp" />
     <ClCompile Include="..\..\dlls\projectiles\CSquidSpit.cpp" />
     <ClCompile Include="..\..\dlls\props\CDeadBarney.cpp" />
     <ClCompile Include="..\..\dlls\python.cpp" />
@@ -252,6 +254,7 @@
     <ClInclude Include="..\..\dlls\npcs\CBigMomma.h" />
     <ClInclude Include="..\..\dlls\npcs\CBloater.h" />
     <ClInclude Include="..\..\dlls\npcs\CBullsquid.h" />
+    <ClInclude Include="..\..\dlls\npcs\CController.h" />
     <ClInclude Include="..\..\dlls\npcs\CFlockingFlyer.h" />
     <ClInclude Include="..\..\dlls\npcs\CFlockingFlyerFlock.h" />
     <ClInclude Include="..\..\dlls\npcs\CBaseFlyingMonster.h" />
@@ -259,6 +262,8 @@
     <ClInclude Include="..\..\dlls\player.h" />
     <ClInclude Include="..\..\dlls\projectiles\CApacheHVR.h" />
     <ClInclude Include="..\..\dlls\projectiles\CBMortar.h" />
+    <ClInclude Include="..\..\dlls\projectiles\CControllerHeadBall.h" />
+    <ClInclude Include="..\..\dlls\projectiles\CControllerZapBall.h" />
     <ClInclude Include="..\..\dlls\projectiles\CSquidSpit.h" />
     <ClInclude Include="..\..\dlls\props\CDeadBarney.h" />
     <ClInclude Include="..\..\dlls\saverestore.h" />

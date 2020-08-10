@@ -13,31 +13,42 @@
 *
 ****/
 
-#ifndef CAPACHEHVR_H
-#define CAPACHEHVR_H
+#ifndef CCONTROLLERHEADBALL_H
+#define CCONTROLLERHEADBALL_H
 
 #ifndef WEAPONS_H
 #include "weapons.h"
 #endif
 
 //=========================================================
-// Class definition of CApacheHVR
+// Class definition of CControllerHeadBall
 //=========================================================
-class CApacheHVR : public CGrenade
+class CControllerHeadBall : public CBaseMonster
 {
 public:
+	static CControllerHeadBall* Shoot(entvars_t* baseOwner, EHANDLE m_hEnemy, Vector vecStart, Vector vecVelocity);
+
+private:
 	void Spawn() override;
 	void Precache() override;
-	void EXPORT IgniteThink();
-	void EXPORT AccelerateThink();
+	void EXPORT HuntThink();
+	void EXPORT DieThink();
+	void EXPORT BounceTouch(CBaseEntity* pOther);
+	void EXPORT Animate();
+	
+	void MovetoTarget(Vector vecTarget);
+	void Crawl();
 
 	int Save(CSave& save) override;
 	int Restore(CRestore& restore) override;
 	static TYPEDESCRIPTION m_SaveData[];
-
-private:
+	
+	int m_maxFrame;
 	int m_iTrail;
-	Vector m_vecForward;
+	int m_flNextAttack;
+
+	Vector m_vecIdeal;
+	EHANDLE m_hOwner;
 };
 
-#endif // CAPACHEHVR_H
+#endif // CCONTROLLERHEADBALL_H
