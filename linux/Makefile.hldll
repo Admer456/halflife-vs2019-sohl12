@@ -34,6 +34,8 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/aflock.o \
 	$(HLDLL_OBJ_DIR)/agrunt.o \
 	$(HLDLL_OBJ_DIR)/airtank.o \
+	$(HLDLL_OBJ_DIR)/ambient_2d.o \
+	$(HLDLL_OBJ_DIR)/ambient_mp3.o \
 	$(HLDLL_OBJ_DIR)/animating.o \
 	$(HLDLL_OBJ_DIR)/animation.o \
 	$(HLDLL_OBJ_DIR)/apache.o \
@@ -89,6 +91,7 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/monsters.o \
 	$(HLDLL_OBJ_DIR)/monsterstate.o \
 	$(HLDLL_OBJ_DIR)/mortar.o \
+	$(HLDLL_OBJ_DIR)/movewith.o \
 	$(HLDLL_OBJ_DIR)/mp5.o \
 	$(HLDLL_OBJ_DIR)/nihilanth.o \
 	$(HLDLL_OBJ_DIR)/nodes.o \
@@ -125,6 +128,7 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/turret.o \
 	$(HLDLL_OBJ_DIR)/util.o \
 	$(HLDLL_OBJ_DIR)/weapons.o \
+	$(HLDLL_OBJ_DIR)/weapons_shared.o \
 	$(HLDLL_OBJ_DIR)/world.o \
 	$(HLDLL_OBJ_DIR)/xen.o \
 	$(HLDLL_OBJ_DIR)/zombie.o

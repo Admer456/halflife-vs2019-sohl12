@@ -48,6 +48,10 @@ HL1_OBJS = \
 	$(HL1_OBJ_DIR)/cdll_int.o \
 	$(HL1_OBJ_DIR)/com_weapons.o \
 	$(HL1_OBJ_DIR)/death.o \
+	$(HL1_OBJ_DIR)/debug_wireframe_boundingbox.o \
+	$(HL1_OBJ_DIR)/debug_wireframe_clipnodes.o \
+	$(HL1_OBJ_DIR)/debug_wireframe_movement.o \
+	$(HL1_OBJ_DIR)/debug_wireframe_utils.o \
 	$(HL1_OBJ_DIR)/demo.o \
 	$(HL1_OBJ_DIR)/entity.o \
 	$(HL1_OBJ_DIR)/ev_common.o \
