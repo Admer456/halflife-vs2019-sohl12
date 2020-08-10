@@ -26,10 +26,14 @@
 #include <SDL2/SDL_mouse.h>
 #include <SDL2/SDL_gamecontroller.h>
 
+#ifdef _WIN32
+#include <process.h>
+#endif
+
 #define MOUSE_BUTTON_COUNT 5
 
-// Set this to 1 to show mouse cursor.  Experimental
-int	g_iVisibleMouse = 0;
+// Use IN_SetVisibleMouse to set this
+int g_iVisibleMouse = 0;
 
 extern cl_enginefunc_t gEngfuncs;
 extern int iMouseInUse;
@@ -54,10 +58,13 @@ extern cvar_t *cl_forwardspeed;
 extern cvar_t *cl_pitchspeed;
 extern cvar_t *cl_movespeedkey;
 
-
+#ifdef WIN32
 static double s_flRawInputUpdateTime = 0.0f;
 static bool m_bRawInput = false;
 static bool m_bMouseThread = false;
+bool g_bIsMouseRelative = false;
+#endif
+
 extern globalvars_t *gpGlobals;
 
 // mouse variables
@@ -75,8 +82,10 @@ static cvar_t *m_customaccel_max;
 //Mouse move is raised to this power before being scaled by scale factor
 static cvar_t *m_customaccel_exponent;
 
+#ifdef WIN32
 // if threaded mouse is enabled then the time to sleep between polls
 static cvar_t *m_mousethread_sleep;
+#endif
 
 int			mouse_buttons;
 int			mouse_oldbuttonstate;
@@ -152,10 +161,10 @@ cvar_t	*joy_wwhack2;
 int			joy_avail, joy_advancedinit, joy_haspov;
 
 #ifdef _WIN32
-DWORD	s_hMouseThreadId = 0;
+unsigned int s_hMouseThreadId = 0;
 HANDLE	s_hMouseThread = 0;
 HANDLE	s_hMouseQuitEvent = 0;
-HANDLE	s_hMouseDoneQuitEvent = 0;
+HANDLE	s_hMouseThreadActiveLock = 0;
 #endif
 
 /*
@@ -176,48 +185,138 @@ void Force_CenterView_f (void)
 }
 
 #ifdef _WIN32
-long s_mouseDeltaX = 0;
-long s_mouseDeltaY = 0;
-POINT		old_mouse_pos;
+LONG g_lMouseThreadActive = 0;
+LONG g_lMouseThreadCenterX = 0;
+LONG g_lMouseThreadCenterY = 0;
+LONG g_lMouseThreadDeltaX = 0;
+LONG g_lMouseThreadDeltaY = 0;
+LONG g_lMouseThreadSleep = 0;
 
-long ThreadInterlockedExchange( long *pDest, long value )
+bool MouseThread_ActiveLock_Enter()
 {
-	return InterlockedExchange( pDest, value );
+	if ( !m_bMouseThread )
+		return true;
+
+	return WAIT_OBJECT_0 == WaitForSingleObject( s_hMouseThreadActiveLock, INFINITE );
 }
 
-
-DWORD WINAPI MousePos_ThreadFunction( LPVOID p )
+void MouseThread_ActiveLock_Exit()
 {
-	s_hMouseDoneQuitEvent = CreateEvent( NULL, FALSE, FALSE, NULL );
+	if ( !m_bMouseThread )
+		return;
 
-	while ( 1 )
+	SetEvent( s_hMouseThreadActiveLock );
+}
+
+unsigned __stdcall MouseThread_Function( void *pArg )
+{
+	while ( true )
 	{
-		if ( WaitForSingleObject( s_hMouseQuitEvent, (int)m_mousethread_sleep->value ) == WAIT_OBJECT_0 )
+		DWORD sleepVal = (DWORD)InterlockedExchangeAdd( &g_lMouseThreadSleep, 0 );
+		if ( 0 > sleepVal )
+			sleepVal = 0;
+		else if ( 1000 < sleepVal )
+			sleepVal = 1000;
+
+		if ( WAIT_OBJECT_0 == WaitForSingleObject( s_hMouseQuitEvent, sleepVal ) )
+			break;
+
+		if ( MouseThread_ActiveLock_Enter() )
 		{
-			return 0;
-		}
+			if ( InterlockedExchangeAdd( &g_lMouseThreadActive, 0 ) )
+			{
+				POINT mousePos;
+				POINT centerPos;
 
-		if ( mouseactive )
-		{
-			POINT		mouse_pos;
-			GetCursorPos(&mouse_pos);
+				centerPos.x = InterlockedExchangeAdd( &g_lMouseThreadCenterX, 0 );
+				centerPos.y = InterlockedExchangeAdd( &g_lMouseThreadCenterY, 0 );
+				GetCursorPos( &mousePos );
 
-			volatile int mx = mouse_pos.x - old_mouse_pos.x + s_mouseDeltaX;
-			volatile int my = mouse_pos.y - old_mouse_pos.y + s_mouseDeltaY;
- 
-			ThreadInterlockedExchange( &old_mouse_pos.x, mouse_pos.x );
-			ThreadInterlockedExchange( &old_mouse_pos.y, mouse_pos.y );
+				mousePos.x -= centerPos.x;
+				mousePos.y -= centerPos.y;
 
-			ThreadInterlockedExchange( &s_mouseDeltaX, mx );
-			ThreadInterlockedExchange( &s_mouseDeltaY, my );
+				if ( mousePos.x || mousePos.y )
+					SetCursorPos( centerPos.x, centerPos.y );
+
+				InterlockedExchangeAdd( &g_lMouseThreadDeltaX, mousePos.x );
+				InterlockedExchangeAdd( &g_lMouseThreadDeltaY, mousePos.y );
+			}
+
+			MouseThread_ActiveLock_Exit();
 		}
 	}
 
-	SetEvent( s_hMouseDoneQuitEvent );
-
 	return 0;
 }
+
+// Updates g_lMouseThreadActive using the global variables mouseactive, g_iVisibleMouse and m_bRawInput.
+// Should be called after any of these is changed.
+// Has to be interlocked manually by programmer! Use MouseThread_ActiveLock_Enter and MouseThread_ActiveLock_Exit.
+void UpdateMouseThreadActive(void)
+{
+	InterlockedExchange( &g_lMouseThreadActive, mouseactive && !g_iVisibleMouse && !m_bRawInput );
+}
 #endif
+
+void IN_SetMouseMode( bool bEnable )
+{
+	static bool bCurrentMouseMode = false;
+
+	if ( bEnable == bCurrentMouseMode )
+		return;
+
+	if ( bEnable )
+	{
+#ifdef _WIN32
+		if (mouseparmsvalid)
+			restore_spi = SystemParametersInfo( SPI_SETMOUSE, 0, newmouseparms, 0 );
+
+		m_bRawInput = CVAR_GET_FLOAT( "m_rawinput" ) != 0.0f;
+		if ( m_bRawInput )
+		{
+			SDL_SetRelativeMouseMode( SDL_TRUE );
+			g_bIsMouseRelative = true;
+		}
+#else
+		SDL_SetRelativeMouseMode( SDL_TRUE );
+#endif
+		bCurrentMouseMode = true;
+	}
+	else
+	{
+#ifdef _WIN32
+		if ( g_bIsMouseRelative )
+		{
+			SDL_SetRelativeMouseMode( SDL_FALSE );
+			g_bIsMouseRelative = false;
+		}
+
+		if ( restore_spi )
+			SystemParametersInfo( SPI_SETMOUSE, 0, originalmouseparms, 0 );
+#else
+		SDL_SetRelativeMouseMode( SDL_FALSE );
+#endif
+		bCurrentMouseMode = false;
+	}
+}
+
+void IN_SetVisibleMouse( bool bVisible )
+{
+#ifdef _WIN32
+	bool bLockEntered = MouseThread_ActiveLock_Enter();
+#endif
+
+	g_iVisibleMouse = bVisible;
+	IN_SetMouseMode( !bVisible );
+
+#ifdef _WIN32
+	UpdateMouseThreadActive();
+	if ( bLockEntered )
+		MouseThread_ActiveLock_Exit();
+#endif
+}
+
+void IN_ResetMouse();
 
 /*
 ===========
@@ -229,11 +328,17 @@ void DLLEXPORT IN_ActivateMouse (void)
 	if (mouseinitialized)
 	{
 #ifdef _WIN32
-		if (mouseparmsvalid)
-			restore_spi = SystemParametersInfo (SPI_SETMOUSE, 0, newmouseparms, 0);
-
+		bool bLockEntered = MouseThread_ActiveLock_Enter();
 #endif
+		IN_SetMouseMode( true );
 		mouseactive = 1;
+#ifdef _WIN32
+		UpdateMouseThreadActive();
+		if ( bLockEntered )
+			MouseThread_ActiveLock_Exit();
+#endif
+		// now is a good time to reset mouse positon:
+		IN_ResetMouse();
 	}
 }
 
@@ -248,12 +353,15 @@ void DLLEXPORT IN_DeactivateMouse (void)
 	if (mouseinitialized)
 	{
 #ifdef _WIN32
-		if (restore_spi)
-			SystemParametersInfo (SPI_SETMOUSE, 0, originalmouseparms, 0);
-
+		bool bLockEntered = MouseThread_ActiveLock_Enter();
 #endif
-
+		IN_SetMouseMode( false );
 		mouseactive = 0;
+#ifdef _WIN32
+		UpdateMouseThreadActive();
+		if ( bLockEntered )
+			MouseThread_ActiveLock_Exit();
+#endif
 	}
 }
 
@@ -307,27 +415,27 @@ void IN_Shutdown (void)
 	if ( s_hMouseQuitEvent )
 	{
 		SetEvent( s_hMouseQuitEvent );
-		WaitForSingleObject( s_hMouseDoneQuitEvent, 100 );
 	}
-	
+
 	if ( s_hMouseThread )
 	{
-		TerminateThread( s_hMouseThread, 0 );
+		if ( WAIT_OBJECT_0 != WaitForSingleObject( s_hMouseThread, 5000 ) )
+			TerminateThread( s_hMouseThread, 0 );
+
 		CloseHandle( s_hMouseThread );
 		s_hMouseThread = (HANDLE)0;
 	}
-	
+
 	if ( s_hMouseQuitEvent )
 	{
 		CloseHandle( s_hMouseQuitEvent );
 		s_hMouseQuitEvent = (HANDLE)0;
 	}
-	
-	
-	if ( s_hMouseDoneQuitEvent )
+
+	if( s_hMouseThreadActiveLock )
 	{
-		CloseHandle( s_hMouseDoneQuitEvent );
-		s_hMouseDoneQuitEvent = (HANDLE)0;
+		CloseHandle( s_hMouseThreadActiveLock );
+		s_hMouseThreadActiveLock = (HANDLE)0;
 	}
 #endif
 }
@@ -355,18 +463,25 @@ void IN_ResetMouse( void )
 {
 	// no work to do in SDL
 #ifdef _WIN32
-	if ( !m_bRawInput && mouseactive && gEngfuncs.GetWindowCenterX && gEngfuncs.GetWindowCenterY )
+	// reset only if mouse is active and not in visible mode:
+	if ( mouseactive && !g_iVisibleMouse )
 	{
+		if ( !m_bRawInput && gEngfuncs.GetWindowCenterX() && gEngfuncs.GetWindowCenterY() )
+		{
+			bool bLockEntered = MouseThread_ActiveLock_Enter();
 
-		SetCursorPos ( gEngfuncs.GetWindowCenterX(), gEngfuncs.GetWindowCenterY() );
-		ThreadInterlockedExchange( &old_mouse_pos.x, gEngfuncs.GetWindowCenterX() );
-		ThreadInterlockedExchange( &old_mouse_pos.y, gEngfuncs.GetWindowCenterY() );
-	}
+			int iCenterX = gEngfuncs.GetWindowCenterX();
+			int iCenterY = gEngfuncs.GetWindowCenterY();
 
-	if ( gpGlobals && gpGlobals->time - s_flRawInputUpdateTime > 1.0f )
-	{
-		s_flRawInputUpdateTime = gpGlobals->time;
-		m_bRawInput = CVAR_GET_FLOAT( "m_rawinput" ) != 0;
+			SetCursorPos( iCenterX, iCenterY );
+			InterlockedExchange( &g_lMouseThreadCenterX, iCenterX );
+			InterlockedExchange( &g_lMouseThreadCenterY, iCenterY );
+			InterlockedExchange( &g_lMouseThreadDeltaX, 0 );
+			InterlockedExchange( &g_lMouseThreadDeltaY, 0 );
+
+			if ( bLockEntered )
+				MouseThread_ActiveLock_Exit();
+		}
 	}
 #endif
 }
@@ -451,109 +566,171 @@ void IN_ScaleMouse( float *x, float *y )
 	}
 }
 
+void IN_GetMouseDelta( int *piOutX, int *piOutY )
+{
+	bool bActive = mouseactive && !g_iVisibleMouse;
+	int iMouseX, iMouseY;
+
+	if ( bActive )
+	{
+		int iDeltaX, iDeltaY;
+#ifdef _WIN32
+		if ( !m_bRawInput )
+		{
+			if ( m_bMouseThread )
+			{
+				// update mouseThreadSleep:
+				InterlockedExchange( &g_lMouseThreadSleep, (LONG)m_mousethread_sleep->value );
+
+				bool bLockEntered = MouseThread_ActiveLock_Enter();
+
+				current_pos.x = InterlockedExchange( &g_lMouseThreadDeltaX, 0 );
+				current_pos.y = InterlockedExchange( &g_lMouseThreadDeltaY, 0 );
+
+				if ( bLockEntered )
+					MouseThread_ActiveLock_Exit();
+			}
+			else
+			{
+				GetCursorPos( &current_pos );
+			}
+		}
+		else
+#endif
+		{
+			SDL_GetRelativeMouseState( &iDeltaX, &iDeltaY );
+			current_pos.x = iDeltaX;
+			current_pos.y = iDeltaY;
+		}
+		
+#ifdef _WIN32
+		if ( !m_bRawInput )
+		{
+			if ( m_bMouseThread )
+			{
+				iMouseX = current_pos.x;
+				iMouseY = current_pos.y;
+			}
+			else
+			{
+				iMouseX = current_pos.x - gEngfuncs.GetWindowCenterX() + mx_accum;
+				iMouseY = current_pos.y - gEngfuncs.GetWindowCenterY() + my_accum;
+			}
+		}
+		else
+#endif
+		{
+			iMouseX = iDeltaX + mx_accum;
+			iMouseY = iDeltaY + my_accum;
+		}
+
+		mx_accum = 0;
+		my_accum = 0;
+
+		// reset mouse position if required, so there is room to move:
+#ifdef _WIN32
+		// do not reset if mousethread would do it:
+		if ( m_bRawInput || !m_bMouseThread )
+			IN_ResetMouse();
+#else
+		IN_ResetMouse();
+#endif
+
+#ifdef _WIN32
+		// update m_bRawInput occasionally: 
+		if ( gpGlobals && gpGlobals->time - s_flRawInputUpdateTime > 1.0f )
+		{
+			s_flRawInputUpdateTime = gpGlobals->time;
+
+			bool bLockEntered = MouseThread_ActiveLock_Enter();
+
+			m_bRawInput = CVAR_GET_FLOAT( "m_rawinput" ) != 0.0f;
+
+			if ( m_bRawInput && !g_bIsMouseRelative )
+			{
+				SDL_SetRelativeMouseMode( SDL_TRUE );
+				g_bIsMouseRelative = true;
+			}
+			else if (!m_bRawInput && g_bIsMouseRelative)
+			{
+				SDL_SetRelativeMouseMode( SDL_FALSE );
+				g_bIsMouseRelative = false;
+			}
+
+			UpdateMouseThreadActive();
+			if ( bLockEntered )
+				MouseThread_ActiveLock_Exit();
+		}
+#endif
+	}
+	else
+	{
+		iMouseX = iMouseY = 0;
+	}
+
+	if ( piOutX )
+		*piOutX = iMouseX;
+
+	if ( piOutY )
+		*piOutY = iMouseY;
+}
+
 /*
 ===========
 IN_MouseMove
 ===========
 */
-void IN_MouseMove ( float frametime, usercmd_t *cmd)
+void IN_MouseMove( float frametime, usercmd_t *cmd )
 {
-	int		mx, my;
-	vec3_t viewangles;
+	int iMouseX, iMouseY;
+	vec3_t vecViewAngles;
 
-	gEngfuncs.GetViewAngles( (float *)viewangles );
+	gEngfuncs.GetViewAngles( (float *)vecViewAngles );
 
-	if ( in_mlook.state & 1)
-	{
-		V_StopPitchDrift ();
-	}
+	if ( in_mlook.state & 1 )
+		V_StopPitchDrift();
 
 	//jjb - this disbles normal mouse control if the user is trying to 
 	//      move the camera, or if the mouse cursor is visible or if we're in intermission
 	if ( !iMouseInUse && !gHUD.m_iIntermission && !g_iVisibleMouse )
 	{
-		int deltaX, deltaY;
-#ifdef _WIN32
-		if ( !m_bRawInput )
-		{
-			if ( m_bMouseThread )
-			{
-				ThreadInterlockedExchange( &current_pos.x, s_mouseDeltaX );
-				ThreadInterlockedExchange( &current_pos.y, s_mouseDeltaY );
-				ThreadInterlockedExchange( &s_mouseDeltaX, 0 );
-				ThreadInterlockedExchange( &s_mouseDeltaY, 0 );
-			}
-			else
-			{
-				GetCursorPos (&current_pos);
-			}
-		}
-		else
-#endif
-		{
-			SDL_GetRelativeMouseState( &deltaX, &deltaY );
-			current_pos.x = deltaX;
-			current_pos.y = deltaY;	
-		}
-		
-#ifdef _WIN32
-		if ( !m_bRawInput )
-		{
-			if ( m_bMouseThread )
-			{
-				mx = current_pos.x;
-				my = current_pos.y;
-			}
-			else
-			{
-				mx = current_pos.x - gEngfuncs.GetWindowCenterX() + mx_accum;
-				my = current_pos.y - gEngfuncs.GetWindowCenterY() + my_accum;
-			}
-		}
-		else
-#endif
-		{
-			mx = deltaX + mx_accum;
-			my = deltaY + my_accum;
-		}
-		
-		mx_accum = 0;
-		my_accum = 0;
+		IN_GetMouseDelta( &iMouseX, &iMouseY );
 
-		if (m_filter && m_filter->value)
+		if ( m_filter && m_filter->value )
 		{
-			mouse_x = (mx + old_mouse_x) * 0.5;
-			mouse_y = (my + old_mouse_y) * 0.5;
+			mouse_x = (iMouseX + old_mouse_x) * 0.5;
+			mouse_y = (iMouseY + old_mouse_y) * 0.5;
 		}
 		else
 		{
-			mouse_x = mx;
-			mouse_y = my;
+			mouse_x = iMouseX;
+			mouse_y = iMouseY;
 		}
 
-		old_mouse_x = mx;
-		old_mouse_y = my;
+		old_mouse_x = iMouseX;
+		old_mouse_y = iMouseY;
 
 		// Apply custom mouse scaling/acceleration
 		IN_ScaleMouse( &mouse_x, &mouse_y );
 
 		// add mouse X/Y movement to cmd
-		if ( (in_strafe.state & 1) || (lookstrafe->value && (in_mlook.state & 1) ))
+		if ( (in_strafe.state & 1) || (lookstrafe->value && (in_mlook.state & 1)) )
 			cmd->sidemove += m_side->value * mouse_x;
 		else
-			viewangles[YAW] -= m_yaw->value * mouse_x;
+			vecViewAngles[YAW] -= m_yaw->value * mouse_x;
 
-		if ( (in_mlook.state & 1) && !(in_strafe.state & 1))
+		if ( (in_mlook.state & 1) && !(in_strafe.state & 1) )
 		{
-			viewangles[PITCH] += m_pitch->value * mouse_y;
-			if (viewangles[PITCH] > cl_pitchdown->value)
-				viewangles[PITCH] = cl_pitchdown->value;
-			if (viewangles[PITCH] < -cl_pitchup->value)
-				viewangles[PITCH] = -cl_pitchup->value;
+			vecViewAngles[PITCH] += m_pitch->value * mouse_y;
+			if ( vecViewAngles[PITCH] > cl_pitchdown->value )
+				vecViewAngles[PITCH] = cl_pitchdown->value;
+
+			if ( vecViewAngles[PITCH] < -cl_pitchup->value )
+				vecViewAngles[PITCH] = -cl_pitchup->value;
 		}
 		else
 		{
-			if ((in_strafe.state & 1) && gEngfuncs.IsNoClipping() )
+			if ( (in_strafe.state & 1) && gEngfuncs.IsNoClipping() )
 			{
 				cmd->upmove -= m_forward->value * mouse_y;
 			}
@@ -562,15 +739,9 @@ void IN_MouseMove ( float frametime, usercmd_t *cmd)
 				cmd->forwardmove -= m_forward->value * mouse_y;
 			}
 		}
-
-		// if the mouse has moved, force it to the center, so there's room to move
-		if ( mx || my )
-		{
-			IN_ResetMouse();
-		}
 	}
 
-	gEngfuncs.SetViewAngles( (float *)viewangles );
+	gEngfuncs.SetViewAngles( (float *)vecViewAngles );
 
 /*
 //#define TRACE_TEST
@@ -616,9 +787,14 @@ void DLLEXPORT IN_Accumulate (void)
 				mx_accum += deltaX;
 				my_accum += deltaY;	
 			}
-			// force the mouse to the center, so there's room to move
+
+#ifdef WIN32
+			// do not reset if mousethread would do it
+			if ( m_bRawInput || !m_bMouseThread )
+				IN_ResetMouse();
+#else
 			IN_ResetMouse();
-			
+#endif
 		}
 	}
 
@@ -1090,19 +1266,24 @@ void IN_Init (void)
 	m_customaccel_exponent	= gEngfuncs.pfnRegisterVariable ( "m_customaccel_exponent", "1", FCVAR_ARCHIVE );
 
 #ifdef _WIN32
-	m_bRawInput				= CVAR_GET_FLOAT( "m_rawinput" ) > 0;
+	m_bRawInput				= CVAR_GET_FLOAT( "m_rawinput" ) != 0.0f;
 	m_bMouseThread			= gEngfuncs.CheckParm ("-mousethread", NULL ) != NULL;
-	m_mousethread_sleep			= gEngfuncs.pfnRegisterVariable ( "m_mousethread_sleep", "10", FCVAR_ARCHIVE );
+	m_mousethread_sleep			= gEngfuncs.pfnRegisterVariable ( "m_mousethread_sleep", "1", FCVAR_ARCHIVE ); // default to less than 1000 Hz
 
-	if ( !m_bRawInput && m_bMouseThread && m_mousethread_sleep ) 
+	m_bMouseThread = m_bMouseThread && nullptr != m_mousethread_sleep;
+
+	if ( m_bMouseThread )
 	{
-		s_mouseDeltaX = s_mouseDeltaY = 0;
-		
+		// init mouseThreadSleep:
+		InterlockedExchange( &g_lMouseThreadSleep, (LONG)m_mousethread_sleep->value );
 		s_hMouseQuitEvent = CreateEvent( NULL, FALSE, FALSE, NULL );
-		if ( s_hMouseQuitEvent )
+		s_hMouseThreadActiveLock = CreateEvent( NULL, FALSE, TRUE, NULL );
+		if ( s_hMouseQuitEvent && s_hMouseThreadActiveLock )
 		{
-			s_hMouseThread = CreateThread( NULL, 0, MousePos_ThreadFunction, NULL, 0, &s_hMouseThreadId );
+			s_hMouseThread = (HANDLE)_beginthreadex( NULL, 0, MouseThread_Function, NULL, 0, &s_hMouseThreadId );
 		}
+
+		m_bMouseThread = nullptr != s_hMouseThread;
 	}
 #endif
 
