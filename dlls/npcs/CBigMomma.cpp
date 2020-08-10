@@ -272,7 +272,6 @@ void CBigMomma::TraceAttack(entvars_t* pevAttacker, float flDamage, Vector vecDi
 		EMIT_SOUND_ARRAY_DYN(CHAN_VOICE, pPainSounds);
 	}
 
-
 	CBaseMonster::TraceAttack(pevAttacker, flDamage, vecDir, ptr, bitsDamageType);
 }
 
@@ -718,7 +717,7 @@ void CBigMomma::StartTask(Task_t* pTask)
 {
 	switch (pTask->iTask)
 	{
-	case TASK_FIND_NODE:
+		case TASK_FIND_NODE:
 		{
 			CBaseEntity* pTarget = m_hTargetEnt;
 			if (!HasMemory(bits_MEMORY_ADVANCE_NODE))
@@ -731,21 +730,18 @@ void CBigMomma::StartTask(Task_t* pTask)
 			ALERT(at_aiconsole, "BM: Found node %s\n", STRING(pev->netname));
 		}
 		break;
-
-	case TASK_NODE_DELAY:
-		m_nodeTime = gpGlobals->time + pTask->flData;
-		TaskComplete();
-		ALERT(at_aiconsole, "BM: FAIL! Delay %.2f\n", pTask->flData);
-		break;
-
-	case TASK_PROCESS_NODE:
-		ALERT(at_aiconsole, "BM: Reached node %s\n", STRING(pev->netname));
-		NodeReach();
-		TaskComplete();
-		break;
-
-	case TASK_PLAY_NODE_PRESEQUENCE:
-	case TASK_PLAY_NODE_SEQUENCE:
+		case TASK_NODE_DELAY:
+			m_nodeTime = gpGlobals->time + pTask->flData;
+			TaskComplete();
+			ALERT(at_aiconsole, "BM: FAIL! Delay %.2f\n", pTask->flData);
+			break;
+		case TASK_PROCESS_NODE:
+			ALERT(at_aiconsole, "BM: Reached node %s\n", STRING(pev->netname));
+			NodeReach();
+			TaskComplete();
+			break;
+		case TASK_PLAY_NODE_PRESEQUENCE:
+		case TASK_PLAY_NODE_SEQUENCE:
 		{
 			int sequence;
 			if (pTask->iTask == TASK_PLAY_NODE_SEQUENCE)
@@ -769,22 +765,18 @@ void CBigMomma::StartTask(Task_t* pTask)
 			TaskComplete();
 		}
 		break;
-
-	case TASK_NODE_YAW:
-		pev->ideal_yaw = GetNodeYaw();
-		TaskComplete();
+		case TASK_NODE_YAW:
+			pev->ideal_yaw = GetNodeYaw();
+			TaskComplete();
+			break;
+		case TASK_WAIT_NODE:
+			m_flWaitFinished = gpGlobals->time + GetNodeDelay();
+			if (m_hTargetEnt->pev->spawnflags & SF_INFOBM_WAIT)
+				ALERT(at_aiconsole, "BM: Wait at node %s forever\n", STRING(pev->netname));
+			else
+				ALERT(at_aiconsole, "BM: Wait at node %s for %.2f\n", STRING(pev->netname), GetNodeDelay());
 		break;
-
-	case TASK_WAIT_NODE:
-		m_flWaitFinished = gpGlobals->time + GetNodeDelay();
-		if (m_hTargetEnt->pev->spawnflags & SF_INFOBM_WAIT)
-			ALERT(at_aiconsole, "BM: Wait at node %s forever\n", STRING(pev->netname));
-		else
-			ALERT(at_aiconsole, "BM: Wait at node %s for %.2f\n", STRING(pev->netname), GetNodeDelay());
-		break;
-
-
-	case TASK_MOVE_TO_NODE_RANGE:
+		case TASK_MOVE_TO_NODE_RANGE:
 		{
 			CBaseEntity* pTarget = m_hTargetEnt;
 			if (!pTarget)
@@ -807,18 +799,17 @@ void CBigMomma::StartTask(Task_t* pTask)
 				}
 			}
 		}
+		
 		ALERT(at_aiconsole, "BM: Moving to node %s\n", STRING(pev->netname));
-
+		break;
+		case TASK_MELEE_ATTACK1:
+			// Play an attack sound here
+			EMIT_SOUND_DYN(ENT(pev), CHAN_VOICE, RANDOM_SOUND_ARRAY(pAttackSounds), 1.0, ATTN_NORM, 0, PITCH_NORM);
+			CBaseMonster::StartTask(pTask);
 		break;
 
-	case TASK_MELEE_ATTACK1:
-		// Play an attack sound here
-		EMIT_SOUND_DYN(ENT(pev), CHAN_VOICE, RANDOM_SOUND_ARRAY(pAttackSounds), 1.0, ATTN_NORM, 0, PITCH_NORM);
-		CBaseMonster::StartTask(pTask);
-		break;
-
-	default:
-		CBaseMonster::StartTask(pTask);
+		default:
+			CBaseMonster::StartTask(pTask);
 		break;
 	}
 }
@@ -830,43 +821,42 @@ void CBigMomma::RunTask(Task_t* pTask)
 {
 	switch (pTask->iTask)
 	{
-	case TASK_MOVE_TO_NODE_RANGE:
-		{
-			if (m_hTargetEnt == NULL)
-				TaskFail();
-			else
+		case TASK_MOVE_TO_NODE_RANGE:
 			{
-				float distance = (m_vecMoveGoal - pev->origin).Length2D();
-				// Set the appropriate activity based on an overlapping range
-				// overlap the range to prevent oscillation
-				if ((distance < GetNodeRange()) || MovementIsComplete())
+				if (m_hTargetEnt == NULL)
+					TaskFail();
+				else
 				{
-					ALERT(at_aiconsole, "BM: Reached node!\n");
-					TaskComplete();
-					RouteClear(); // Stop moving
+					float distance = (m_vecMoveGoal - pev->origin).Length2D();
+					// Set the appropriate activity based on an overlapping range
+					// overlap the range to prevent oscillation
+					if ((distance < GetNodeRange()) || MovementIsComplete())
+					{
+						ALERT(at_aiconsole, "BM: Reached node!\n");
+						TaskComplete();
+						RouteClear(); // Stop moving
+					}
 				}
 			}
-		}
+		break;
+		case TASK_WAIT_NODE:
+			if (m_hTargetEnt != NULL && (m_hTargetEnt->pev->spawnflags & SF_INFOBM_WAIT))
+				return;
 
+			if (gpGlobals->time > m_flWaitFinished)
+				TaskComplete();
+			ALERT(at_aiconsole, "BM: The WAIT is over!\n");
 		break;
-	case TASK_WAIT_NODE:
-		if (m_hTargetEnt != NULL && (m_hTargetEnt->pev->spawnflags & SF_INFOBM_WAIT))
-			return;
-
-		if (gpGlobals->time > m_flWaitFinished)
-			TaskComplete();
-		ALERT(at_aiconsole, "BM: The WAIT is over!\n");
+		case TASK_PLAY_NODE_PRESEQUENCE:
+		case TASK_PLAY_NODE_SEQUENCE:
+			if (m_fSequenceFinished)
+			{
+				m_Activity = ACT_RESET;
+				TaskComplete();
+			}
 		break;
-	case TASK_PLAY_NODE_PRESEQUENCE:
-	case TASK_PLAY_NODE_SEQUENCE:
-		if (m_fSequenceFinished)
-		{
-			m_Activity = ACT_RESET;
-			TaskComplete();
-		}
-		break;
-	default:
-		CBaseMonster::RunTask(pTask);
+		default:
+			CBaseMonster::RunTask(pTask);
 		break;
 	}
 }
