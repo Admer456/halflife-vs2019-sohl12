@@ -3,6 +3,10 @@
 *.so.*
 *.dylib
 
+# Don't commit map files neither objects
+*_map.txt
+release/obj
+
 # Allow Half-Life-specific files that would otherwise be ignored
 !libSDL2.dylib
 !libSDL2.so
