@@ -60,9 +60,6 @@ static bool m_bRawInput = false;
 static bool m_bMouseThread = false;
 extern globalvars_t *gpGlobals;
 
-// Windawz: part of the ADM raw mouse input fix
-static bool m_bRelativeMouseMode = false;
-
 // mouse variables
 cvar_t		*m_filter;
 cvar_t		*sensitivity;
@@ -235,10 +232,6 @@ void DLLEXPORT IN_ActivateMouse (void)
 		if (mouseparmsvalid)
 			restore_spi = SystemParametersInfo (SPI_SETMOUSE, 0, newmouseparms, 0);
 
-		// Windawz: part of the ADM raw input fix
-		if (m_bRawInput)
-			SDL_SetRelativeMouseMode( SDL_TRUE );
-
 #endif
 		mouseactive = 1;
 	}
@@ -257,10 +250,6 @@ void DLLEXPORT IN_DeactivateMouse (void)
 #ifdef _WIN32
 		if (restore_spi)
 			SystemParametersInfo (SPI_SETMOUSE, 0, originalmouseparms, 0);
-
-		// Windawz: part of the ADM raw input fix
-		SDL_SetRelativeMouseMode( SDL_FALSE );
-		m_bRelativeMouseMode = false;
 
 #endif
 
@@ -379,19 +368,6 @@ void IN_ResetMouse( void )
 		s_flRawInputUpdateTime = gpGlobals->time;
 		m_bRawInput = CVAR_GET_FLOAT( "m_rawinput" ) != 0;
 	}
-
-	// Windawz: part of the ADM raw input fix
-	if (m_bRawInput && mouseactive && !m_bRelativeMouseMode)
-	{
-		SDL_SetRelativeMouseMode(SDL_TRUE);
-		m_bRelativeMouseMode = true;
-	}
-	else if (!m_bRawInput && m_bRelativeMouseMode)
-	{
-		SDL_SetRelativeMouseMode(SDL_FALSE);
-		m_bRelativeMouseMode = false;
-	}
-
 #endif
 }
 
