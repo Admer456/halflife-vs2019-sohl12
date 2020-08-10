@@ -27,7 +27,7 @@
 //=========================================================
 // Monster's Anim Events Go Here
 //=========================================================
-//
+
 //LRC brought in from animation.h
 #define ACTIVITY_NOT_AVAILABLE		-1
 

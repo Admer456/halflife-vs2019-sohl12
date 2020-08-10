@@ -109,7 +109,6 @@
     <ClCompile Include="..\..\dlls\ambient_mp3.cpp" />
     <ClCompile Include="..\..\dlls\animating.cpp" />
     <ClCompile Include="..\..\dlls\animation.cpp" />
-    <ClCompile Include="..\..\dlls\bloater.cpp" />
     <ClCompile Include="..\..\dlls\bmodels.cpp" />
     <ClCompile Include="..\..\dlls\buttons.cpp" />
     <ClCompile Include="..\..\dlls\cbase.cpp" />
@@ -123,7 +122,6 @@
     <ClCompile Include="..\..\dlls\effects.cpp" />
     <ClCompile Include="..\..\dlls\egon.cpp" />
     <ClCompile Include="..\..\dlls\explode.cpp" />
-    <ClCompile Include="..\..\dlls\flyingmonster.cpp" />
     <ClCompile Include="..\..\dlls\func_break.cpp" />
     <ClCompile Include="..\..\dlls\func_tank.cpp" />
     <ClCompile Include="..\..\dlls\game.cpp" />
@@ -169,9 +167,11 @@
     <ClCompile Include="..\..\dlls\npcs\CBarnacle.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CBarney.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CBigMomma.cpp" />
+    <ClCompile Include="..\..\dlls\npcs\CBloater.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CBullsquid.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CFlockingFlyer.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CFlockingFlyerFlock.cpp" />
+    <ClCompile Include="..\..\dlls\npcs\CBaseFlyingMonster.cpp" />
     <ClCompile Include="..\..\dlls\observer.cpp" />
     <ClCompile Include="..\..\dlls\osprey.cpp" />
     <ClCompile Include="..\..\dlls\pathcorner.cpp" />
@@ -250,9 +250,11 @@
     <ClInclude Include="..\..\dlls\npcs\CBarnacle.h" />
     <ClInclude Include="..\..\dlls\npcs\CBarney.h" />
     <ClInclude Include="..\..\dlls\npcs\CBigMomma.h" />
+    <ClInclude Include="..\..\dlls\npcs\CBloater.h" />
     <ClInclude Include="..\..\dlls\npcs\CBullsquid.h" />
     <ClInclude Include="..\..\dlls\npcs\CFlockingFlyer.h" />
     <ClInclude Include="..\..\dlls\npcs\CFlockingFlyerFlock.h" />
+    <ClInclude Include="..\..\dlls\npcs\CBaseFlyingMonster.h" />
     <ClInclude Include="..\..\dlls\plane.h" />
     <ClInclude Include="..\..\dlls\player.h" />
     <ClInclude Include="..\..\dlls\projectiles\CApacheHVR.h" />

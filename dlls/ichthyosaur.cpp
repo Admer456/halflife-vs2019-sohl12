@@ -23,12 +23,12 @@
 #include	"cbase.h"
 #include	"monsters.h"
 #include	"schedule.h"
-#include    "flyingmonster.h"
 #include	"nodes.h"
 #include	"soundent.h"
 #include	"animation.h"
 #include	"effects.h"
 #include	"weapons.h"
+#include "npcs/CBaseFlyingMonster.h"
 
 #define SEARCH_RETRY	16
 
@@ -49,7 +49,7 @@ extern CGraph WorldGraph;
 //=========================================================
 
 // UNDONE: Save/restore here
-class CIchthyosaur : public CFlyingMonster
+class CIchthyosaur : public CBaseFlyingMonster
 {
 public:
 	void  Spawn( void );
@@ -138,7 +138,7 @@ TYPEDESCRIPTION	CIchthyosaur::m_SaveData[] =
 	DEFINE_FIELD( CIchthyosaur, m_flNextAlert, FIELD_TIME ),
 };
 
-IMPLEMENT_SAVERESTORE( CIchthyosaur, CFlyingMonster );
+IMPLEMENT_SAVERESTORE( CIchthyosaur, CBaseFlyingMonster);
 
 
 const char *CIchthyosaur::pIdleSounds[] = 
@@ -318,7 +318,7 @@ DEFINE_CUSTOM_SCHEDULES(CIchthyosaur)
 	slCircleEnemy,
 	slTwitchDie,
 };
-IMPLEMENT_CUSTOM_SCHEDULES(CIchthyosaur, CFlyingMonster);
+IMPLEMENT_CUSTOM_SCHEDULES(CIchthyosaur, CBaseFlyingMonster);
 
 //=========================================================
 // Classify - indicates this monster's place in the 
@@ -393,7 +393,7 @@ void CIchthyosaur :: SetYawSpeed ( void )
 
 
 //=========================================================
-// Killed - overrides CFlyingMonster.
+// Killed - overrides CBaseFlyingMonster.
 //
 void CIchthyosaur :: Killed( entvars_t *pevAttacker, int iGib )
 {
@@ -458,7 +458,7 @@ void CIchthyosaur :: HandleAnimEvent( MonsterEvent_t *pEvent )
 		}
 		break;
 	default:
-		CFlyingMonster::HandleAnimEvent( pEvent );
+		CBaseFlyingMonster::HandleAnimEvent( pEvent );
 		break;
 	}
 
@@ -570,7 +570,7 @@ Schedule_t* CIchthyosaur::GetSchedule()
 		return GetScheduleOfType( SCHED_STANDOFF );
 	}
 
-	return CFlyingMonster :: GetSchedule();
+	return CBaseFlyingMonster:: GetSchedule();
 }
 
 
@@ -621,7 +621,7 @@ void CIchthyosaur::StartTask(Task_t *pTask)
 		{
 			m_bOnAttack = TRUE;
 		}
-		CFlyingMonster::StartTask(pTask);
+		CBaseFlyingMonster::StartTask(pTask);
 		break;
 
 	case TASK_ICHTHYOSAUR_FLOAT:
@@ -630,7 +630,7 @@ void CIchthyosaur::StartTask(Task_t *pTask)
 		break;
 
 	default:
-		CFlyingMonster::StartTask(pTask);
+		CBaseFlyingMonster::StartTask(pTask);
 		break;
 	}
 }
@@ -748,7 +748,7 @@ void CIchthyosaur :: RunTask ( Task_t *pTask )
 		break;
 
 	default: 
-		CFlyingMonster :: RunTask ( pTask );
+		CBaseFlyingMonster:: RunTask ( pTask );
 		break;
 	}
 }
@@ -772,7 +772,7 @@ float CIchthyosaur::VectorToPitch( const Vector &vec )
 //=========================================================
 void CIchthyosaur::Move(float flInterval)
 {
-	CFlyingMonster::Move( flInterval );
+	CBaseFlyingMonster::Move( flInterval );
 }
 
 float CIchthyosaur::FlPitchDiff( void )
@@ -836,7 +836,7 @@ float CIchthyosaur::ChangeYaw( int speed )
 		}
 		pev->angles.z = UTIL_Approach( target, pev->angles.z, 220.0 * 0.1 );
 	}
-	return CFlyingMonster::ChangeYaw( speed );
+	return CBaseFlyingMonster::ChangeYaw( speed );
 }
 
 
@@ -855,7 +855,7 @@ void CIchthyosaur::MoveExecute( CBaseEntity *pTargetEnt, const Vector &vecDir, f
 
 void CIchthyosaur::MonsterThink ( void )
 {
-	CFlyingMonster::MonsterThink( );
+	CBaseFlyingMonster::MonsterThink( );
 
 	if (pev->deadflag == DEAD_NO)
 	{

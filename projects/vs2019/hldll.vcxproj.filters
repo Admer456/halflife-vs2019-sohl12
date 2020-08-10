@@ -60,9 +60,6 @@
     <ClCompile Include="..\..\dlls\animation.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\bloater.cpp">
-      <Filter>Source Files\dlls</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\dlls\bmodels.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
@@ -103,9 +100,6 @@
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\explode.cpp">
-      <Filter>Source Files\dlls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\dlls\flyingmonster.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\func_break.cpp">
@@ -393,6 +387,12 @@
     <ClCompile Include="..\..\dlls\nodes\CInfoBM.cpp">
       <Filter>Source Files\dlls\nodes</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\dlls\npcs\CBloater.cpp">
+      <Filter>Source Files\dlls\npcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\npcs\CBaseFlyingMonster.cpp">
+      <Filter>Source Files\dlls\npcs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\dlls\doors.h">
@@ -577,6 +577,12 @@
     </ClInclude>
     <ClInclude Include="..\..\dlls\nodes\CInfoBM.h">
       <Filter>Source Files\dlls\nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\npcs\CBloater.h">
+      <Filter>Source Files\dlls\npcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\npcs\CBaseFlyingMonster.h">
+      <Filter>Source Files\dlls\npcs</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
