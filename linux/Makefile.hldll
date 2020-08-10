@@ -34,6 +34,7 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/aflock.o \
 	$(HLDLL_OBJ_DIR)/agrunt.o \
 	$(HLDLL_OBJ_DIR)/airtank.o \
+	$(HLDLL_OBJ_DIR)/alias.o \
 	$(HLDLL_OBJ_DIR)/ambient_2d.o \
 	$(HLDLL_OBJ_DIR)/ambient_mp3.o \
 	$(HLDLL_OBJ_DIR)/animating.o \
@@ -85,6 +86,7 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/islave.o \
 	$(HLDLL_OBJ_DIR)/items.o \
 	$(HLDLL_OBJ_DIR)/leech.o \
+	$(HLDLL_OBJ_DIR)/locus.o \
 	$(HLDLL_OBJ_DIR)/lights.o \
 	$(HLDLL_OBJ_DIR)/maprules.o \
 	$(HLDLL_OBJ_DIR)/monstermaker.o \
