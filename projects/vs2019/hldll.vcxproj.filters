@@ -141,9 +141,6 @@
     <ClCompile Include="..\..\dlls\handgrenade.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\hassassin.cpp">
-      <Filter>Source Files\dlls</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\dlls\headcrab.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
@@ -411,6 +408,9 @@
     <ClCompile Include="..\..\dlls\npcs\CGargantua.cpp">
       <Filter>Source Files\dlls\npcs</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\dlls\npcs\CHAssassin.cpp">
+      <Filter>Source Files\dlls\npcs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\dlls\doors.h">
@@ -624,6 +624,9 @@
       <Filter>Source Files\dlls\effects</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dlls\npcs\CGargantua.h">
+      <Filter>Source Files\dlls\npcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\npcs\CHAssassin.h">
       <Filter>Source Files\dlls\npcs</Filter>
     </ClInclude>
   </ItemGroup>

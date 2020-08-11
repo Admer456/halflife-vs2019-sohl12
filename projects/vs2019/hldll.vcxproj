@@ -133,7 +133,6 @@
     <ClCompile Include="..\..\dlls\ggrenade.cpp" />
     <ClCompile Include="..\..\dlls\globals.cpp" />
     <ClCompile Include="..\..\dlls\handgrenade.cpp" />
-    <ClCompile Include="..\..\dlls\hassassin.cpp" />
     <ClCompile Include="..\..\dlls\headcrab.cpp" />
     <ClCompile Include="..\..\dlls\healthkit.cpp" />
     <ClCompile Include="..\..\dlls\hgrunt.cpp" />
@@ -175,6 +174,7 @@
     <ClCompile Include="..\..\dlls\npcs\CBaseFlyingMonster.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CGargantua.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CGMan.cpp" />
+    <ClCompile Include="..\..\dlls\npcs\CHAssassin.cpp" />
     <ClCompile Include="..\..\dlls\observer.cpp" />
     <ClCompile Include="..\..\dlls\osprey.cpp" />
     <ClCompile Include="..\..\dlls\pathcorner.cpp" />
@@ -266,6 +266,7 @@
     <ClInclude Include="..\..\dlls\npcs\CBaseFlyingMonster.h" />
     <ClInclude Include="..\..\dlls\npcs\CGargantua.h" />
     <ClInclude Include="..\..\dlls\npcs\CGMan.h" />
+    <ClInclude Include="..\..\dlls\npcs\CHAssassin.h" />
     <ClInclude Include="..\..\dlls\plane.h" />
     <ClInclude Include="..\..\dlls\player.h" />
     <ClInclude Include="..\..\dlls\projectiles\CApacheHVR.h" />
