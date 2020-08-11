@@ -55,20 +55,20 @@ const float GARG_ATTACKDIST = 80.0;
 class CGargantua : public CBaseMonster
 {
 public:
-	void Spawn(void) override;
-	void Precache(void) override;
+	void Spawn() override;
+	void Precache() override;
 	void UpdateOnRemove() override;
-	void SetYawSpeed(void) override;
-	int Classify(void) override;
+	void SetYawSpeed() override;
+	int Classify() override;
 	int TakeDamage(entvars_t* pevInflictor, entvars_t* pevAttacker, float flDamage, int bitsDamageType) override;
 	void TraceAttack(entvars_t* pevAttacker, float flDamage, Vector vecDir, TraceResult* ptr,
-		int bitsDamageType) override;
+	int bitsDamageType) override;
 	void HandleAnimEvent(MonsterEvent_t* pEvent) override;
 
 	BOOL CheckMeleeAttack1(float flDot, float flDist) override; // Swipe
 	BOOL CheckMeleeAttack2(float flDot, float flDist) override; // Flames
 	BOOL CheckRangeAttack1(float flDot, float flDist) override; // Stomp attack
-	void SetObjectCollisionBox(void) override
+	void SetObjectCollisionBox() override
 	{
 		pev->absmin = pev->origin + Vector(-80, -80, 0);
 		pev->absmax = pev->origin + Vector(80, 80, 214);
@@ -78,20 +78,20 @@ public:
 	void StartTask(Task_t* pTask) override;
 	void RunTask(Task_t* pTask) override;
 
-	void PrescheduleThink(void) override;
+	void PrescheduleThink() override;
 
 	void Killed(entvars_t* pevAttacker, int iGib) override;
-	void DeathEffect(void);
+	void DeathEffect();
 
-	void EyeOff(void);
+	void EyeOff();
 	void EyeOn(int level);
-	void EyeUpdate(void);
-	void StompAttack(void);
-	void FlameCreate(void);
-	void FlameUpdate(void);
+	void EyeUpdate();
+	void StompAttack();
+	void FlameCreate();
+	void FlameUpdate();
 	void FlameControls(float angleX, float angleY);
-	void FlameDestroy(void);
-	BOOL FlameIsOn(void) { return m_pFlame[0] != nullptr; }
+	void FlameDestroy();
+	BOOL FlameIsOn() { return m_pFlame[0] != nullptr; }
 
 	void FlameDamage(Vector vecStart, Vector vecEnd, entvars_t* pevInflictor, entvars_t* pevAttacker, float flDamage,
 		int iClassIgnore, int bitsDamageType);
