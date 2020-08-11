@@ -119,13 +119,15 @@
     <ClCompile Include="..\..\dlls\defaultai.cpp" />
     <ClCompile Include="..\..\dlls\doors.cpp" />
     <ClCompile Include="..\..\dlls\effects.cpp" />
+    <ClCompile Include="..\..\dlls\effects\CSmoker.cpp" />
+    <ClCompile Include="..\..\dlls\effects\CSpiral.cpp" />
+    <ClCompile Include="..\..\dlls\effects\CStomp.cpp" />
     <ClCompile Include="..\..\dlls\egon.cpp" />
     <ClCompile Include="..\..\dlls\explode.cpp" />
     <ClCompile Include="..\..\dlls\func_break.cpp" />
     <ClCompile Include="..\..\dlls\func_tank.cpp" />
     <ClCompile Include="..\..\dlls\game.cpp" />
     <ClCompile Include="..\..\dlls\gamerules.cpp" />
-    <ClCompile Include="..\..\dlls\gargantua.cpp" />
     <ClCompile Include="..\..\dlls\gauss.cpp" />
     <ClCompile Include="..\..\dlls\genericmonster.cpp" />
     <ClCompile Include="..\..\dlls\ggrenade.cpp" />
@@ -171,6 +173,7 @@
     <ClCompile Include="..\..\dlls\npcs\CFlockingFlyer.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CFlockingFlyerFlock.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CBaseFlyingMonster.cpp" />
+    <ClCompile Include="..\..\dlls\npcs\CGargantua.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CGMan.cpp" />
     <ClCompile Include="..\..\dlls\observer.cpp" />
     <ClCompile Include="..\..\dlls\osprey.cpp" />
@@ -233,6 +236,9 @@
     <ClInclude Include="..\..\dlls\defaultai.h" />
     <ClInclude Include="..\..\dlls\doors.h" />
     <ClInclude Include="..\..\dlls\effects.h" />
+    <ClInclude Include="..\..\dlls\effects\CSmoker.h" />
+    <ClInclude Include="..\..\dlls\effects\CSpiral.h" />
+    <ClInclude Include="..\..\dlls\effects\CStomp.h" />
     <ClInclude Include="..\..\dlls\enginecallback.h" />
     <ClInclude Include="..\..\dlls\explode.h" />
     <ClInclude Include="..\..\dlls\extdll.h" />
@@ -258,6 +264,7 @@
     <ClInclude Include="..\..\dlls\npcs\CFlockingFlyer.h" />
     <ClInclude Include="..\..\dlls\npcs\CFlockingFlyerFlock.h" />
     <ClInclude Include="..\..\dlls\npcs\CBaseFlyingMonster.h" />
+    <ClInclude Include="..\..\dlls\npcs\CGargantua.h" />
     <ClInclude Include="..\..\dlls\npcs\CGMan.h" />
     <ClInclude Include="..\..\dlls\plane.h" />
     <ClInclude Include="..\..\dlls\player.h" />

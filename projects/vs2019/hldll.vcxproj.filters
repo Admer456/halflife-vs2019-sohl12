@@ -49,6 +49,9 @@
     <Filter Include="Source Files\dlls\nodes">
       <UniqueIdentifier>{b5bee100-6b9b-4cc6-8879-42ac44b29c40}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\dlls\effects">
+      <UniqueIdentifier>{8afb3d29-ebdf-4af4-939c-0b4488723ef0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\dlls\airtank.cpp">
@@ -106,9 +109,6 @@
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\gamerules.cpp">
-      <Filter>Source Files\dlls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\dlls\gargantua.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\gauss.cpp">
@@ -399,6 +399,18 @@
     <ClCompile Include="..\..\dlls\npcs\CGMan.cpp">
       <Filter>Source Files\dlls\npcs</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\dlls\effects\CSmoker.cpp">
+      <Filter>Source Files\dlls\effects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\effects\CSpiral.cpp">
+      <Filter>Source Files\dlls\effects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\effects\CStomp.cpp">
+      <Filter>Source Files\dlls\effects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\npcs\CGargantua.cpp">
+      <Filter>Source Files\dlls\npcs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\dlls\doors.h">
@@ -600,6 +612,18 @@
       <Filter>Source Files\dlls\npcs</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dlls\npcs\CGMan.h">
+      <Filter>Source Files\dlls\npcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\effects\CSmoker.h">
+      <Filter>Source Files\dlls\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\effects\CSpiral.h">
+      <Filter>Source Files\dlls\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\effects\CStomp.h">
+      <Filter>Source Files\dlls\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\npcs\CGargantua.h">
       <Filter>Source Files\dlls\npcs</Filter>
     </ClInclude>
   </ItemGroup>
