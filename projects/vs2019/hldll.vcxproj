@@ -133,7 +133,6 @@
     <ClCompile Include="..\..\dlls\ggrenade.cpp" />
     <ClCompile Include="..\..\dlls\globals.cpp" />
     <ClCompile Include="..\..\dlls\handgrenade.cpp" />
-    <ClCompile Include="..\..\dlls\headcrab.cpp" />
     <ClCompile Include="..\..\dlls\healthkit.cpp" />
     <ClCompile Include="..\..\dlls\hgrunt.cpp" />
     <ClCompile Include="..\..\dlls\hornet.cpp" />
@@ -163,6 +162,7 @@
     <ClCompile Include="..\..\dlls\nodes\CInfoBM.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CAGrunt.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CApache.cpp" />
+    <ClCompile Include="..\..\dlls\npcs\CBabyCrab.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CBarnacle.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CBarney.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CBigMomma.cpp" />
@@ -175,6 +175,7 @@
     <ClCompile Include="..\..\dlls\npcs\CGargantua.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CGMan.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CHAssassin.cpp" />
+    <ClCompile Include="..\..\dlls\npcs\CHeadCrab.cpp" />
     <ClCompile Include="..\..\dlls\observer.cpp" />
     <ClCompile Include="..\..\dlls\osprey.cpp" />
     <ClCompile Include="..\..\dlls\pathcorner.cpp" />
@@ -255,6 +256,7 @@
     <ClInclude Include="..\..\dlls\nodes\CInfoBM.h" />
     <ClInclude Include="..\..\dlls\npcs\CAGrunt.h" />
     <ClInclude Include="..\..\dlls\npcs\CApache.h" />
+    <ClInclude Include="..\..\dlls\npcs\CBabyCrab.h" />
     <ClInclude Include="..\..\dlls\npcs\CBarnacle.h" />
     <ClInclude Include="..\..\dlls\npcs\CBarney.h" />
     <ClInclude Include="..\..\dlls\npcs\CBigMomma.h" />
@@ -267,6 +269,7 @@
     <ClInclude Include="..\..\dlls\npcs\CGargantua.h" />
     <ClInclude Include="..\..\dlls\npcs\CGMan.h" />
     <ClInclude Include="..\..\dlls\npcs\CHAssassin.h" />
+    <ClInclude Include="..\..\dlls\npcs\CHeadCrab.h" />
     <ClInclude Include="..\..\dlls\plane.h" />
     <ClInclude Include="..\..\dlls\player.h" />
     <ClInclude Include="..\..\dlls\projectiles\CApacheHVR.h" />
