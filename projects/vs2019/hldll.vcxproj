@@ -134,7 +134,6 @@
     <ClCompile Include="..\..\dlls\globals.cpp" />
     <ClCompile Include="..\..\dlls\handgrenade.cpp" />
     <ClCompile Include="..\..\dlls\healthkit.cpp" />
-    <ClCompile Include="..\..\dlls\hgrunt.cpp" />
     <ClCompile Include="..\..\dlls\hornet.cpp" />
     <ClCompile Include="..\..\dlls\hornetgun.cpp" />
     <ClCompile Include="..\..\dlls\houndeye.cpp" />
@@ -176,6 +175,8 @@
     <ClCompile Include="..\..\dlls\npcs\CGMan.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CHAssassin.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CHeadCrab.cpp" />
+    <ClCompile Include="..\..\dlls\npcs\CHGrunt.cpp" />
+    <ClCompile Include="..\..\dlls\npcs\CHGruntRepel.cpp" />
     <ClCompile Include="..\..\dlls\observer.cpp" />
     <ClCompile Include="..\..\dlls\osprey.cpp" />
     <ClCompile Include="..\..\dlls\pathcorner.cpp" />
@@ -188,6 +189,7 @@
     <ClCompile Include="..\..\dlls\projectiles\CControllerZapBall.cpp" />
     <ClCompile Include="..\..\dlls\projectiles\CSquidSpit.cpp" />
     <ClCompile Include="..\..\dlls\props\CDeadBarney.cpp" />
+    <ClCompile Include="..\..\dlls\props\CDeadHGrunt.cpp" />
     <ClCompile Include="..\..\dlls\python.cpp" />
     <ClCompile Include="..\..\dlls\rat.cpp" />
     <ClCompile Include="..\..\dlls\roach.cpp" />
@@ -270,6 +272,8 @@
     <ClInclude Include="..\..\dlls\npcs\CGMan.h" />
     <ClInclude Include="..\..\dlls\npcs\CHAssassin.h" />
     <ClInclude Include="..\..\dlls\npcs\CHeadCrab.h" />
+    <ClInclude Include="..\..\dlls\npcs\CHGrunt.h" />
+    <ClInclude Include="..\..\dlls\npcs\CHGruntRepel.h" />
     <ClInclude Include="..\..\dlls\plane.h" />
     <ClInclude Include="..\..\dlls\player.h" />
     <ClInclude Include="..\..\dlls\projectiles\CApacheHVR.h" />
@@ -278,6 +282,7 @@
     <ClInclude Include="..\..\dlls\projectiles\CControllerZapBall.h" />
     <ClInclude Include="..\..\dlls\projectiles\CSquidSpit.h" />
     <ClInclude Include="..\..\dlls\props\CDeadBarney.h" />
+    <ClInclude Include="..\..\dlls\props\CDeadHGrunt.h" />
     <ClInclude Include="..\..\dlls\saverestore.h" />
     <ClInclude Include="..\..\dlls\schedule.h" />
     <ClInclude Include="..\..\dlls\scripted.h" />

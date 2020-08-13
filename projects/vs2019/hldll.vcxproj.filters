@@ -144,9 +144,6 @@
     <ClCompile Include="..\..\dlls\healthkit.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\hgrunt.cpp">
-      <Filter>Source Files\dlls</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\dlls\wpn_shared\hl_wpn_glock.cpp">
       <Filter>Source Files\dlls\wpn_shared</Filter>
     </ClCompile>
@@ -414,6 +411,15 @@
     <ClCompile Include="..\..\dlls\npcs\CBabyCrab.cpp">
       <Filter>Source Files\dlls\npcs</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\dlls\npcs\CHGrunt.cpp">
+      <Filter>Source Files\dlls\npcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\props\CDeadHGrunt.cpp">
+      <Filter>Source Files\dlls\props</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\npcs\CHGruntRepel.cpp">
+      <Filter>Source Files\dlls\npcs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\dlls\doors.h">
@@ -636,6 +642,15 @@
       <Filter>Source Files\dlls\npcs</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dlls\npcs\CBabyCrab.h">
+      <Filter>Source Files\dlls\npcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\npcs\CHGrunt.h">
+      <Filter>Source Files\dlls\npcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\props\CDeadHGrunt.h">
+      <Filter>Source Files\dlls\props</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\npcs\CHGruntRepel.h">
       <Filter>Source Files\dlls\npcs</Filter>
     </ClInclude>
   </ItemGroup>
