@@ -114,9 +114,6 @@
     <ClCompile Include="..\..\dlls\gauss.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\genericmonster.cpp">
-      <Filter>Source Files\dlls</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\dlls\ggrenade.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
@@ -420,6 +417,12 @@
     <ClCompile Include="..\..\dlls\npcs\CHGruntRepel.cpp">
       <Filter>Source Files\dlls\npcs</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\dlls\npcs\CGenericMonster.cpp">
+      <Filter>Source Files\dlls\npcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\props\CDeadGenericMonster.cpp">
+      <Filter>Source Files\dlls\props</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\dlls\doors.h">
@@ -652,6 +655,12 @@
     </ClInclude>
     <ClInclude Include="..\..\dlls\npcs\CHGruntRepel.h">
       <Filter>Source Files\dlls\npcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\npcs\CGenericMonster.h">
+      <Filter>Source Files\dlls\npcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\props\CDeadGenericMonster.h">
+      <Filter>Source Files\dlls\props</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

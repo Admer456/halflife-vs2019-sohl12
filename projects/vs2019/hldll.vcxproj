@@ -129,7 +129,6 @@
     <ClCompile Include="..\..\dlls\game.cpp" />
     <ClCompile Include="..\..\dlls\gamerules.cpp" />
     <ClCompile Include="..\..\dlls\gauss.cpp" />
-    <ClCompile Include="..\..\dlls\genericmonster.cpp" />
     <ClCompile Include="..\..\dlls\ggrenade.cpp" />
     <ClCompile Include="..\..\dlls\globals.cpp" />
     <ClCompile Include="..\..\dlls\handgrenade.cpp" />
@@ -172,6 +171,7 @@
     <ClCompile Include="..\..\dlls\npcs\CFlockingFlyerFlock.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CBaseFlyingMonster.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CGargantua.cpp" />
+    <ClCompile Include="..\..\dlls\npcs\CGenericMonster.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CGMan.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CHAssassin.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CHeadCrab.cpp" />
@@ -189,6 +189,7 @@
     <ClCompile Include="..\..\dlls\projectiles\CControllerZapBall.cpp" />
     <ClCompile Include="..\..\dlls\projectiles\CSquidSpit.cpp" />
     <ClCompile Include="..\..\dlls\props\CDeadBarney.cpp" />
+    <ClCompile Include="..\..\dlls\props\CDeadGenericMonster.cpp" />
     <ClCompile Include="..\..\dlls\props\CDeadHGrunt.cpp" />
     <ClCompile Include="..\..\dlls\python.cpp" />
     <ClCompile Include="..\..\dlls\rat.cpp" />
@@ -269,6 +270,7 @@
     <ClInclude Include="..\..\dlls\npcs\CFlockingFlyerFlock.h" />
     <ClInclude Include="..\..\dlls\npcs\CBaseFlyingMonster.h" />
     <ClInclude Include="..\..\dlls\npcs\CGargantua.h" />
+    <ClInclude Include="..\..\dlls\npcs\CGenericMonster.h" />
     <ClInclude Include="..\..\dlls\npcs\CGMan.h" />
     <ClInclude Include="..\..\dlls\npcs\CHAssassin.h" />
     <ClInclude Include="..\..\dlls\npcs\CHeadCrab.h" />
@@ -282,6 +284,7 @@
     <ClInclude Include="..\..\dlls\projectiles\CControllerZapBall.h" />
     <ClInclude Include="..\..\dlls\projectiles\CSquidSpit.h" />
     <ClInclude Include="..\..\dlls\props\CDeadBarney.h" />
+    <ClInclude Include="..\..\dlls\props\CDeadGenericMonster.h" />
     <ClInclude Include="..\..\dlls\props\CDeadHGrunt.h" />
     <ClInclude Include="..\..\dlls\saverestore.h" />
     <ClInclude Include="..\..\dlls\schedule.h" />
