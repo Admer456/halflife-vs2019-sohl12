@@ -394,7 +394,12 @@ Vector UTIL_VecToAngles( const Vector &vec )
 	
 //LRC - pass in a normalised axis vector and a number of degrees, and this returns the corresponding
 // angles value for an entity.
+#ifdef WIN32
 inline Vector UTIL_AxisRotationToAngles( const Vector &vecAxis, float flDegs )
+#else
+// GCC/G++ handle the "inline" keyword differently than MSVC - Shepard
+static inline Vector UTIL_AxisRotationToAngles( const Vector &vecAxis, float flDegs )
+#endif
 {
 	Vector vecTemp = UTIL_AxisRotationToVec( vecAxis, flDegs );
 	float rgflVecOut[3];

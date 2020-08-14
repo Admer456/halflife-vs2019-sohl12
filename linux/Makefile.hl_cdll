@@ -48,6 +48,11 @@ HL1_OBJS = \
 	$(HL1_OBJ_DIR)/cdll_int.o \
 	$(HL1_OBJ_DIR)/com_weapons.o \
 	$(HL1_OBJ_DIR)/death.o \
+	$(HL1_OBJ_DIR)/debug_wireframe.o \
+	$(HL1_OBJ_DIR)/debug_wireframe_boundingbox.o \
+	$(HL1_OBJ_DIR)/debug_wireframe_clipnodes.o \
+	$(HL1_OBJ_DIR)/debug_wireframe_movement.o \
+	$(HL1_OBJ_DIR)/debug_wireframe_utils.o \
 	$(HL1_OBJ_DIR)/demo.o \
 	$(HL1_OBJ_DIR)/entity.o \
 	$(HL1_OBJ_DIR)/ev_common.o \
@@ -66,6 +71,9 @@ HL1_OBJS = \
 	$(HL1_OBJ_DIR)/interpolation.o \
 	$(HL1_OBJ_DIR)/menu.o \
 	$(HL1_OBJ_DIR)/message.o \
+	$(HL1_OBJ_DIR)/particlemgr.o \
+	$(HL1_OBJ_DIR)/particlemsg.o \
+	$(HL1_OBJ_DIR)/particlesys.o \
 	$(HL1_OBJ_DIR)/saytext.o \
 	$(HL1_OBJ_DIR)/status_icons.o \
 	$(HL1_OBJ_DIR)/statusbar.o \
@@ -106,6 +114,7 @@ DLL_OBJS = \
 	$(HL1_SERVER_OBJ_DIR)/shotgun.o \
 	$(HL1_SERVER_OBJ_DIR)/squeakgrenade.o \
 	$(HL1_SERVER_OBJ_DIR)/tripmine.o \
+	$(HL1_SERVER_OBJ_DIR)/weapons_shared.o \
 	$(HL1_SERVER_OBJ_DIR)/wpn_shared/hl_wpn_glock.o \
 
 
