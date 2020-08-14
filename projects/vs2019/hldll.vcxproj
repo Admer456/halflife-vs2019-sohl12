@@ -135,14 +135,11 @@
     <ClCompile Include="..\..\dlls\healthkit.cpp" />
     <ClCompile Include="..\..\dlls\hornet.cpp" />
     <ClCompile Include="..\..\dlls\hornetgun.cpp" />
-    <ClCompile Include="..\..\dlls\houndeye.cpp" />
     <ClCompile Include="..\..\dlls\h_ai.cpp" />
     <ClCompile Include="..\..\dlls\h_battery.cpp" />
     <ClCompile Include="..\..\dlls\h_cine.cpp" />
     <ClCompile Include="..\..\dlls\h_cycler.cpp" />
     <ClCompile Include="..\..\dlls\h_export.cpp" />
-    <ClCompile Include="..\..\dlls\ichthyosaur.cpp" />
-    <ClCompile Include="..\..\dlls\islave.cpp" />
     <ClCompile Include="..\..\dlls\items.cpp" />
     <ClCompile Include="..\..\dlls\leech.cpp" />
     <ClCompile Include="..\..\dlls\lights.cpp" />
@@ -177,6 +174,9 @@
     <ClCompile Include="..\..\dlls\npcs\CHeadCrab.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CHGrunt.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CHGruntRepel.cpp" />
+    <ClCompile Include="..\..\dlls\npcs\CHoundeye.cpp" />
+    <ClCompile Include="..\..\dlls\npcs\CIchthyosaur.cpp" />
+    <ClCompile Include="..\..\dlls\npcs\CISlave.cpp" />
     <ClCompile Include="..\..\dlls\observer.cpp" />
     <ClCompile Include="..\..\dlls\osprey.cpp" />
     <ClCompile Include="..\..\dlls\pathcorner.cpp" />
@@ -276,6 +276,9 @@
     <ClInclude Include="..\..\dlls\npcs\CHeadCrab.h" />
     <ClInclude Include="..\..\dlls\npcs\CHGrunt.h" />
     <ClInclude Include="..\..\dlls\npcs\CHGruntRepel.h" />
+    <ClInclude Include="..\..\dlls\npcs\CHoundeye.h" />
+    <ClInclude Include="..\..\dlls\npcs\CIchthyosaur.h" />
+    <ClInclude Include="..\..\dlls\npcs\CISlave.h" />
     <ClInclude Include="..\..\dlls\plane.h" />
     <ClInclude Include="..\..\dlls\player.h" />
     <ClInclude Include="..\..\dlls\projectiles\CApacheHVR.h" />

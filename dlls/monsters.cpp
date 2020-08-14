@@ -45,8 +45,6 @@ extern DLL_GLOBAL	short	g_sModelIndexLaserDot;// holds the index for the laser b
 
 extern CGraph WorldGraph;// the world node graph
 
-
-
 // Global Savedata for monster
 // UNDONE: Save schedule data?  Can this be done?  We may
 // lose our enemy pointer or other data (goal ent, target, etc)

@@ -153,15 +153,6 @@
     <ClCompile Include="..\..\dlls\hornetgun.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\houndeye.cpp">
-      <Filter>Source Files\dlls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\dlls\ichthyosaur.cpp">
-      <Filter>Source Files\dlls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\dlls\islave.cpp">
-      <Filter>Source Files\dlls</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\dlls\items.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
@@ -423,6 +414,15 @@
     <ClCompile Include="..\..\dlls\props\CDeadGenericMonster.cpp">
       <Filter>Source Files\dlls\props</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\dlls\npcs\CHoundeye.cpp">
+      <Filter>Source Files\dlls\npcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\npcs\CIchthyosaur.cpp">
+      <Filter>Source Files\dlls\npcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\npcs\CISlave.cpp">
+      <Filter>Source Files\dlls\npcs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\dlls\doors.h">
@@ -661,6 +661,15 @@
     </ClInclude>
     <ClInclude Include="..\..\dlls\props\CDeadGenericMonster.h">
       <Filter>Source Files\dlls\props</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\npcs\CHoundeye.h">
+      <Filter>Source Files\dlls\npcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\npcs\CIchthyosaur.h">
+      <Filter>Source Files\dlls\npcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\npcs\CISlave.h">
+      <Filter>Source Files\dlls\npcs</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
