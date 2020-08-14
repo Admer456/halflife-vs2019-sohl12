@@ -81,7 +81,8 @@ void RenderVelocity( triangleapi_t* r )
 	
 	r->Color4ub( 120, 100, 0, 255 );
 	RenderLine( playerPosition, playerPosition + playerForward * 64 );
-	RenderPoint( playerPosition + playerForward * 64 );
+	Vector vecPoint = Vector( (playerPosition.x + playerForward.x) * 64.0f, (playerPosition.y + playerForward.y) * 64.0f, (playerPosition.z + playerForward.z) * 64.0f );
+	RenderPoint( vecPoint );
 	
 	r->End();
 }
