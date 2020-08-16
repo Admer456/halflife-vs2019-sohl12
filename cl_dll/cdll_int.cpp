@@ -48,8 +48,15 @@ TeamFortressViewport *gViewPort = NULL;
 CSysModule *g_hParticleManModule = NULL;
 IParticleMan *g_pParticleMan = NULL;
 
+#include "gameui.h"
+CSysModule *g_hGameUIModule = nullptr;
+IGameUI *g_pGameUI = nullptr;
+
 void CL_LoadParticleMan( void );
 void CL_UnloadParticleMan( void );
+
+void CL_LoadGameUI();
+void CL_UnloadGameUI();
 
 void InitInput (void);
 void EV_HookEvents( void );
@@ -151,6 +158,7 @@ int DLLEXPORT Initialize( cl_enginefunc_t *pEnginefuncs, int iVersion )
 
 	EV_HookEvents();
 	CL_LoadParticleMan();
+	CL_LoadGameUI();
 
 	// get tracker interface, if any
 	return 1;
@@ -260,6 +268,8 @@ Called by engine every frame that client .dll is loaded
 ==========================
 */
 
+float g_flTimeOld = 0.0f;
+
 void DLLEXPORT HUD_Frame( double time )
 {
 //	RecClHudFrame(time);
@@ -267,6 +277,16 @@ void DLLEXPORT HUD_Frame( double time )
 	ServersThink( time );
 
 	GetClientVoiceMgr()->Frame(time);
+
+	float flTimeCurrent = gEngfuncs.GetClientTime();
+	float flTimeDelta = flTimeCurrent - g_flTimeOld;
+	gEngfuncs.Con_Printf("Old = %f / Current = %f\n", g_flTimeOld, flTimeCurrent);
+	if (flTimeDelta == 0.0f)
+		gEngfuncs.Con_Printf("The game is paused!\n");
+	else
+		gEngfuncs.Con_Printf("The game is NOT paused\n");
+
+	g_flTimeOld = flTimeCurrent;
 }
 
 
@@ -338,6 +358,35 @@ void CL_LoadParticleMan( void )
 		 // Add custom particle classes here BEFORE calling anything else or you will die.
 		 g_pParticleMan->AddCustomParticleClassSize ( sizeof ( CBaseParticle ) );
 	}
+}
+
+void CL_UnloadGameUI()
+{
+	Sys_UnloadModule( g_hGameUIModule );
+	g_pGameUI = nullptr;
+	g_hGameUIModule = nullptr;
+}
+
+void CL_LoadGameUI()
+{
+	char szDir[512];
+	if ( gEngfuncs.COM_ExpandFilename( GAMEUI_DLLNAME, szDir, sizeof( szDir ) ) == FALSE )
+	{
+		g_pGameUI = nullptr;
+		g_hGameUIModule = nullptr;
+		return;
+	}
+
+	g_hGameUIModule = Sys_LoadModule( szDir );
+	CreateInterfaceFn gameUIFactory = Sys_GetFactory( g_hGameUIModule );
+	if ( !gameUIFactory )
+	{
+		g_pGameUI = nullptr;
+		g_hGameUIModule = nullptr;
+		return;
+	}
+
+	g_pGameUI = static_cast<IGameUI *>( gameUIFactory( GAMEUI_INTERFACE, nullptr ) );
 }
 
 cldll_func_dst_t *g_pcldstAddrs;
