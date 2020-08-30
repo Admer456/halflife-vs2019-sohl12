@@ -190,7 +190,6 @@ void COsprey::DeployThink()
 	SetNextThink(0.1);
 }
 
-
 BOOL COsprey::HasDead()
 {
 	for (int i = 0; i < m_iUnits; i++)
@@ -201,9 +200,9 @@ BOOL COsprey::HasDead()
 		}
 		m_vecOrigin[i] = m_hGrunt[i]->pev->origin; // send them to where they died
 	}
+	
 	return FALSE;
 }
-
 
 CBaseMonster* COsprey::MakeGrunt(Vector vecSrc)
 {
@@ -243,7 +242,6 @@ CBaseMonster* COsprey::MakeGrunt(Vector vecSrc)
 	return nullptr;
 }
 
-
 void COsprey::HoverThink()
 {
 	int i;
@@ -265,7 +263,6 @@ void COsprey::HoverThink()
 	UTIL_MakeAimVectors(pev->angles);
 	ShowDamage();
 }
-
 
 void COsprey::UpdateGoal()
 {
@@ -309,7 +306,6 @@ void COsprey::UpdateGoal()
 	}
 }
 
-
 void COsprey::FlyThink()
 {
 	StudioFrameAdvance();
@@ -340,7 +336,6 @@ void COsprey::FlyThink()
 	Flight();
 	ShowDamage();
 }
-
 
 void COsprey::Flight()
 {
@@ -418,12 +413,10 @@ void COsprey::Flight()
 	}
 }
 
-
 void COsprey::HitTouch(CBaseEntity* pOther)
 {
 	SetNextThink(2.0);
 }
-
 
 /*
 int COsprey::TakeDamage( entvars_t *pevInflictor, entvars_t *pevAttacker, float flDamage, int bitsDamageType )
@@ -440,7 +433,6 @@ int COsprey::TakeDamage( entvars_t *pevInflictor, entvars_t *pevAttacker, float 
 	return 0;
 }
 */
-
 
 void COsprey::Killed(entvars_t* pevAttacker, int iGib)
 {
@@ -471,7 +463,6 @@ void COsprey::CrashTouch(CBaseEntity* pOther)
 		m_velocity = pev->velocity;
 	}
 }
-
 
 void COsprey::DyingThink()
 {

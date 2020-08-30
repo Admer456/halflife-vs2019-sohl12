@@ -68,7 +68,6 @@ TYPEDESCRIPTION CLeech::m_SaveData[] =
 
 IMPLEMENT_SAVERESTORE(CLeech, CBaseMonster);
 
-
 const char* CLeech::pAttackSounds[] =
 {
 	"leech/leech_bite1.wav",
@@ -81,7 +80,6 @@ const char* CLeech::pAlertSounds[] =
 	"leech/leech_alert1.wav",
 	"leech/leech_alert2.wav",
 };
-
 
 void CLeech::Spawn()
 {
@@ -196,19 +194,13 @@ void CLeech::AlertSound()
 
 void CLeech::Precache()
 {
-	int i;
-
-	//PRECACHE_MODEL("models/icky.mdl");
 	if (pev->model)
 		PRECACHE_MODEL((char*)STRING(pev->model)); //LRC
 	else
 		PRECACHE_MODEL("models/leech.mdl");
 
-	for (i = 0; i < ARRAYSIZE(pAttackSounds); i++)
-		PRECACHE_SOUND((char*)pAttackSounds[i]);
-	
-	for (i = 0; i < ARRAYSIZE(pAlertSounds); i++)
-		PRECACHE_SOUND((char*)pAlertSounds[i]);
+	PRECACHE_SOUND_ARRAY(pAttackSounds);
+	PRECACHE_SOUND_ARRAY(pAlertSounds);
 }
 
 int CLeech::TakeDamage(entvars_t* pevInflictor, entvars_t* pevAttacker, float flDamage, int bitsDamageType)
@@ -235,11 +227,11 @@ void CLeech::HandleAnimEvent(MonsterEvent_t* pEvent)
 		pEnemy = m_hEnemy;
 		if (pEnemy != nullptr)
 		{
-			Vector dir, face;
+			Vector face;
 
 			UTIL_MakeVectorsPrivate(pev->angles, face, nullptr, nullptr);
 			face.z = 0;
-			dir = (pEnemy->pev->origin - pev->origin);
+			Vector dir = (pEnemy->pev->origin - pev->origin);
 			dir.z = 0;
 			dir = dir.Normalize();
 			face = face.Normalize();

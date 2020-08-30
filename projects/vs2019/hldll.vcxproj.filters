@@ -255,9 +255,6 @@
     <ClCompile Include="..\..\dlls\tripmine.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\turret.cpp">
-      <Filter>Source Files\dlls</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\dlls\util.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
@@ -430,6 +427,18 @@
       <Filter>Source Files\dlls\npcs</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\npcs\CLeech.cpp">
+      <Filter>Source Files\dlls\npcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\npcs\CBaseTurret.cpp">
+      <Filter>Source Files\dlls\npcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\npcs\CTurret.cpp">
+      <Filter>Source Files\dlls\npcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\npcs\CMiniTurret.cpp">
+      <Filter>Source Files\dlls\npcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\npcs\CSentry.cpp">
       <Filter>Source Files\dlls\npcs</Filter>
     </ClCompile>
   </ItemGroup>
@@ -708,6 +717,18 @@
       <Filter>Source Files\dlls\npcs</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dlls\npcs\CLeech.h">
+      <Filter>Source Files\dlls\npcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\npcs\CBaseTurret.h">
+      <Filter>Source Files\dlls\npcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\npcs\CTurret.h">
+      <Filter>Source Files\dlls\npcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\npcs\CMiniTurret.h">
+      <Filter>Source Files\dlls\npcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\npcs\CSentry.h">
       <Filter>Source Files\dlls\npcs</Filter>
     </ClInclude>
   </ItemGroup>

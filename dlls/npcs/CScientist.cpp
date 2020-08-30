@@ -330,6 +330,9 @@ DEFINE_CUSTOM_SCHEDULES(CScientist)
 
 IMPLEMENT_CUSTOM_SCHEDULES(CScientist, CTalkMonster);
 
+//=========================================================
+// DeclineFollowing
+//=========================================================
 void CScientist::DeclineFollowing()
 {
 	Talk(10);
@@ -337,6 +340,9 @@ void CScientist::DeclineFollowing()
 	PlaySentence("SC_POK", 2, VOL_NORM, ATTN_NORM);
 }
 
+//=========================================================
+// Scream
+//=========================================================
 void CScientist::Scream()
 {
 	if (FOkToSpeak())
@@ -347,13 +353,20 @@ void CScientist::Scream()
 	}
 }
 
+//=========================================================
+// Scream
+//=========================================================
 Activity CScientist::GetStoppedActivity()
 {
 	if (m_hEnemy != NULL)
 		return ACT_EXCITED;
+	
 	return CTalkMonster::GetStoppedActivity();
 }
 
+//=========================================================
+// Scream
+//=========================================================
 void CScientist::StartTask(Task_t* pTask)
 {
 	switch (pTask->iTask)
@@ -420,6 +433,9 @@ void CScientist::StartTask(Task_t* pTask)
 	}
 }
 
+//=========================================================
+// Scream
+//=========================================================
 void CScientist::RunTask(Task_t* pTask)
 {
 	switch (pTask->iTask)
@@ -442,9 +458,8 @@ void CScientist::RunTask(Task_t* pTask)
 			}
 			else
 			{
-				float distance;
-
-				distance = (m_vecMoveGoal - pev->origin).Length2D();
+				float distance = (m_vecMoveGoal - pev->origin).Length2D();
+				
 				// Re-evaluate when you think your finished, or the target has moved too far
 				if ((distance < pTask->flData) || (m_vecMoveGoal - m_hTargetEnt->pev->origin).Length() > pTask->flData *
 					0.5)
@@ -552,6 +567,13 @@ void CScientist::HandleAnimEvent(MonsterEvent_t* pEvent)
 	}
 }
 
+CScientist::CScientist()
+{
+	m_painTime = 0;
+	m_healTime = 0;
+	m_fearTime = 0;
+}
+
 //=========================================================
 // Spawn
 //=========================================================
@@ -569,8 +591,10 @@ void CScientist::Spawn()
 	pev->solid = SOLID_SLIDEBOX;
 	pev->movetype = MOVETYPE_STEP;
 	m_bloodColor = BLOOD_COLOR_RED;
+	
 	if (pev->health == 0)
 		pev->health = gSkillData.scientistHealth;
+	
 	pev->view_ofs = Vector(0, 0, 50); // position of the eyes relative to monster's origin.
 	m_flFieldOfView = VIEW_FIELD_WIDE;
 	// NOTE: we need a wide field of view so scientists will notice player and say hello
@@ -620,7 +644,9 @@ void CScientist::Precache()
 	CTalkMonster::Precache();
 }
 
-// Init talk data
+//=========================================================
+// TalkInit - Init talk data
+//=========================================================
 void CScientist::TalkInit()
 {
 	CTalkMonster::TalkInit();
@@ -639,6 +665,7 @@ void CScientist::TalkInit()
 		m_szGrp[TLK_QUESTION] = "SC_QUESTION";
 		m_szGrp[TLK_IDLE] = "SC_IDLE";
 		m_szGrp[TLK_STARE] = "SC_STARE";
+		
 		if (pev->spawnflags & SF_MONSTER_PREDISASTER)
 			m_szGrp[TLK_USE] = "SC_PFOLLOW";
 		else
@@ -651,6 +678,7 @@ void CScientist::TalkInit()
 			m_szGrp[TLK_DECLINE] = "SC_POK";
 		else
 			m_szGrp[TLK_DECLINE] = "SC_NOTOK";
+		
 		m_szGrp[TLK_STOP] = "SC_STOP";
 		m_szGrp[TLK_NOSHOOT] = "SC_SCARED";
 		m_szGrp[TLK_HELLO] = "SC_HELLO";
@@ -683,6 +711,9 @@ void CScientist::TalkInit()
 	}
 }
 
+//=========================================================
+// TakeDamage
+//=========================================================
 int CScientist::TakeDamage(entvars_t* pevInflictor, entvars_t* pevAttacker, float flDamage, int bitsDamageType)
 {
 	if (pevInflictor && pevInflictor->flags & FL_CLIENT)
@@ -741,17 +772,21 @@ void CScientist::DeathSound()
 	PainSound();
 }
 
+//=========================================================
+// Killed
+//=========================================================
 void CScientist::Killed(entvars_t* pevAttacker, int iGib)
 {
 	SetUse(NULL);
 	CTalkMonster::Killed(pevAttacker, iGib);
 }
 
+//=========================================================
+// SetActivity
+//=========================================================
 void CScientist::SetActivity(Activity newActivity)
 {
-	int iSequence;
-
-	iSequence = LookupActivity(newActivity);
+	int iSequence = LookupActivity(newActivity);
 
 	// Set to the desired anim, or default anim if the desired is not present
 	if (iSequence == ACTIVITY_NOT_AVAILABLE)
@@ -759,6 +794,9 @@ void CScientist::SetActivity(Activity newActivity)
 	CTalkMonster::SetActivity(newActivity);
 }
 
+//=========================================================
+// GetScheduleOfType
+//=========================================================
 Schedule_t* CScientist::GetScheduleOfType(int Type)
 {
 	Schedule_t* psched;
@@ -812,6 +850,9 @@ Schedule_t* CScientist::GetScheduleOfType(int Type)
 	return CTalkMonster::GetScheduleOfType(Type);
 }
 
+//=========================================================
+// GetSchedule
+//=========================================================
 Schedule_t* CScientist::GetSchedule()
 {
 	// so we don't keep calling through the EHANDLE stuff
@@ -819,8 +860,7 @@ Schedule_t* CScientist::GetSchedule()
 
 	if (HasConditions(bits_COND_HEAR_SOUND))
 	{
-		CSound* pSound;
-		pSound = PBestSound();
+		CSound* pSound = PBestSound();
 
 		ASSERT(pSound != NULL);
 		if (pSound && (pSound->m_iType & bits_SOUND_DANGER))
@@ -851,8 +891,7 @@ Schedule_t* CScientist::GetSchedule()
 		// Cower when you hear something scary
 		if (HasConditions(bits_COND_HEAR_SOUND))
 		{
-			CSound* pSound;
-			pSound = PBestSound();
+			CSound* pSound = PBestSound();
 
 			ASSERT(pSound != NULL);
 			if (pSound)
@@ -925,6 +964,9 @@ Schedule_t* CScientist::GetSchedule()
 	return CTalkMonster::GetSchedule();
 }
 
+//=========================================================
+// GetIdealState
+//=========================================================
 MONSTERSTATE CScientist::GetIdealState()
 {
 	switch (m_MonsterState)
@@ -987,6 +1029,9 @@ MONSTERSTATE CScientist::GetIdealState()
 	return CTalkMonster::GetIdealState();
 }
 
+//=========================================================
+// CanHeal
+//=========================================================
 BOOL CScientist::CanHeal()
 {
 	if ((m_healTime > gpGlobals->time) || (m_hTargetEnt == NULL) || (m_hTargetEnt->pev->health > (m_hTargetEnt->pev->
@@ -996,6 +1041,9 @@ BOOL CScientist::CanHeal()
 	return TRUE;
 }
 
+//=========================================================
+// Heal
+//=========================================================
 void CScientist::Heal()
 {
 	if (!CanHeal())
@@ -1010,6 +1058,9 @@ void CScientist::Heal()
 	m_healTime = gpGlobals->time + 60;
 }
 
+//=========================================================
+// FriendNumber
+//=========================================================
 int CScientist::FriendNumber(int arrayNumber)
 {
 	static int array[3] = {1, 2, 0};

@@ -30,6 +30,9 @@ int CTentacle::g_fSquirmSound;
 //=========================================================
 LINK_ENTITY_TO_CLASS(monster_tentacle, CTentacle);
 
+//=========================================================
+// Sounds
+//=========================================================
 const char* CTentacle::pHitSilo[] =
 {
 	"tentacle/te_strike1.wav",
@@ -78,70 +81,6 @@ TYPEDESCRIPTION CTentacle::m_SaveData[] =
 
 IMPLEMENT_SAVERESTORE(CTentacle, CBaseMonster);
 
-// animation sequence aliases 
-enum TENTACLE_ANIM
-{
-	TENTACLE_ANIM_Pit_Idle,
-
-	TENTACLE_ANIM_rise_to_Temp1,
-	TENTACLE_ANIM_Temp1_to_Floor,
-	TENTACLE_ANIM_Floor_Idle,
-	TENTACLE_ANIM_Floor_Fidget_Pissed,
-	TENTACLE_ANIM_Floor_Fidget_SmallRise,
-	TENTACLE_ANIM_Floor_Fidget_Wave,
-	TENTACLE_ANIM_Floor_Strike,
-	TENTACLE_ANIM_Floor_Tap,
-	TENTACLE_ANIM_Floor_Rotate,
-	TENTACLE_ANIM_Floor_Rear,
-	TENTACLE_ANIM_Floor_Rear_Idle,
-	TENTACLE_ANIM_Floor_to_Lev1,
-
-	TENTACLE_ANIM_Lev1_Idle,
-	TENTACLE_ANIM_Lev1_Fidget_Claw,
-	TENTACLE_ANIM_Lev1_Fidget_Shake,
-	TENTACLE_ANIM_Lev1_Fidget_Snap,
-	TENTACLE_ANIM_Lev1_Strike,
-	TENTACLE_ANIM_Lev1_Tap,
-	TENTACLE_ANIM_Lev1_Rotate,
-	TENTACLE_ANIM_Lev1_Rear,
-	TENTACLE_ANIM_Lev1_Rear_Idle,
-	TENTACLE_ANIM_Lev1_to_Lev2,
-
-	TENTACLE_ANIM_Lev2_Idle,
-	TENTACLE_ANIM_Lev2_Fidget_Shake,
-	TENTACLE_ANIM_Lev2_Fidget_Swing,
-	TENTACLE_ANIM_Lev2_Fidget_Tut,
-	TENTACLE_ANIM_Lev2_Strike,
-	TENTACLE_ANIM_Lev2_Tap,
-	TENTACLE_ANIM_Lev2_Rotate,
-	TENTACLE_ANIM_Lev2_Rear,
-	TENTACLE_ANIM_Lev2_Rear_Idle,
-	TENTACLE_ANIM_Lev2_to_Lev3,
-
-	TENTACLE_ANIM_Lev3_Idle,
-	TENTACLE_ANIM_Lev3_Fidget_Shake,
-	TENTACLE_ANIM_Lev3_Fidget_Side,
-	TENTACLE_ANIM_Lev3_Fidget_Swipe,
-	TENTACLE_ANIM_Lev3_Strike,
-	TENTACLE_ANIM_Lev3_Tap,
-	TENTACLE_ANIM_Lev3_Rotate,
-	TENTACLE_ANIM_Lev3_Rear,
-	TENTACLE_ANIM_Lev3_Rear_Idle,
-
-	TENTACLE_ANIM_Lev1_Door_reach,
-
-	TENTACLE_ANIM_Lev3_to_Engine,
-	TENTACLE_ANIM_Engine_Idle,
-	TENTACLE_ANIM_Engine_Sway,
-	TENTACLE_ANIM_Engine_Swat,
-	TENTACLE_ANIM_Engine_Bob,
-	TENTACLE_ANIM_Engine_Death1,
-	TENTACLE_ANIM_Engine_Death2,
-	TENTACLE_ANIM_Engine_Death3,
-
-	TENTACLE_ANIM_none
-};
-
 //=========================================================
 // Classify - indicates this monster's place in the 
 // relationship table.
@@ -181,8 +120,8 @@ void CTentacle::Spawn()
 	SetUse(&CTentacle::CommandUse);
 
 	SetNextThink(0.2);
-
 	ResetSequenceInfo();
+	
 	m_iDir = 1;
 
 	pev->yaw_speed = 18;

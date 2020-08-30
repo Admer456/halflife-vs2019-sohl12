@@ -159,6 +159,7 @@
     <ClCompile Include="..\..\dlls\npcs\CBabyCrab.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CBarnacle.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CBarney.cpp" />
+    <ClCompile Include="..\..\dlls\npcs\CBaseTurret.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CBigMomma.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CBloater.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CBullsquid.cpp" />
@@ -177,12 +178,15 @@
     <ClCompile Include="..\..\dlls\npcs\CIchthyosaur.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CISlave.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CLeech.cpp" />
+    <ClCompile Include="..\..\dlls\npcs\CMiniTurret.cpp" />
     <ClCompile Include="..\..\dlls\npcs\COsprey.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CRat.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CRoach.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CScientist.cpp" />
+    <ClCompile Include="..\..\dlls\npcs\CSentry.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CTentacle.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CTentacleMaw.cpp" />
+    <ClCompile Include="..\..\dlls\npcs\CTurret.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CZombie.cpp" />
     <ClCompile Include="..\..\dlls\observer.cpp" />
     <ClCompile Include="..\..\dlls\pathcorner.cpp" />
@@ -218,7 +222,6 @@
     <ClCompile Include="..\..\dlls\tempmonster.cpp" />
     <ClCompile Include="..\..\dlls\triggers.cpp" />
     <ClCompile Include="..\..\dlls\tripmine.cpp" />
-    <ClCompile Include="..\..\dlls\turret.cpp" />
     <ClCompile Include="..\..\dlls\util.cpp" />
     <ClCompile Include="..\..\dlls\weapons.cpp" />
     <ClCompile Include="..\..\dlls\weapons_shared.cpp" />
@@ -265,6 +268,7 @@
     <ClInclude Include="..\..\dlls\npcs\CBabyCrab.h" />
     <ClInclude Include="..\..\dlls\npcs\CBarnacle.h" />
     <ClInclude Include="..\..\dlls\npcs\CBarney.h" />
+    <ClInclude Include="..\..\dlls\npcs\CBaseTurret.h" />
     <ClInclude Include="..\..\dlls\npcs\CBigMomma.h" />
     <ClInclude Include="..\..\dlls\npcs\CBloater.h" />
     <ClInclude Include="..\..\dlls\npcs\CBullsquid.h" />
@@ -283,12 +287,15 @@
     <ClInclude Include="..\..\dlls\npcs\CIchthyosaur.h" />
     <ClInclude Include="..\..\dlls\npcs\CISlave.h" />
     <ClInclude Include="..\..\dlls\npcs\CLeech.h" />
+    <ClInclude Include="..\..\dlls\npcs\CMiniTurret.h" />
     <ClInclude Include="..\..\dlls\npcs\COsprey.h" />
     <ClInclude Include="..\..\dlls\npcs\CRat.h" />
     <ClInclude Include="..\..\dlls\npcs\CRoach.h" />
     <ClInclude Include="..\..\dlls\npcs\CScientist.h" />
+    <ClInclude Include="..\..\dlls\npcs\CSentry.h" />
     <ClInclude Include="..\..\dlls\npcs\CTentacle.h" />
     <ClInclude Include="..\..\dlls\npcs\CTentacleMaw.h" />
+    <ClInclude Include="..\..\dlls\npcs\CTurret.h" />
     <ClInclude Include="..\..\dlls\npcs\CZombie.h" />
     <ClInclude Include="..\..\dlls\plane.h" />
     <ClInclude Include="..\..\dlls\player.h" />

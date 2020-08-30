@@ -27,6 +27,9 @@
 //=========================================================
 LINK_ENTITY_TO_CLASS(monster_zombie, CZombie);
 
+//=========================================================
+// Sounds
+//=========================================================
 const char* CZombie::pAttackHitSounds[] =
 {
 	"zombie/claw_strike1.wav",
@@ -66,6 +69,14 @@ const char* CZombie::pPainSounds[] =
 	"zombie/zo_pain1.wav",
 	"zombie/zo_pain2.wav",
 };
+
+//=========================================================
+// Constructor 
+//=========================================================
+CZombie::CZombie()
+{
+	m_flNextFlinch = gpGlobals->time;
+}
 
 //=========================================================
 // Classify - indicates this monster's place in the 
@@ -112,8 +123,9 @@ int CZombie::TakeDamage(entvars_t* pevInflictor, entvars_t* pevAttacker, float f
 //=========================================================
 void CZombie::PainSound()
 {
-	int pitch = 95 + RANDOM_LONG(0, 9);
+	const int pitch = 95 + RANDOM_LONG(0, 9);
 
+	// Play a random pain sound
 	if (RANDOM_LONG(0, 5) < 2)
 		EMIT_SOUND_DYN(ENT(pev), CHAN_VOICE, pPainSounds[RANDOM_LONG(0, ARRAYSIZE(pPainSounds) - 1)], 1.0, ATTN_NORM, 0, pitch);
 }
@@ -123,8 +135,9 @@ void CZombie::PainSound()
 //=========================================================
 void CZombie::AlertSound()
 {
-	int pitch = 95 + RANDOM_LONG(0, 9);
+	const int pitch = 95 + RANDOM_LONG(0, 9);
 
+	// Play a random alert sound
 	EMIT_SOUND_DYN(ENT(pev), CHAN_VOICE, pAlertSounds[RANDOM_LONG(0, ARRAYSIZE(pAlertSounds) - 1)], 1.0, ATTN_NORM, 0,  pitch);
 }
 
@@ -133,7 +146,7 @@ void CZombie::AlertSound()
 //=========================================================
 void CZombie::IdleSound()
 {
-	int pitch = 100 + RANDOM_LONG(-5, 5);
+	const int pitch = 100 + RANDOM_LONG(-5, 5);
 
 	// Play a random idle sound
 	EMIT_SOUND_DYN(ENT(pev), CHAN_VOICE, pIdleSounds[RANDOM_LONG(0, ARRAYSIZE(pIdleSounds) - 1)], 1.0, ATTN_NORM, 0,  pitch);
@@ -144,7 +157,7 @@ void CZombie::IdleSound()
 //=========================================================
 void CZombie::AttackSound()
 {
-	int pitch = 100 + RANDOM_LONG(-5, 5);
+	const int pitch = 100 + RANDOM_LONG(-5, 5);
 
 	// Play a random attack sound
 	EMIT_SOUND_DYN(ENT(pev), CHAN_VOICE, pAttackSounds[RANDOM_LONG(0, ARRAYSIZE(pAttackSounds) - 1)], 1.0, ATTN_NORM, 0,  pitch);
@@ -183,8 +196,7 @@ void CZombie::HandleAnimEvent(MonsterEvent_t* pEvent)
 			if (RANDOM_LONG(0, 1))
 				AttackSound();
 		}
-		break;
-
+	break;
 	case ZOMBIE_AE_ATTACK_LEFT:
 		{
 			// do stuff for this event.
@@ -209,8 +221,7 @@ void CZombie::HandleAnimEvent(MonsterEvent_t* pEvent)
 			if (RANDOM_LONG(0, 1))
 				AttackSound();
 		}
-		break;
-
+	break;
 	case ZOMBIE_AE_ATTACK_BOTH:
 		{
 			// do stuff for this event.
@@ -233,11 +244,10 @@ void CZombie::HandleAnimEvent(MonsterEvent_t* pEvent)
 			if (RANDOM_LONG(0, 1))
 				AttackSound();
 		}
-		break;
-
+	break;
 	default:
 		CBaseMonster::HandleAnimEvent(pEvent);
-		break;
+	break;
 	}
 }
 

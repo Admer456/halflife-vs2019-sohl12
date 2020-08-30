@@ -58,6 +58,8 @@ enum
 class CScientist : public CTalkMonster
 {
 public:
+	CScientist();
+	
 	void Spawn() override;
 	void Precache() override;
 

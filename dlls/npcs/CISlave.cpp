@@ -49,6 +49,9 @@ TYPEDESCRIPTION	CISlave::m_SaveData[] =
 
 IMPLEMENT_SAVERESTORE(CISlave, CSquadMonster);
 
+//=========================================================
+// Sounds
+//=========================================================
 const char* CISlave::pAttackHitSounds[] =
 {
 	"zombie/claw_strike1.wav",
@@ -83,6 +86,9 @@ int	CISlave::Classify()
 	return m_iClass ? m_iClass : CLASS_ALIEN_MILITARY;
 }
 
+//=========================================================
+// IRelationship
+//=========================================================
 int CISlave::IRelationship(CBaseEntity* pTarget)
 {
 	if ((pTarget->IsPlayer()))
@@ -91,6 +97,9 @@ int CISlave::IRelationship(CBaseEntity* pTarget)
 	return CBaseMonster::IRelationship(pTarget);
 }
 
+//=========================================================
+// CallForHelp
+//=========================================================
 void CISlave::CallForHelp(const char* szClassname, float flDist, EHANDLE hEnemy, Vector& vecLocation)
 {
 	// ALERT( at_aiconsole, "help " );
@@ -176,9 +185,8 @@ void CISlave::PainSound()
 }
 
 //=========================================================
-// DieSound
+// DeathSound
 //=========================================================
-
 void CISlave::DeathSound()
 {
 	EMIT_SOUND_DYN(ENT(pev), CHAN_WEAPON, pDeathSounds[RANDOM_LONG(0, ARRAYSIZE(pDeathSounds) - 1)], 1.0, ATTN_NORM, 0, m_voicePitch);
@@ -196,6 +204,9 @@ int CISlave::ISoundMask()
 		bits_SOUND_PLAYER;
 }
 
+//=========================================================
+// Killed
+//=========================================================
 void CISlave::Killed(entvars_t* pevAttacker, int iGib)
 {
 	ClearBeams();
@@ -255,7 +266,6 @@ void CISlave::HandleAnimEvent(MonsterEvent_t* pEvent)
 		}
 	}
 	break;
-
 	case ISLAVE_AE_CLAWRAKE:
 	{
 		CBaseEntity* pHurt = CheckTraceHullAttack(70, gSkillData.slaveDmgClawrake, DMG_SLASH);
@@ -274,7 +284,6 @@ void CISlave::HandleAnimEvent(MonsterEvent_t* pEvent)
 		}
 	}
 	break;
-
 	case ISLAVE_AE_ZAP_POWERUP:
 	{
 		// speed up attack when on hard
@@ -316,7 +325,6 @@ void CISlave::HandleAnimEvent(MonsterEvent_t* pEvent)
 		pev->skin = m_iBeams / 2;
 	}
 	break;
-
 	case ISLAVE_AE_ZAP_SHOOT:
 	{
 		ClearBeams();
@@ -330,22 +338,16 @@ void CISlave::HandleAnimEvent(MonsterEvent_t* pEvent)
 			if (!trace.fStartSolid)
 			{
 				CBaseEntity* pNew = Create("monster_alien_slave", m_hDead->pev->origin, m_hDead->pev->angles);
-				CBaseMonster* pNewMonster = pNew->MyMonsterPointer();
 				pNew->pev->spawnflags |= 1;
 				WackBeam(-1, pNew);
 				WackBeam(1, pNew);
 				UTIL_Remove(m_hDead);
 				EMIT_SOUND_DYN(ENT(pev), CHAN_WEAPON, "hassault/hw_shoot1.wav", 1, ATTN_NORM, 0, RANDOM_LONG(130, 160));
-
-				/*
-				CBaseEntity *pEffect = Create( "test_effect", pNew->Center(), pev->angles );
-				pEffect->Use( this, this, USE_ON, 1 );
-				*/
 				break;
 			}
 		}
+			
 		ClearMultiDamage();
-
 		UTIL_MakeAimVectors(pev->angles);
 
 		ZapBeam(-1);
@@ -358,16 +360,14 @@ void CISlave::HandleAnimEvent(MonsterEvent_t* pEvent)
 		m_flNextAttack = gpGlobals->time + RANDOM_FLOAT(0.5, 4.0);
 	}
 	break;
-
 	case ISLAVE_AE_ZAP_DONE:
 	{
 		ClearBeams();
 	}
 	break;
-
 	default:
 		CSquadMonster::HandleAnimEvent(pEvent);
-		break;
+	break;
 	}
 }
 
@@ -456,6 +456,7 @@ void CISlave::Spawn()
 	pev->solid = SOLID_SLIDEBOX;
 	pev->movetype = MOVETYPE_STEP;
 	m_bloodColor = BLOOD_COLOR_GREEN;
+	
 	pev->effects = 0;
 	
 	if (pev->health == 0)
@@ -476,8 +477,6 @@ void CISlave::Spawn()
 //=========================================================
 void CISlave::Precache()
 {
-	int i;
-
 	if (pev->model)
 		PRECACHE_MODEL((char*)STRING(pev->model)); //LRC
 	else
@@ -497,9 +496,12 @@ void CISlave::Precache()
 	PRECACHE_SOUND_ARRAY(pPainSounds);
 	PRECACHE_SOUND_ARRAY(pDeathSounds);
 
-	UTIL_PrecacheOther("test_effect");
+	UTIL_PrecacheOther("zap_effect");
 }
 
+//=========================================================
+// UpdateOnRemove
+//=========================================================
 void CISlave::UpdateOnRemove()
 {
 	CSquadMonster::UpdateOnRemove();
@@ -510,7 +512,6 @@ void CISlave::UpdateOnRemove()
 //=========================================================
 // TakeDamage - get provoked when injured
 //=========================================================
-
 int CISlave::TakeDamage(entvars_t* pevInflictor, entvars_t* pevAttacker, float flDamage, int bitsDamageType)
 {
 	// don't slash one of your own
@@ -524,6 +525,9 @@ int CISlave::TakeDamage(entvars_t* pevInflictor, entvars_t* pevAttacker, float f
 	return CSquadMonster::TakeDamage(pevInflictor, pevAttacker, flDamage, bitsDamageType);
 }
 
+//=========================================================
+// TraceAttack
+//=========================================================
 void CISlave::TraceAttack(entvars_t* pevAttacker, float flDamage, Vector vecDir, TraceResult* ptr, int bitsDamageType)
 {
 	if (bitsDamageType & DMG_SHOCK)
@@ -566,6 +570,7 @@ DEFINE_CUSTOM_SCHEDULES(CISlave)
 IMPLEMENT_CUSTOM_SCHEDULES(CISlave, CSquadMonster);
 
 //=========================================================
+// GetSchedule
 //=========================================================
 Schedule_t* CISlave::GetSchedule()
 {
@@ -581,8 +586,7 @@ Schedule_t* CISlave::GetSchedule()
 
 	if (HasConditions(bits_COND_HEAR_SOUND))
 	{
-		CSound* pSound;
-		pSound = PBestSound();
+		CSound* pSound = PBestSound();
 
 		ASSERT(pSound != NULL);
 
@@ -623,6 +627,9 @@ Schedule_t* CISlave::GetSchedule()
 	return CSquadMonster::GetSchedule();
 }
 
+//=========================================================
+// GetScheduleOfType
+//=========================================================
 Schedule_t* CISlave::GetScheduleOfType(int Type)
 {
 	switch (Type)
@@ -692,6 +699,7 @@ void CISlave::ArmBeam(int side)
 void CISlave::BeamGlow()
 {
 	int b = m_iBeams * 32;
+	
 	if (b > 255)
 		b = 255;
 
@@ -739,7 +747,7 @@ void CISlave::ZapBeam(int side)
 
 	Vector vecSrc = pev->origin + gpGlobals->v_up * 36;
 	Vector vecAim = ShootAtEnemy(vecSrc);
-	float deflection = 0.01;
+	const float deflection = 0.01;
 	vecAim = vecAim + side * gpGlobals->v_right * RANDOM_FLOAT(0, deflection) + gpGlobals->v_up * RANDOM_FLOAT(-deflection, deflection);
 	UTIL_TraceLine(vecSrc, vecSrc + vecAim * 1024, dont_ignore_monsters, ENT(pev), &tr);
 
@@ -754,11 +762,12 @@ void CISlave::ZapBeam(int side)
 	m_pBeam[m_iBeams]->SetNoise(20);
 	m_iBeams++;
 
-	CBaseEntity* pEntity = CBaseEntity::Instance(tr.pHit);
+	CBaseEntity* pEntity = Instance(tr.pHit);
 	if (pEntity != NULL && pEntity->pev->takedamage)
 	{
 		pEntity->TraceAttack(pev, gSkillData.slaveDmgZap, vecAim, &tr, DMG_SHOCK);
 	}
+	
 	UTIL_EmitAmbientSound(ENT(pev), tr.vecEndPos, "weapons/electro4.wav", 0.5, ATTN_NORM, 0, RANDOM_LONG(140, 160));
 }
 
@@ -775,6 +784,7 @@ void CISlave::ClearBeams()
 			m_pBeam[i] = nullptr;
 		}
 	}
+	
 	m_iBeams = 0;
 	pev->skin = 0;
 

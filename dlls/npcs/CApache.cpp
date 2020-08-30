@@ -77,6 +77,7 @@ void CApache::Spawn()
 
 	pev->sequence = 0;
 	ResetSequenceInfo();
+	
 	pev->frame = RANDOM_LONG(0, 0xFF);
 
 	InitBoneControllers();
@@ -138,7 +139,9 @@ void CApache::StartupUse(CBaseEntity* pActivator, CBaseEntity* pCaller, USE_TYPE
 {
 	SetThink(&CApache::HuntThink);
 	SetTouch(&CApache::FlyTouch);
+	
 	SetNextThink(0.1);
+	
 	SetUse(NULL);
 }
 
@@ -153,9 +156,12 @@ void CApache::Killed(entvars_t* pevAttacker, int iGib)
 	STOP_SOUND(ENT(pev), CHAN_STATIC, "apache/ap_rotor2.wav");
 
 	UTIL_SetSize(pev, Vector(-32, -32, -64), Vector(32, 32, 0));
+	
 	SetThink(&CApache::DyingThink);
 	SetTouch(&CApache::CrashTouch);
+	
 	SetNextThink(0.1);
+	
 	pev->health = 0;
 	pev->takedamage = DAMAGE_NO;
 
@@ -419,10 +425,10 @@ void CApache::HuntThink()
 	}
 
 	// if (m_hEnemy == NULL)
-	{
+	//{
 		Look(4092);
 		m_hEnemy = BestVisibleEnemy();
-	}
+	//}
 
 	// generic speed up
 	if (m_flGoalSpeed < 800)
@@ -578,6 +584,7 @@ void CApache::Flight()
 			pev->avelocity.y -= 8; // 9 * (3.0/2.0);
 		}
 	}
+	
 	pev->avelocity.y *= 0.98;
 
 	// estimate where I'll be in two seconds
@@ -676,9 +683,7 @@ void CApache::Flight()
 	}
 	else
 	{
-		CBaseEntity* pPlayer = nullptr;
-
-		pPlayer = UTIL_FindEntityByClassname(nullptr, "player");
+		CBaseEntity* pPlayer = UTIL_FindEntityByClassname(nullptr, "player");
 		// UNDONE: this needs to send different sounds to every player for multiplayer.	
 		if (pPlayer)
 		{
@@ -689,17 +694,18 @@ void CApache::Flight()
 
 			if (pitch > 250)
 				pitch = 250;
+			
 			if (pitch < 50)
 				pitch = 50;
+			
 			if (pitch == 100)
 				pitch = 101;
 
-			float flVol = (m_flForce / 100.0) + .1;
-			if (flVol > 1.0)
-				flVol = 1.0;
+			//float flVol = (m_flForce / 100.0) + .1;
+			//if (flVol > 1.0)
+			//	flVol = 1.0;
 
-			EMIT_SOUND_DYN(ENT(pev), CHAN_STATIC, "apache/ap_rotor2.wav", 1.0, 0.3, SND_CHANGE_PITCH | SND_CHANGE_VOL,
-			               pitch);
+			EMIT_SOUND_DYN(ENT(pev), CHAN_STATIC, "apache/ap_rotor2.wav", 1.0, 0.3, SND_CHANGE_PITCH | SND_CHANGE_VOL, pitch);
 		}
 		// EMIT_SOUND_DYN(ENT(pev), CHAN_STATIC, "apache/ap_whine1.wav", flVol, 0.2, SND_CHANGE_PITCH | SND_CHANGE_VOL, pitch);
 
@@ -713,7 +719,6 @@ void CApache::Flight()
 void CApache::FireRocket()
 {
 	static float side = 1.0;
-	static int count;
 
 	if (m_iRockets <= 0)
 		return;
@@ -736,13 +741,13 @@ void CApache::FireRocket()
 	}
 
 	MESSAGE_BEGIN(MSG_PVS, SVC_TEMPENTITY, vecSrc);
-	WRITE_BYTE(TE_SMOKE);
-	WRITE_COORD(vecSrc.x);
-	WRITE_COORD(vecSrc.y);
-	WRITE_COORD(vecSrc.z);
-	WRITE_SHORT(g_sModelIndexSmoke);
-	WRITE_BYTE(20); // scale * 10
-	WRITE_BYTE(12); // framerate
+		WRITE_BYTE(TE_SMOKE);
+		WRITE_COORD(vecSrc.x);
+		WRITE_COORD(vecSrc.y);
+		WRITE_COORD(vecSrc.z);
+		WRITE_SHORT(g_sModelIndexSmoke);
+		WRITE_BYTE(20); // scale * 10
+		WRITE_BYTE(12); // framerate
 	MESSAGE_END();
 
 	CBaseEntity* pRocket = Create("hvr_rocket", vecSrc, pev->angles, edict());

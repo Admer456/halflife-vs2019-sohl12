@@ -13,10 +13,6 @@
 *
 ****/
 
-//=========================================================
-// Agrunt - Dominant, warlike alien grunt monster
-//=========================================================
-
 #include "extdll.h"
 #include "util.h"
 #include "cbase.h"
@@ -314,7 +310,8 @@ void CAGrunt::SetYawSpeed()
 		case ACT_TURN_RIGHT:
 			pev->yaw_speed = 110;
 			break;
-		default: pev->yaw_speed = 100;
+		default: 
+			pev->yaw_speed = 100;
 	}
 }
 
@@ -685,7 +682,6 @@ Schedule_t slAGruntRangeAttack1[] =
 		"AGrunt Range Attack1"
 	},
 };
-
 
 Task_t tlAGruntHiddenRangeAttack1[] =
 {
