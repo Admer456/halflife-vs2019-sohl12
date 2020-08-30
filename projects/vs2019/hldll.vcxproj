@@ -177,6 +177,9 @@
     <ClCompile Include="..\..\dlls\npcs\CHoundeye.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CIchthyosaur.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CISlave.cpp" />
+    <ClCompile Include="..\..\dlls\npcs\CTentacle.cpp" />
+    <ClCompile Include="..\..\dlls\npcs\CTentacleMaw.cpp" />
+    <ClCompile Include="..\..\dlls\npcs\CZombie.cpp" />
     <ClCompile Include="..\..\dlls\observer.cpp" />
     <ClCompile Include="..\..\dlls\osprey.cpp" />
     <ClCompile Include="..\..\dlls\pathcorner.cpp" />
@@ -211,7 +214,6 @@
     <ClCompile Include="..\..\dlls\talkmonster.cpp" />
     <ClCompile Include="..\..\dlls\teamplay_gamerules.cpp" />
     <ClCompile Include="..\..\dlls\tempmonster.cpp" />
-    <ClCompile Include="..\..\dlls\tentacle.cpp" />
     <ClCompile Include="..\..\dlls\triggers.cpp" />
     <ClCompile Include="..\..\dlls\tripmine.cpp" />
     <ClCompile Include="..\..\dlls\turret.cpp" />
@@ -221,7 +223,6 @@
     <ClCompile Include="..\..\dlls\world.cpp" />
     <ClCompile Include="..\..\dlls\wpn_shared\hl_wpn_glock.cpp" />
     <ClCompile Include="..\..\dlls\xen.cpp" />
-    <ClCompile Include="..\..\dlls\zombie.cpp" />
     <ClCompile Include="..\..\game_shared\voice_gamemgr.cpp" />
     <ClCompile Include="..\..\pm_shared\pm_debug.cpp" />
     <ClCompile Include="..\..\pm_shared\pm_math.cpp" />
@@ -279,6 +280,9 @@
     <ClInclude Include="..\..\dlls\npcs\CHoundeye.h" />
     <ClInclude Include="..\..\dlls\npcs\CIchthyosaur.h" />
     <ClInclude Include="..\..\dlls\npcs\CISlave.h" />
+    <ClInclude Include="..\..\dlls\npcs\CTentacle.h" />
+    <ClInclude Include="..\..\dlls\npcs\CTentacleMaw.h" />
+    <ClInclude Include="..\..\dlls\npcs\CZombie.h" />
     <ClInclude Include="..\..\dlls\plane.h" />
     <ClInclude Include="..\..\dlls\player.h" />
     <ClInclude Include="..\..\dlls\projectiles\CApacheHVR.h" />
