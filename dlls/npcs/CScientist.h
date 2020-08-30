@@ -13,49 +13,74 @@
 *
 ****/
 
-#ifndef CBARNEY_H
-#define CBARNEY_H
+#ifndef CSCIENTIST_H
+#define CSCIENTIST_H
 
 #ifndef TALKMONSTER_H
 #include "talkmonster.h"
 #endif
 
-//=========================================================
-// Monster's flags
-//=========================================================
+#define		NUM_SCIENTIST_HEADS		4 // four heads available for scientist model
+
+enum { HEAD_GLASSES = 0, HEAD_EINSTEIN = 1, HEAD_LUTHER = 2, HEAD_SLICK = 3 };
+
 enum
 {
-	BARNEY_AE_DRAW = (2),
-	BARNEY_AE_SHOOT = (3),
-	BARNEY_AE_HOLSTER = (4),
+	SCHED_HIDE = LAST_TALKMONSTER_SCHEDULE + 1,
+	SCHED_FEAR,
+	SCHED_PANIC,
+	SCHED_STARTLE,
+	SCHED_TARGET_CHASE_SCARED,
+	SCHED_TARGET_FACE_SCARED,
+};
 
-	BARNEY_BODY_GUNHOLSTERED = 0,
-	BARNEY_BODY_GUNDRAWN = 1,
-	BARNEY_BODY_GUNGONE = 2
+enum
+{
+	TASK_SAY_HEAL = LAST_TALKMONSTER_TASK + 1,
+	TASK_HEAL,
+	TASK_SAY_FEAR,
+	TASK_RUN_PATH_SCARED,
+	TASK_SCREAM,
+	TASK_RANDOM_SCREAM,
+	TASK_MOVE_TO_TARGET_RANGE_SCARED,
 };
 
 //=========================================================
-// Class definition of CBarney
+// Monster's Anim Events Go Here
 //=========================================================
-class CBarney : public CTalkMonster
+#define		SCIENTIST_AE_HEAL		( 1 )
+#define		SCIENTIST_AE_NEEDLEON	( 2 )
+#define		SCIENTIST_AE_NEEDLEOFF	( 3 )
+
+//=========================================================
+// Class definition of CScientist
+//=========================================================
+class CScientist : public CTalkMonster
 {
 public:
 	void Spawn() override;
 	void Precache() override;
+
 	void SetYawSpeed() override;
-	int ISoundMask() override;
-	void BarneyFirePistol();
-	void AlertSound() override;
 	int Classify() override;
 	void HandleAnimEvent(MonsterEvent_t* pEvent) override;
-
 	void RunTask(Task_t* pTask) override;
 	void StartTask(Task_t* pTask) override;
 	int ObjectCaps() override { return CTalkMonster::ObjectCaps() | FCAP_IMPULSE_USE; }
 	int TakeDamage(entvars_t* pevInflictor, entvars_t* pevAttacker, float flDamage, int bitsDamageType) override;
-	BOOL CheckRangeAttack1(float flDot, float flDist) override;
-
+	int FriendNumber(int arrayNumber) override;
+	void SetActivity(Activity newActivity) override;
+	Activity GetStoppedActivity() override;
+	int ISoundMask() override;
 	void DeclineFollowing() override;
+
+	float CoverRadius() override { return 1200; }
+	// Need more room for cover because scientists want to get far away!
+	BOOL DisregardEnemy(CBaseEntity* pEnemy) { return !pEnemy->IsAlive() || (gpGlobals->time - m_fearTime) > 15; }
+
+	BOOL CanHeal();
+	void Heal();
+	void Scream();
 
 	// Override these to set behavior
 	Schedule_t* GetScheduleOfType(int Type) override;
@@ -67,24 +92,18 @@ public:
 
 	void TalkInit() override;
 
-	void TraceAttack(entvars_t* pevAttacker, float flDamage, Vector vecDir, TraceResult* ptr,
-	                 int bitsDamageType) override;
 	void Killed(entvars_t* pevAttacker, int iGib) override;
 
 	int Save(CSave& save) override;
 	int Restore(CRestore& restore) override;
 	static TYPEDESCRIPTION m_SaveData[];
 
-	int m_iBaseBody; //LRC - for barneys with different bodies
-	BOOL m_fGunDrawn;
-	float m_painTime;
-	float m_checkAttackTime;
-	BOOL m_lastAttackCheck;
-
-	// UNDONE: What is this for?  It isn't used?
-	float m_flPlayerDamage; // how much pain has the player inflicted on me?
-
 	CUSTOM_SCHEDULES;
+
+private:
+	float m_painTime;
+	float m_healTime;
+	float m_fearTime;
 };
 
-#endif // CBARNEY
+#endif // CSCIENTIST_H

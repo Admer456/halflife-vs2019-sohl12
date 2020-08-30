@@ -15,6 +15,10 @@
 #ifndef TALKMONSTER_H
 #define TALKMONSTER_H
 
+#ifndef SCRIPTED_H
+#include "scripted.h"
+#endif
+
 #ifndef MONSTERS_H
 #include "monsters.h"
 #endif
