@@ -268,8 +268,6 @@ Called by engine every frame that client .dll is loaded
 ==========================
 */
 
-float g_flTimeOld = 0.0f;
-
 void DLLEXPORT HUD_Frame( double time )
 {
 //	RecClHudFrame(time);
@@ -277,16 +275,6 @@ void DLLEXPORT HUD_Frame( double time )
 	ServersThink( time );
 
 	GetClientVoiceMgr()->Frame(time);
-
-	float flTimeCurrent = gEngfuncs.GetClientTime();
-	float flTimeDelta = flTimeCurrent - g_flTimeOld;
-	gEngfuncs.Con_Printf("Old = %f / Current = %f\n", g_flTimeOld, flTimeCurrent);
-	if (flTimeDelta == 0.0f)
-		gEngfuncs.Con_Printf("The game is paused!\n");
-	else
-		gEngfuncs.Con_Printf("The game is NOT paused\n");
-
-	g_flTimeOld = flTimeCurrent;
 }
 
 
