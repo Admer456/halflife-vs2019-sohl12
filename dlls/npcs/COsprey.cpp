@@ -28,6 +28,9 @@
 //=========================================================
 LINK_ENTITY_TO_CLASS(monster_osprey, COsprey);
 
+//=========================================================
+// Save and Restore
+//=========================================================
 TYPEDESCRIPTION COsprey::m_SaveData[] =
 {
 	DEFINE_FIELD(COsprey, m_pGoalEnt, FIELD_CLASSPTR),
@@ -56,8 +59,12 @@ TYPEDESCRIPTION COsprey::m_SaveData[] =
 	DEFINE_FIELD(COsprey, m_iDoLeftSmokePuff, FIELD_INTEGER),
 	DEFINE_FIELD(COsprey, m_iDoRightSmokePuff, FIELD_INTEGER),
 };
+
 IMPLEMENT_SAVERESTORE(COsprey, CBaseMonster);
 
+//=========================================================
+// Spawn
+//=========================================================
 void COsprey::Spawn()
 {
 	Precache();
@@ -105,7 +112,9 @@ void COsprey::Spawn()
 	m_vel2 = pev->velocity;
 }
 
-
+//=========================================================
+// Precache
+//=========================================================
 void COsprey::Precache()
 {
 	UTIL_PrecacheOther("monster_human_grunt");
@@ -127,11 +136,17 @@ void COsprey::Precache()
 	m_iEngineGibs = PRECACHE_MODEL("models/osprey_enginegibs.mdl");
 }
 
+//=========================================================
+// CommandUse
+//=========================================================
 void COsprey::CommandUse(CBaseEntity* pActivator, CBaseEntity* pCaller, USE_TYPE useType, float value)
 {
 	SetNextThink(0.1);
 }
 
+//=========================================================
+// FindAllThink
+//=========================================================
 void COsprey::FindAllThink()
 {
 	CBaseEntity* pEntity = nullptr;
@@ -151,9 +166,9 @@ void COsprey::FindAllThink()
 	{
 		m_iUnits = 4; //LRC - stop whining, just make the damn grunts...
 
-		//		ALERT( at_console, "osprey error: no grunts to resupply\n");
-		//		UTIL_Remove( this );
-		//		return;
+		//ALERT( at_console, "osprey error: no grunts to resupply\n");
+		//UTIL_Remove( this );
+		//return;
 	}
 	
 	SetThink(&COsprey::FlyThink);
@@ -161,7 +176,9 @@ void COsprey::FindAllThink()
 	m_startTime = gpGlobals->time;
 }
 
-
+//=========================================================
+// DeployThink
+//=========================================================
 void COsprey::DeployThink()
 {
 	UTIL_MakeAimVectors(pev->angles);
@@ -190,6 +207,9 @@ void COsprey::DeployThink()
 	SetNextThink(0.1);
 }
 
+//=========================================================
+// HasDead
+//=========================================================
 BOOL COsprey::HasDead()
 {
 	for (int i = 0; i < m_iUnits; i++)
@@ -198,16 +218,21 @@ BOOL COsprey::HasDead()
 		{
 			return TRUE;
 		}
+		
 		m_vecOrigin[i] = m_hGrunt[i]->pev->origin; // send them to where they died
 	}
 	
 	return FALSE;
 }
 
+//=========================================================
+// MakeGrunt
+//=========================================================
 CBaseMonster* COsprey::MakeGrunt(Vector vecSrc)
 {
 	TraceResult tr;
 	UTIL_TraceLine(vecSrc, vecSrc + Vector(0, 0, -4096.0), dont_ignore_monsters, ENT(pev), &tr);
+
 	if (tr.pHit && Instance(tr.pHit)->pev->solid != SOLID_BSP)
 		return nullptr;
 
@@ -219,6 +244,7 @@ CBaseMonster* COsprey::MakeGrunt(Vector vecSrc)
 			{
 				m_hGrunt[i]->SUB_StartFadeOut();
 			}
+			
 			CBaseEntity* pEntity = Create("monster_human_grunt", vecSrc, pev->angles);
 			CBaseMonster* pGrunt = pEntity->MyMonsterPointer();
 			pGrunt->pev->movetype = MOVETYPE_FLY;
@@ -242,6 +268,9 @@ CBaseMonster* COsprey::MakeGrunt(Vector vecSrc)
 	return nullptr;
 }
 
+//=========================================================
+// HoverThink
+//=========================================================
 void COsprey::HoverThink()
 {
 	int i;
@@ -264,6 +293,9 @@ void COsprey::HoverThink()
 	ShowDamage();
 }
 
+//=========================================================
+// UpdateGoal
+//=========================================================
 void COsprey::UpdateGoal()
 {
 	if (m_pGoalEnt)
@@ -306,6 +338,9 @@ void COsprey::UpdateGoal()
 	}
 }
 
+//=========================================================
+// FlyThink
+//=========================================================
 void COsprey::FlyThink()
 {
 	StudioFrameAdvance();
@@ -323,6 +358,7 @@ void COsprey::FlyThink()
 		{
 			SetThink(&COsprey::DeployThink);
 		}
+		
 		int loopbreaker = 100; //LRC - <slap> don't loop indefinitely!
 		do
 		{
@@ -330,6 +366,7 @@ void COsprey::FlyThink()
 			loopbreaker--; //LRC
 		}
 		while (m_pGoalEnt->pev->speed < 400 && !HasDead() && loopbreaker > 0);
+		
 		UpdateGoal();
 	}
 
@@ -337,6 +374,9 @@ void COsprey::FlyThink()
 	ShowDamage();
 }
 
+//=========================================================
+// Flight
+//=========================================================
 void COsprey::Flight()
 {
 	float t = (gpGlobals->time - m_startTime);
@@ -364,14 +404,15 @@ void COsprey::Flight()
 		if (m_flRotortilt > 0)
 			m_flRotortilt = 0;
 	}
+	
 	if (m_flRotortilt > m_flIdealtilt)
 	{
 		m_flRotortilt -= 0.5;
 		if (m_flRotortilt < -90)
 			m_flRotortilt = -90;
 	}
+	
 	SetBoneController(0, m_flRotortilt);
-
 
 	if (m_iSoundState == 0)
 	{
@@ -382,9 +423,7 @@ void COsprey::Flight()
 	}
 	else
 	{
-		CBaseEntity* pPlayer = nullptr;
-
-		pPlayer = UTIL_FindEntityByClassname(nullptr, "player");
+		CBaseEntity* pPlayer = UTIL_FindEntityByClassname(nullptr, "player");
 		// UNDONE: this needs to send different sounds to every player for multiplayer.	
 		if (pPlayer)
 		{
@@ -413,12 +452,18 @@ void COsprey::Flight()
 	}
 }
 
+//=========================================================
+// HitTouch
+//=========================================================
 void COsprey::HitTouch(CBaseEntity* pOther)
 {
 	SetNextThink(2.0);
 }
 
 /*
+//=========================================================
+// TakeDamage
+//=========================================================
 int COsprey::TakeDamage( entvars_t *pevInflictor, entvars_t *pevAttacker, float flDamage, int bitsDamageType )
 {
 	if (m_flRotortilt <= -90)
@@ -434,6 +479,9 @@ int COsprey::TakeDamage( entvars_t *pevInflictor, entvars_t *pevAttacker, float 
 }
 */
 
+//=========================================================
+// Killed
+//=========================================================
 void COsprey::Killed(entvars_t* pevAttacker, int iGib)
 {
 	pev->movetype = MOVETYPE_TOSS;
@@ -452,6 +500,9 @@ void COsprey::Killed(entvars_t* pevAttacker, int iGib)
 	m_startTime = gpGlobals->time + 4.0;
 }
 
+//=========================================================
+// CrashTouch
+//=========================================================
 void COsprey::CrashTouch(CBaseEntity* pOther)
 {
 	// only crash if we hit something solid
@@ -464,6 +515,9 @@ void COsprey::CrashTouch(CBaseEntity* pOther)
 	}
 }
 
+//=========================================================
+// DyingThink
+//=========================================================
 void COsprey::DyingThink()
 {
 	StudioFrameAdvance();
@@ -545,6 +599,7 @@ void COsprey::DyingThink()
 		SetNextThink(0.2);
 		return;
 	}
+	
 	Vector vecSpot = pev->origin + (pev->mins + pev->maxs) * 0.5;
 
 	/*
@@ -648,7 +703,9 @@ void COsprey::DyingThink()
 	UTIL_Remove(this);
 }
 
-
+//=========================================================
+// ShowDamage
+//=========================================================
 void COsprey::ShowDamage()
 {
 	if (m_iDoLeftSmokePuff > 0 || RANDOM_LONG(0, 99) > m_flLeftHealth)
@@ -663,9 +720,11 @@ void COsprey::ShowDamage()
 		WRITE_BYTE(RANDOM_LONG(0, 9) + 20); // scale * 10
 		WRITE_BYTE(12); // framerate
 		MESSAGE_END();
+		
 		if (m_iDoLeftSmokePuff > 0)
 			m_iDoLeftSmokePuff--;
 	}
+	
 	if (m_iDoRightSmokePuff > 0 || RANDOM_LONG(0, 99) > m_flRightHealth)
 	{
 		Vector vecSrc = pev->origin + gpGlobals->v_right * 340;
@@ -683,7 +742,9 @@ void COsprey::ShowDamage()
 	}
 }
 
-
+//=========================================================
+// TraceAttack
+//=========================================================
 void COsprey::TraceAttack(entvars_t* pevAttacker, float flDamage, Vector vecDir, TraceResult* ptr, int bitsDamageType)
 {
 	// ALERT( at_console, "%d %.0f\n", ptr->iHitgroup, flDamage );
@@ -693,6 +754,7 @@ void COsprey::TraceAttack(entvars_t* pevAttacker, float flDamage, Vector vecDir,
 	{
 		if (m_flRightHealth < 0)
 			return;
+		
 		m_flRightHealth -= flDamage;
 		m_iDoLeftSmokePuff = 3 + (flDamage / 5.0);
 	}
@@ -701,6 +763,7 @@ void COsprey::TraceAttack(entvars_t* pevAttacker, float flDamage, Vector vecDir,
 	{
 		if (m_flLeftHealth < 0)
 			return;
+		
 		m_flLeftHealth -= flDamage;
 		m_iDoRightSmokePuff = 3 + (flDamage / 5.0);
 	}

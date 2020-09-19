@@ -21,7 +21,7 @@
 #include "CRat.h"
 
 //=========================================================
-// Monster's Anim Events Go Here
+// Link
 //=========================================================
 LINK_ENTITY_TO_CLASS(monster_rat, CRat);
 

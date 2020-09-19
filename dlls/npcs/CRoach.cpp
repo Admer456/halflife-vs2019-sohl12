@@ -25,7 +25,7 @@
 #include "CRoach.h"
 
 //=========================================================
-// Monster's Anim Events Go Here
+// Link
 //=========================================================
 LINK_ENTITY_TO_CLASS(monster_cockroach, CRoach);
 

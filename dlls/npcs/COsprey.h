@@ -51,9 +51,10 @@ public:
 
 	void UpdateGoal();
 	BOOL HasDead();
+	void Flight();
+	
 	void EXPORT FlyThink();
 	void EXPORT DeployThink();
-	void Flight();
 	void EXPORT HitTouch(CBaseEntity* pOther);
 	void EXPORT FindAllThink();
 	void EXPORT HoverThink();

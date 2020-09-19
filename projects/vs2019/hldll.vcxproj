@@ -133,7 +133,6 @@
     <ClCompile Include="..\..\dlls\globals.cpp" />
     <ClCompile Include="..\..\dlls\handgrenade.cpp" />
     <ClCompile Include="..\..\dlls\healthkit.cpp" />
-    <ClCompile Include="..\..\dlls\hornet.cpp" />
     <ClCompile Include="..\..\dlls\hornetgun.cpp" />
     <ClCompile Include="..\..\dlls\h_ai.cpp" />
     <ClCompile Include="..\..\dlls\h_battery.cpp" />
@@ -151,7 +150,6 @@
     <ClCompile Include="..\..\dlls\movewith.cpp" />
     <ClCompile Include="..\..\dlls\mp5.cpp" />
     <ClCompile Include="..\..\dlls\multiplay_gamerules.cpp" />
-    <ClCompile Include="..\..\dlls\nihilanth.cpp" />
     <ClCompile Include="..\..\dlls\nodes.cpp" />
     <ClCompile Include="..\..\dlls\nodes\CInfoBM.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CAGrunt.cpp" />
@@ -179,6 +177,7 @@
     <ClCompile Include="..\..\dlls\npcs\CISlave.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CLeech.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CMiniTurret.cpp" />
+    <ClCompile Include="..\..\dlls\npcs\CNihilanth.cpp" />
     <ClCompile Include="..\..\dlls\npcs\COsprey.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CRat.cpp" />
     <ClCompile Include="..\..\dlls\npcs\CRoach.cpp" />
@@ -197,6 +196,8 @@
     <ClCompile Include="..\..\dlls\projectiles\CBMortar.cpp" />
     <ClCompile Include="..\..\dlls\projectiles\CControllerHeadBall.cpp" />
     <ClCompile Include="..\..\dlls\projectiles\CControllerZapBall.cpp" />
+    <ClCompile Include="..\..\dlls\projectiles\CHornet.cpp" />
+    <ClCompile Include="..\..\dlls\projectiles\CNihilanthHVR.cpp" />
     <ClCompile Include="..\..\dlls\projectiles\CSquidSpit.cpp" />
     <ClCompile Include="..\..\dlls\props\CDeadBarney.cpp" />
     <ClCompile Include="..\..\dlls\props\CDeadGenericMonster.cpp" />
@@ -255,7 +256,6 @@
     <ClInclude Include="..\..\dlls\flyingmonster.h" />
     <ClInclude Include="..\..\dlls\func_break.h" />
     <ClInclude Include="..\..\dlls\gamerules.h" />
-    <ClInclude Include="..\..\dlls\hornet.h" />
     <ClInclude Include="..\..\dlls\items.h" />
     <ClInclude Include="..\..\dlls\locus.h" />
     <ClInclude Include="..\..\dlls\monsterevent.h" />
@@ -288,6 +288,7 @@
     <ClInclude Include="..\..\dlls\npcs\CISlave.h" />
     <ClInclude Include="..\..\dlls\npcs\CLeech.h" />
     <ClInclude Include="..\..\dlls\npcs\CMiniTurret.h" />
+    <ClInclude Include="..\..\dlls\npcs\CNihilanth.h" />
     <ClInclude Include="..\..\dlls\npcs\COsprey.h" />
     <ClInclude Include="..\..\dlls\npcs\CRat.h" />
     <ClInclude Include="..\..\dlls\npcs\CRoach.h" />
@@ -303,6 +304,8 @@
     <ClInclude Include="..\..\dlls\projectiles\CBMortar.h" />
     <ClInclude Include="..\..\dlls\projectiles\CControllerHeadBall.h" />
     <ClInclude Include="..\..\dlls\projectiles\CControllerZapBall.h" />
+    <ClInclude Include="..\..\dlls\projectiles\CHornet.h" />
+    <ClInclude Include="..\..\dlls\projectiles\CNihilanthHVR.h" />
     <ClInclude Include="..\..\dlls\projectiles\CSquidSpit.h" />
     <ClInclude Include="..\..\dlls\props\CDeadBarney.h" />
     <ClInclude Include="..\..\dlls\props\CDeadGenericMonster.h" />
