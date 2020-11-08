@@ -42,13 +42,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(Configuration)\$(ProjectName)\</OutDir>
+    <OutDir>..\..\bin\$(Configuration)\cl_dlls\</OutDir>
     <TargetName>client</TargetName>
     <IntDir>$(Configuration)\$(ProjectName)\int\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(Configuration)\$(ProjectName)\</OutDir>
+    <OutDir>..\..\bin\$(Configuration)\cl_dlls\</OutDir>
     <TargetName>client</TargetName>
     <IntDir>$(Configuration)\$(ProjectName)\int\</IntDir>
   </PropertyGroup>
@@ -70,6 +70,7 @@
       <AdditionalDependencies>..\..\utils\vgui\lib\win32_vc6\vgui.lib;wsock32.lib;..\..\lib\public\sdl2.lib;..\..\external\ffmpeg\lib\avcodec.lib;..\..\external\ffmpeg\lib\avfilter.lib;..\..\external\ffmpeg\lib\avformat.lib;..\..\external\ffmpeg\lib\avutil.lib;..\..\external\ffmpeg\lib\swresample.lib;..\..\external\ffmpeg\lib\swscale.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <BaseAddress>
       </BaseAddress>
+      <OutputFile>..\..\bin\$(Configuration)\cl_dlls\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -99,6 +100,7 @@
       <AdditionalDependencies>..\..\utils\vgui\lib\win32_vc6\vgui.lib;wsock32.lib;..\..\lib\public\sdl2.lib;..\..\external\ffmpeg\lib\avcodec.lib;..\..\external\ffmpeg\lib\avfilter.lib;..\..\external\ffmpeg\lib\avformat.lib;..\..\external\ffmpeg\lib\avutil.lib;..\..\external\ffmpeg\lib\swresample.lib;..\..\external\ffmpeg\lib\swscale.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <BaseAddress>
       </BaseAddress>
+      <OutputFile>..\..\bin\$(Configuration)\cl_dlls\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
       <Command>
