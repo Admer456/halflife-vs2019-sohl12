@@ -177,6 +177,68 @@ int CHalfLifeRules :: IPointsForKill( CBasePlayer *pAttacker, CBasePlayer *pKill
 //=========================================================
 void CHalfLifeRules :: PlayerKilled( CBasePlayer *pVictim, entvars_t *pKiller, entvars_t *pInflictor )
 {
+	DeathNotice(pVictim, pKiller, pInflictor);
+
+	pVictim->m_iDeaths += 1;
+
+
+	FireTargets("game_playerdie", pVictim, pVictim, USE_TOGGLE, 0);
+	CBasePlayer* peKiller = NULL;
+	CBaseEntity* ktmp = CBaseEntity::Instance(pKiller);
+	if (ktmp && (ktmp->Classify() == CLASS_PLAYER))
+		peKiller = (CBasePlayer*)ktmp;
+
+	if (pVictim->pev == pKiller)
+	{  // killed self
+		pKiller->frags -= 1;
+	}
+	else if (ktmp && ktmp->IsPlayer())
+	{
+		// if a player dies in a deathmatch game and the killer is a client, award the killer some points
+		pKiller->frags += IPointsForKill(peKiller, pVictim);
+
+		FireTargets("game_playerkill", ktmp, ktmp, USE_TOGGLE, 0);
+	}
+	else
+	{  // killed by the world
+//MH	pKiller->frags -= 1;	this should be victim (we don't want to give the world frags)
+		pVictim->pev->frags -= 1;
+		//END
+	}
+
+	// update the scores
+	// killed scores
+	MESSAGE_BEGIN(MSG_ALL, gmsgScoreInfo);
+	WRITE_BYTE(ENTINDEX(pVictim->edict()));
+	WRITE_SHORT(pVictim->pev->frags);
+	WRITE_SHORT(pVictim->m_iDeaths);
+	WRITE_SHORT(0);
+	WRITE_SHORT(GetTeamIndex(pVictim->m_szTeamName) + 1);
+	MESSAGE_END();
+
+	// killers score, if it's a player
+	CBaseEntity* ep = CBaseEntity::Instance(pKiller);
+	if (ep && ep->Classify() == CLASS_PLAYER)
+	{
+		CBasePlayer* PK = (CBasePlayer*)ep;
+
+		MESSAGE_BEGIN(MSG_ALL, gmsgScoreInfo);
+		WRITE_BYTE(ENTINDEX(PK->edict()));
+		WRITE_SHORT(PK->pev->frags);
+		WRITE_SHORT(PK->m_iDeaths);
+		WRITE_SHORT(0);
+		WRITE_SHORT(GetTeamIndex(PK->m_szTeamName) + 1);
+		MESSAGE_END();
+
+		// let the killer paint another decal as soon as he'd like.
+		PK->m_flNextDecalTime = gpGlobals->time;
+	}
+#ifndef HLDEMO_BUILD
+	if (pVictim->HasNamedPlayerItem("weapon_satchel"))
+	{
+		DeactivateSatchels(pVictim);
+	}
+#endif
 }
 
 //=========================================================

@@ -204,12 +204,13 @@ void CAutoTrigger::DesiredAction( void )
 #define SF_RELAY_DEBUG			0x00000002
 #define SF_RELAY_USESAME		0x80000000
 
+// Windawz: make KeyValue() and Use() virtual for use in CTriggerIfRelay.
 class CTriggerRelay : public CBaseDelay
 {
 public:
-	void KeyValue( KeyValueData *pkvd );
+	virtual void KeyValue( KeyValueData *pkvd );
 	void Spawn( void );
-	void Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value );
+	virtual void Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value );
 
 	int ObjectCaps( void ) { return CBaseDelay::ObjectCaps() & ~FCAP_ACROSS_TRANSITION; }
 	virtual int		Save( CSave &save );
@@ -273,7 +274,6 @@ void CTriggerRelay::KeyValue( KeyValueData *pkvd )
 	else
 		CBaseDelay::KeyValue( pkvd );
 }
-
 
 void CTriggerRelay::Spawn( void )
 {
@@ -365,6 +365,119 @@ void CTriggerRelay::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE
 			ALERT(at_debug, "trigger_relay \"%s\" removes itself.\n");
 		UTIL_Remove( this );
 	}
+}
+
+//===================================================
+//Windawz - trigger_ifrelay, a variation of
+//			trigger_relay, only fires its
+//			target if all entities with
+//			the specified targetnames
+//			are in the specified state.
+//			Entity names and states to be
+//			checked for are specified as
+//			keyvalues in the following
+//			format:
+//<targetname> : <number, either 0 (OFF) or 1 (ON)>
+//===================================================
+class CTriggerIfRelay : public CTriggerRelay
+{
+public:
+	// Enum that represents the
+	// state to check an entity for.
+	// 
+	// Used instead of TOGGLE_STATE
+	// to not complicate the usage
+	// with additional, obscure values
+	// for the mapper.
+	enum class EntityState : int
+	{
+		OFF = 0,
+		ON = 1
+	};
+
+	static constexpr int CHECKED_ENTITIES_AMOUNT = 32;
+
+	void KeyValue(KeyValueData *pkvd) override;
+	void Use(CBaseEntity* pActivator, CBaseEntity* pCaller, USE_TYPE useType, float value) override;
+
+	virtual int Save(CSave& save);
+	virtual int Restore(CRestore& restore);
+
+	static TYPEDESCRIPTION m_SaveData[];
+private:
+	// The targetnames of the entities and the states to
+	// check for are stored in separate arrays to
+	// make it work with the save-restore system.
+
+	string_t m_checkedEntityTargetnames[CHECKED_ENTITIES_AMOUNT];
+	EntityState m_checkedEntityStates[CHECKED_ENTITIES_AMOUNT];
+	int m_count = 0;
+};
+
+LINK_ENTITY_TO_CLASS(trigger_ifrelay, CTriggerIfRelay);
+
+TYPEDESCRIPTION CTriggerIfRelay::m_SaveData[] =
+{
+	DEFINE_ARRAY(CTriggerIfRelay, m_checkedEntityTargetnames, FIELD_STRING, CHECKED_ENTITIES_AMOUNT),
+	DEFINE_ARRAY(CTriggerIfRelay, m_checkedEntityStates, FIELD_INTEGER, CHECKED_ENTITIES_AMOUNT),
+	DEFINE_FIELD(CTriggerIfRelay, m_count, FIELD_INTEGER),
+};
+
+IMPLEMENT_SAVERESTORE(CTriggerIfRelay, CTriggerRelay);
+
+void CTriggerIfRelay::KeyValue(KeyValueData* pkvd)
+{
+	// Check if this keyvalue gets recognized.
+	CTriggerRelay::KeyValue(pkvd);
+	if (pkvd->fHandled == TRUE)
+		return;
+
+	// If it's not a recognized keyvalue, add it to the list of
+	// checked entities.
+	m_checkedEntityTargetnames[m_count] = ALLOC_STRING(pkvd->szKeyName);
+
+	// We're going to get the state that the mapper wants to check
+	// for and clamp it to make sure no mistake is made.
+	int requiredState = atoi(pkvd->szValue);
+	if (requiredState >= static_cast<int>(EntityState::ON))
+		m_checkedEntityStates[m_count] = EntityState::ON;
+	else if (requiredState <= static_cast<int>(EntityState::OFF))
+		m_checkedEntityStates[m_count] = EntityState::OFF;
+
+	++m_count;
+}
+
+void CTriggerIfRelay::Use(CBaseEntity* pActivator, CBaseEntity* pCaller, USE_TYPE useType, float value)
+{
+	// We're going to count how many entities are in the state
+	// required by the mapper.
+	// If that amount is equal to m_count, we fire our target.
+	int validEntities = 0;
+	for (int i = 0; i < m_count; ++i)
+	{
+		CBaseEntity* entity = UTIL_FindEntityByTargetname(NULL, STRING(m_checkedEntityTargetnames[i]));
+		// Check if the entity is toggleable and supports states.
+		// If not, then we'll count it as valid. The mapper
+		// can't remember all entities that are toggleable.
+		if (dynamic_cast<CBaseToggle*>(entity) == nullptr)
+		{
+			++validEntities;
+			continue;
+		}
+
+		TOGGLE_STATE entityState = static_cast<TOGGLE_STATE>(entity->GetToggleState());
+		EntityState convertedEntityState = EntityState::OFF;
+
+		if ((entityState == TOGGLE_STATE::TS_AT_BOTTOM) || (entityState == TOGGLE_STATE::TS_GOING_UP))
+			convertedEntityState = EntityState::OFF;
+		else if ((entityState == TOGGLE_STATE::TS_AT_TOP) || (entityState == TOGGLE_STATE::TS_GOING_DOWN))
+			convertedEntityState = EntityState::ON;
+
+		if (convertedEntityState == m_checkedEntityStates[i])
+			++validEntities;
+	}
+	if (validEntities == m_count)
+		CTriggerRelay::Use(pActivator, pCaller, useType, value);
 }
 
 //===========================================
