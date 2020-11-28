@@ -808,7 +808,7 @@ void CTentacle::Start()
 	{
 		EMIT_SOUND(ENT(pev), CHAN_BODY, "ambience/flies.wav", 1, ATTN_NORM);
 		g_fFlySound = TRUE;
-		//		pev->nextthink = gpGlobals-> time + 0.1;
+		//SetNextThink(0.1);
 	}
 	else if (!g_fSquirmSound)
 	{

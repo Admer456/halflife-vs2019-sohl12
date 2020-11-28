@@ -172,7 +172,7 @@ void CBaseTurret::Initialize()
 	{
 		m_flLastSight = gpGlobals->time + m_flMaxWait;
 		SetThink(&CBaseTurret::AutoSearchThink);
-		pev->nextthink = gpGlobals->time + .1;
+		SetNextThink(0.1);
 	}
 	else
 		SetThink(&CBaseTurret::SUB_DoNothing);
@@ -186,14 +186,14 @@ void CBaseTurret::TurretUse(CBaseEntity* pActivator, CBaseEntity* pCaller, USE_T
 	if (m_iOn)
 	{
 		m_hEnemy = NULL;
-		pev->nextthink = gpGlobals->time + 0.1;
+		SetNextThink(0.1);
 		m_iAutoStart = FALSE;// switching off a turret disables autostart
 		//!!!! this should spin down first!!BUGBUG
 		SetThink(&CBaseTurret::Retire);
 	}
 	else
 	{
-		pev->nextthink = gpGlobals->time + 0.1; // turn on delay
+		SetNextThink(0.1); // turn on delay
 
 		// if the turret is flagged as an autoactivate turret, re-enable it's ability open self.
 		if (pev->spawnflags & SF_MONSTER_TURRET_AUTOACTIVATE)
