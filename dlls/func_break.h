@@ -15,8 +15,8 @@
 #ifndef FUNC_BREAK_H
 #define FUNC_BREAK_H
 
-typedef enum { expRandom, expDirected} Explosions;
-typedef enum { matGlass = 0, matWood, matMetal, matFlesh, matCinderBlock, matCeilingTile, matComputer, matUnbreakableGlass, matRocks, matNone, matLastMaterial } Materials;
+enum Explosions { expRandom, expDirected};
+enum Materials { matGlass = 0, matWood, matMetal, matFlesh, matCinderBlock, matCeilingTile, matComputer, matUnbreakableGlass, matRocks, matNone, matLastMaterial };
 
 #define	NUM_SHARDS 6 // this many shards spawned when breakable objects break;
 

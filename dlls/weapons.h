@@ -17,8 +17,9 @@
 
 #include <cassert> //solokiller
 
-
+#ifndef EFFECTS_H
 #include "effects.h"
+#endif
 
 class CBasePlayer;
 extern int gmsgWeapPickup;

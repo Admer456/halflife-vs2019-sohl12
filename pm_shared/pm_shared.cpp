@@ -57,7 +57,7 @@ vec3_t shared_vec3_origin = {0,0,0};
 
 #pragma warning( disable : 4305 )
 
-typedef enum {mod_brush, mod_sprite, mod_alias, mod_studio} modtype_t;
+enum modtype_t {mod_brush, mod_sprite, mod_alias, mod_studio};
 
 playermove_t *pmove = NULL;
 

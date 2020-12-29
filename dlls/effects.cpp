@@ -2415,7 +2415,7 @@ CBaseEntity *CEnvShooter :: CreateGib ( Vector vecPos, Vector vecVel )
 
 
 
-class CTestEffect : public CBaseDelay
+class CZapEffect : public CBaseDelay
 {
 public:
 	void	Spawn( void );
@@ -2432,19 +2432,19 @@ public:
 };
 
 
-LINK_ENTITY_TO_CLASS( test_effect, CTestEffect );
+LINK_ENTITY_TO_CLASS(zap_effect, CZapEffect );
 
-void CTestEffect::Spawn( void )
+void CZapEffect::Spawn( void )
 {
 	Precache( );
 }
 
-void CTestEffect::Precache( void )
+void CZapEffect::Precache( void )
 {
 	PRECACHE_MODEL( "sprites/lgtning.spr" );
 }
 
-void CTestEffect::TestThink( void )
+void CZapEffect::TestThink( void )
 {
 	int i;
 	float t = (gpGlobals->time - m_flStartTime);
@@ -2511,9 +2511,9 @@ void CTestEffect::TestThink( void )
 }
 
 
-void CTestEffect::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value )
+void CZapEffect::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value )
 {
-	SetThink( &CTestEffect::TestThink );
+	SetThink( &CZapEffect::TestThink );
 	SetNextThink( 0.1 );
 	m_flStartTime = gpGlobals->time;
 }

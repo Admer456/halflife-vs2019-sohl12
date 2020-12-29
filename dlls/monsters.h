@@ -13,8 +13,15 @@
 *
 ****/
 #ifndef MONSTERS_H
-#include "skill.h"
 #define MONSTERS_H
+
+#ifndef SKILL_H
+#include "skill.h"
+#endif
+
+#ifndef SCRIPTED_H
+#include "scripted.h"
+#endif
 
 /*
 
@@ -58,8 +65,6 @@
 #define SF_MONSTER_FALL_TO_GROUND		0x80000000
 
 // specialty spawnflags
-#define SF_MONSTER_TURRET_AUTOACTIVATE	32
-#define SF_MONSTER_TURRET_STARTINACTIVE	64
 #define SF_MONSTER_WAIT_UNTIL_PROVOKED	64 // don't attack the player unless provoked
 
 

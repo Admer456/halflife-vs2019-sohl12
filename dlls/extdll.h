@@ -12,36 +12,52 @@
 *   without written permission from Valve LLC.
 *
 ****/
+
 #ifndef EXTDLL_H
 #define EXTDLL_H
 
+/**
+ * Global header file for extension DLLs
+ */
 
-//
-// Global header file for extension DLLs
-//
-
+#ifndef PLATFORM_H
 #include "Platform.h"
+#endif
 
 // Header file containing definition of globalvars_t and entvars_t
-typedef unsigned int func_t;					//
-typedef unsigned int string_t;				// from engine's pr_comp.h;
-typedef float vec_t;				// needed before including progdefs.h
+typedef unsigned int func_t;
+typedef unsigned int string_t; // from engine's pr_comp.h;
+typedef float vec_t; // needed before including progdefs.h
 
 // Vector class
+#ifndef VECTOR_H
 #include "vector.h"
+#endif
 
 // Defining it as a (bogus) struct helps enforce type-checking
 #define vec3_t Vector
 
 // Shared engine/DLL constants
+#ifndef CONST_H
 #include "const.h"
+#endif
+
+#ifndef PROGDEFS_H
 #include "progdefs.h"
+#endif
+
+#ifndef EDICT_H
 #include "edict.h"
+#endif
 
 // Shared header describing protocol between engine and DLLs
+#ifndef EIFACE_H
 #include "eiface.h"
+#endif
 
 // Shared header between the client DLL and the game DLLs
+#ifndef CDLL_DLL_H
 #include "cdll_dll.h"
+#endif
 
 #endif //EXTDLL_H
