@@ -4533,6 +4533,10 @@ Vector CBasePlayer :: GetAutoaimVector( float flDelta )
 			m_lasty = m_vecAutoAim.y;
 		}
 	}
+	else
+	{
+		ResetAutoaim();
+	}
 
 	// ALERT( at_console, "%f %f\n", angles.x, angles.y );
 
