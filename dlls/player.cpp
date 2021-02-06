@@ -3236,6 +3236,8 @@ int CBasePlayer::Restore( CRestore &restore )
 
 	RenewItems();
 
+	TabulateAmmo();
+
 #if defined( CLIENT_WEAPONS )
 	// HACK:	This variable is saved/restored in CBaseMonster as a time variable, but we're using it
 	//			as just a counter.  Ideally, this needs its own variable that's saved as a plain float.
