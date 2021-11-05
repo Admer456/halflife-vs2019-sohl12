@@ -230,6 +230,7 @@ BOOL CBaseMonster :: GetEnemy ( void ) { return FALSE; }
 void CBaseMonster :: TraceAttack( entvars_t *pevAttacker, float flDamage, Vector vecDir, TraceResult *ptr, int bitsDamageType) { }
 CBaseEntity* CBaseMonster :: DropItem ( const char *pszItemName, const Vector &vecPos, const Vector &vecAng ) { return NULL; }
 BOOL CBaseMonster :: ShouldFadeOnDeath( void ) { return FALSE; }
+BOOL CBaseMonster::IsFacing(entvars_t* pevTest, const Vector& reference) { return FALSE; }
 void CBaseMonster :: RadiusDamage(entvars_t* pevInflictor, entvars_t*	pevAttacker, float flDamage, int iClassIgnore, int bitsDamageType ) { }
 void CBaseMonster :: RadiusDamage( Vector vecSrc, entvars_t *pevInflictor, entvars_t *pevAttacker, float flDamage, int iClassIgnore, int bitsDamageType ) { }
 void CBaseMonster::FadeMonster( void ) { }

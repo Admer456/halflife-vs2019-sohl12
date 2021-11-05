@@ -15,6 +15,10 @@
 #ifndef TALKMONSTER_H
 #define TALKMONSTER_H
 
+#ifndef SCRIPTED_H
+#include "scripted.h"
+#endif
+
 #ifndef MONSTERS_H
 #include "monsters.h"
 #endif
@@ -39,7 +43,7 @@
 
 #define TLK_CFRIENDS		3
 
-typedef enum
+enum TALKGROUPNAMES
 {
 	TLK_ANSWER = 0,
 	TLK_QUESTION,
@@ -62,7 +66,7 @@ typedef enum
 	TLK_MORTAL,
 
 	TLK_CGROUPS,					// MUST be last entry
-} TALKGROUPNAMES;
+};
 
 
 enum
@@ -99,7 +103,7 @@ enum
 class CTalkMonster : public CBaseMonster
 {
 public:
-	void			TalkInit( void );				
+	virtual void			TalkInit( void );				
 	CBaseEntity		*FindNearestFriend(BOOL fPlayer);
 	float			TargetDistance( void );
 	void			StopTalking( void ) { SentenceStop(); }

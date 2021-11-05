@@ -12,7 +12,13 @@
 *   without written permission from Valve LLC.
 *
 ****/
+
+#ifndef UTIL_H
+#define UTIL_H
+
+#ifndef ARCHTYPES_H
 #include "archtypes.h"     // DAL
+#endif
 
 //
 // Misc utility code
@@ -24,6 +30,7 @@
 #ifndef ENGINECALLBACK_H
 #include "enginecallback.h"
 #endif
+
 inline void MESSAGE_BEGIN( int msg_dest, int msg_type, const float *pOrigin, entvars_t *ent );  // implementation later in this file
 
 extern globalvars_t				*gpGlobals;
@@ -160,15 +167,14 @@ inline BOOL FStringNull(int iString)			{ return iString == iStringNull; }
 #define	VIEW_FIELD_ULTRA_NARROW	(float)0.9 // +-25 degrees, more narrow check used to set up ranged attacks
 
 // All monsters need this data
-#define		DONT_BLEED			-1
-#define		BLOOD_COLOR_RED		(BYTE)247
-#define		BLOOD_COLOR_YELLOW	(BYTE)195
-#define		BLOOD_COLOR_GREEN	BLOOD_COLOR_YELLOW
+#define	DONT_BLEED			-1
+#define	BLOOD_COLOR_RED		(BYTE)247
+#define	BLOOD_COLOR_YELLOW	(BYTE)195
+#define	BLOOD_COLOR_GREEN	BLOOD_COLOR_YELLOW
 
-typedef enum 
+enum MONSTERSTATE
 {
-
-	MONSTERSTATE_NONE = 0,
+	MONSTERSTATE_NONE,
 	MONSTERSTATE_IDLE,
 	MONSTERSTATE_COMBAT,
 	MONSTERSTATE_ALERT,
@@ -177,30 +183,29 @@ typedef enum
 	MONSTERSTATE_SCRIPT,
 	MONSTERSTATE_PLAYDEAD,
 	MONSTERSTATE_DEAD
-
-} MONSTERSTATE;
+};
 
 //LRC- the values used for the new "global states" mechanism.
-typedef enum
+enum STATE
 {
-	STATE_OFF = 0,	// disabled, inactive, invisible, closed, or stateless. Or non-alert monster.
+	STATE_OFF,		// disabled, inactive, invisible, closed, or stateless. Or non-alert monster.
 	STATE_TURN_ON,  // door opening, env_fade fading in, etc.
 	STATE_ON,		// enabled, active, visisble, or open. Or alert monster.
 	STATE_TURN_OFF, // door closing, monster dying (?).
-	STATE_IN_USE,	// player is in control (train/tank/barney/scientist).
+	STATE_IN_USE	// player is in control (train/tank/barney/scientist).
 					// In_Use isn't very useful, I'll probably remove it.
-} STATE;
+};
  
 extern char* GetStringForState( STATE state );
 
 // Things that toggle (buttons/triggers/doors) need this
-typedef enum
-	{
+enum TOGGLE_STATE
+{
 	TS_AT_TOP,
 	TS_AT_BOTTOM,
 	TS_GOING_UP,
 	TS_GOING_DOWN
-	} TOGGLE_STATE;
+};
 
 // Misc useful
 inline BOOL FStrEq(const char*sz1, const char*sz2)
@@ -583,3 +588,5 @@ int GetStdLightStyle (int iStyle); //LRC- declared here so it can be used by eve
 									// needs to deal with the standard lightstyles.
 // LRC- for aliases and groups
 CBaseEntity* UTIL_FollowReference( CBaseEntity* pStartEntity, const char* szName );
+
+#endif // UTIL_H

@@ -408,44 +408,55 @@ void CCineMonster :: PossessEntity( void )
 		{
 			pTarget->m_pGoalEnt = this;
 		}
-//		if (IsAction())
-//		  pTarget->PushEnemy(this,pev->origin);
+		//		if (IsAction())
+		//		  pTarget->PushEnemy(this,pev->origin);
 
 		m_saved_movetype = pTarget->pev->movetype;
 		m_saved_solid = pTarget->pev->solid;
 		m_saved_effects = pTarget->pev->effects;
 		pTarget->pev->effects |= pev->effects;
 
-//		ALERT(at_console, "script. IsAction = %d",IsAction());
+		//		ALERT(at_console, "script. IsAction = %d",IsAction());
 
 		m_iState = STATE_ON; // LRC: assume we'll set it to 'on', unless proven otherwise...
 		switch (m_fMoveTo)
 		{
-		case 1: 
-		case 2: 
-			DelayStart( 1 );
-			m_iState = STATE_TURN_ON;
-			// fall through...
-		case 0: 
+		case 0:
+			pTarget->m_scriptState = SCRIPT_WAIT;
+			break;
+
+		case 1:
+			pTarget->m_scriptState = SCRIPT_WALK_TO_MARK;
+			DelayStart(true);
+			break;
+		case 2:
+			pTarget->m_scriptState = SCRIPT_RUN_TO_MARK;
+			DelayStart(true);
+			break;
 		case 4:
-		case 5: 
-		case 6: 
-			pTarget->m_scriptState = SCRIPT_WAIT; 
+			UTIL_SetOrigin(pTarget, pev->origin);
+			pTarget->pev->ideal_yaw = pev->angles.y;
+			pTarget->pev->avelocity = Vector(0, 0, 0);
+			pTarget->pev->velocity = Vector(0, 0, 0);
+			pTarget->pev->effects |= EF_NOINTERP;
+			pTarget->pev->angles.y = pev->angles.y;
+			pTarget->m_scriptState = SCRIPT_WAIT;
+			m_startTime = gpGlobals->time + 1E6;
 			break;
 		}
-//		ALERT( at_aiconsole, "\"%s\" found and used (INT: %s)\n", STRING( pTarget->pev->targetname ), FBitSet(pev->spawnflags, SF_SCRIPT_NOINTERRUPT)?"No":"Yes" );
+		//		ALERT( at_aiconsole, "\"%s\" found and used (INT: %s)\n", pTarget->GetTargetname(), GetSpawnFlags().Any( SF_SCRIPT_NOINTERRUPT ) ?"No":"Yes" );
 
 		pTarget->m_IdealMonsterState = MONSTERSTATE_SCRIPT;
-//		if (m_iszIdle)
-//		{
-//			ALERT(at_console, "Possess: Play idle sequence\n");
-//			StartSequence( pTarget, m_iszIdle, FALSE );
-//			if (FStrEq( STRING(m_iszIdle), STRING(m_iszPlay)))
-//			{
-//				pTarget->pev->framerate = 0;
-//			}
-//		}
-//		ALERT(at_console, "Finished PossessEntity, ms %d, ims %d\n", pTarget->m_MonsterState, pTarget->m_IdealMonsterState);
+		if (m_iszIdle)
+		{
+			//ALERT(at_console, "Possess: Play idle sequence\n");
+			StartSequence(pTarget, m_iszIdle, false);
+			if (FStrEq(STRING(m_iszIdle), STRING(m_iszPlay)))
+			{
+				pTarget->pev->framerate = 0;
+			}
+		}
+		//ALERT(at_console, "Finished PossessEntity, ms %d, ims %d\n", pTarget->m_MonsterState, pTarget->m_IdealMonsterState);
 	}
 
 }
