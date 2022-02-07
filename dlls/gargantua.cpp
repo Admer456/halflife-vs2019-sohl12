@@ -145,8 +145,7 @@ void CStomp::Think( void )
 	}
 	
 	// Accelerate the effect
-	pev->speed = pev->speed + (gpGlobals->frametime) * pev->framerate;
-	pev->framerate = pev->framerate + (gpGlobals->frametime) * 1500;
+	pev->speed = (pev->speed + (gpGlobals->frametime) * pev->framerate) * 1.3;
 	
 	// Move and spawn trails
 	while ( gpGlobals->time - pev->dmgtime > STOMP_INTERVAL )

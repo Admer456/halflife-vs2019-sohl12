@@ -527,8 +527,6 @@ void CRpg::WeaponIdle( void )
 {
 	UpdateSpot( );
 
-	ResetEmptySound( );
-
 	if ( m_flTimeWeaponIdle > UTIL_WeaponTimeBase() )
 		return;
 
@@ -555,6 +553,7 @@ void CRpg::WeaponIdle( void )
 			m_flTimeWeaponIdle = UTIL_WeaponTimeBase() + 3.0;
 		}
 
+		ResetEmptySound();
 		SendWeaponAnim( iAnim );
 	}
 	else

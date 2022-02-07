@@ -169,6 +169,9 @@ public:
 	EHANDLE				m_pTank;				// the tank which the player is currently controlling,  NULL if no tank
 	float				m_fDeadTime;			// the time at which the player died  (used in PlayerDeathThink())
 
+	EHANDLE				m_hViewEntity;			// The view entity being used, or null if the player is using itself as the view entity
+	bool				m_bResetViewEntity;		// True if the player's view needs to be set back to the view entity
+
 	BOOL			m_fNoPlayerSound;	// a debugging feature. Player makes no sound if this is true. 
 	BOOL			m_fLongJump; // does this player have the longjump module?
 
@@ -327,7 +330,10 @@ public:
 	char m_SbarString1[ SBAR_STRING_SIZE ];
 	
 	float m_flNextChatTime;
-	
+
+	void SetPrefsFromUserinfo(char* infobuffer);
+
+	int m_iAutoWepSwitch;
 };
 
 #define AUTOAIM_2DEGREES  0.0348994967025
